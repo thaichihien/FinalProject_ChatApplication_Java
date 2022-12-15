@@ -1,0 +1,309 @@
+
+package userchatapp;
+import java.awt.Color;
+import uichatcomponent.ChatBoxGroup;
+import uichatcomponent.ChatBoxUser;
+
+
+/**
+ *
+ * @author HIEN
+ */
+public class MainFormUser extends javax.swing.JFrame {
+
+    private final Color activeTabColor = new Color(239,239,239);
+    private final Color unactiveTabColor = new Color(217,217,217);
+    
+    public MainFormUser() {
+        initComponents();
+        MenuChat menuChatLayout = new MenuChat();
+        jTabbedPaneLayput.addTab("ss", menuChatLayout);
+        menuChatLayout.addToListFriendJlist(new ItemChatAccount("Người dùng 1",true));
+        menuChatLayout.addToListFriendJlist(new ItemChatAccount("Nhóm 2",true));
+        ChatBoxUser testChatBox1 = new ChatBoxUser("Chí Hiện",true);
+        ChatBoxGroup testChatGroup1 = new ChatBoxGroup("Lương Sơn Bạc", false);
+        menuChatLayout.chatLayout.addTab("", testChatBox1);
+        menuChatLayout.chatLayout.addTab("", testChatGroup1);
+        //jTabbedPane.setSelectedIndex();
+        
+        MenuAddFriend menuFriendLayout = new MenuAddFriend();
+        jTabbedPaneLayput.addTab("ss", menuFriendLayout);
+        //jTabbedPane.setSelectedIndex(3);
+        
+        MenuGroup menuGroupLayout = new MenuGroup();
+        jTabbedPaneLayput.addTab("asaa", menuGroupLayout);
+        
+//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
+//        listItemChatAccountGroup.addItem(new ItemChatAccount("ss",true));
+//        listItemChatAccountGroup.addItem(new ItemChatAccount("Tessst",true));
+//        listItemChatAccountGroup.addItem(new ItemChatAccount("Teaast",true));
+//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
+//        listItemChatAccountGroup.addItem(new ItemChatAccount("Tesst",true));
+//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
+//        listItemChatAccountGroup.addItem(new ItemChatAccount("Tesst",true));
+//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
+//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
+//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
+//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
+//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
+//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
+        
+//        ListModel model = listFriends.getModel();
+//        for(int i=0; i < model.getSize(); i++){
+//            ItemChatAccount o = (ItemChatAccount) model.getElementAt(i); 
+//            System.out.println(o.getName());
+//            
+//        }
+        
+        
+        
+//        ChatBoxUser testChatBox = new ChatBoxUser("Chí Hiện",true);
+//        ChatBoxGroup testChatGroup = new ChatBoxGroup("Nhóm Chat", false);
+//        chatLayout.addTab("2", testChatGroup);
+//        chatLayout.addTab("3", testChatBox);
+//        chatMessageDisplayUser.setMarginTopBottom(10);
+//        chatMessageDisplayUser.setMarginLeftRight(20);
+//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Hiện","15:20",ChatMessageBlock.MINE,"Hello friend"));
+//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Hiện","16:20",ChatMessageBlock.MINE,"Ok guy"));
+//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("The Weeknd","15:20",ChatMessageBlock.OTHER,"how about this"));
+//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Hiện","15:20",ChatMessageBlock.MINE,"Hmm fine with whatever you say"));
+//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Frank Ocean","15:20",ChatMessageBlock.OTHER,"That a very long longlonglonglonglonglonglonglonglonglonglonglonglonglong story"));
+//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Hiện","15:20",ChatMessageBlock.MINE,"end"));
+//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Hiện","15:20",ChatMessageBlock.MINE,"ok fieneenenenene"));
+//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("The Weeknd","15:20",ChatMessageBlock.OTHER,"Out of time"));
+//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("The Weeknd","15:20",ChatMessageBlock.OTHER,"The last few month i been working on me baby"));
+//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("The Weeknd","15:20",ChatMessageBlock.OTHER,"There so much trauma in my life"));
+//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Hiện","15:20",ChatMessageBlock.MINE,"I've so cold to the one who love me baby"));
+//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Frank Ocean","15:20",ChatMessageBlock.OTHER,"I look back now and I realize"));
+//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Hiện","15:20",ChatMessageBlock.MINE,"end"));
+        
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPanel1 = new javax.swing.JPanel();
+        navbar = new javax.swing.JPanel();
+        userNameLabel = new javax.swing.JLabel();
+        jTabButton1 = new javax.swing.JPanel();
+        jTabButton1_icon = new javax.swing.JLabel();
+        jTabButton2 = new javax.swing.JPanel();
+        jTabButton2_icon = new javax.swing.JLabel();
+        jTabButton3 = new javax.swing.JPanel();
+        jTabButton_icon = new javax.swing.JLabel();
+        jTabbedPaneLayput = new javax.swing.JTabbedPane();
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Ứng dụng chat");
+        setMinimumSize(new java.awt.Dimension(1440, 750));
+        setResizable(false);
+
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setLayout(null);
+
+        navbar.setBackground(new java.awt.Color(217, 217, 217));
+        navbar.setPreferredSize(new java.awt.Dimension(170, 200));
+
+        userNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        userNameLabel.setForeground(new java.awt.Color(0, 0, 0));
+        userNameLabel.setText("User");
+
+        jTabButton1.setBackground(new java.awt.Color(239, 239, 239));
+        jTabButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabButton1MouseClicked(evt);
+            }
+        });
+
+        jTabButton1_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uichatcomponent/chat. (1).png"))); // NOI18N
+
+        javax.swing.GroupLayout jTabButton1Layout = new javax.swing.GroupLayout(jTabButton1);
+        jTabButton1.setLayout(jTabButton1Layout);
+        jTabButton1Layout.setHorizontalGroup(
+            jTabButton1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jTabButton1Layout.createSequentialGroup()
+                .addGap(53, 53, 53)
+                .addComponent(jTabButton1_icon)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jTabButton1Layout.setVerticalGroup(
+            jTabButton1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jTabButton1Layout.createSequentialGroup()
+                .addGap(30, 30, 30)
+                .addComponent(jTabButton1_icon)
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+
+        jTabButton2.setBackground(new java.awt.Color(217, 217, 217));
+        jTabButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabButton2MouseClicked(evt);
+            }
+        });
+
+        jTabButton2_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uichatcomponent/chat. (2).png"))); // NOI18N
+
+        javax.swing.GroupLayout jTabButton2Layout = new javax.swing.GroupLayout(jTabButton2);
+        jTabButton2.setLayout(jTabButton2Layout);
+        jTabButton2Layout.setHorizontalGroup(
+            jTabButton2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jTabButton2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTabButton2_icon)
+                .addGap(48, 48, 48))
+        );
+        jTabButton2Layout.setVerticalGroup(
+            jTabButton2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jTabButton2Layout.createSequentialGroup()
+                .addContainerGap(27, Short.MAX_VALUE)
+                .addComponent(jTabButton2_icon)
+                .addGap(16, 16, 16))
+        );
+
+        jTabButton3.setBackground(new java.awt.Color(217, 217, 217));
+        jTabButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTabButton3MouseClicked(evt);
+            }
+        });
+
+        jTabButton_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uichatcomponent/chat. (3).png"))); // NOI18N
+
+        javax.swing.GroupLayout jTabButton3Layout = new javax.swing.GroupLayout(jTabButton3);
+        jTabButton3.setLayout(jTabButton3Layout);
+        jTabButton3Layout.setHorizontalGroup(
+            jTabButton3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jTabButton3Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jTabButton_icon)
+                .addGap(52, 52, 52))
+        );
+        jTabButton3Layout.setVerticalGroup(
+            jTabButton3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jTabButton3Layout.createSequentialGroup()
+                .addContainerGap(19, Short.MAX_VALUE)
+                .addComponent(jTabButton_icon)
+                .addGap(18, 18, 18))
+        );
+
+        javax.swing.GroupLayout navbarLayout = new javax.swing.GroupLayout(navbar);
+        navbar.setLayout(navbarLayout);
+        navbarLayout.setHorizontalGroup(
+            navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jTabButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jTabButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(navbarLayout.createSequentialGroup()
+                .addGap(48, 48, 48)
+                .addComponent(userNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(48, Short.MAX_VALUE))
+        );
+        navbarLayout.setVerticalGroup(
+            navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(navbarLayout.createSequentialGroup()
+                .addGap(60, 60, 60)
+                .addComponent(userNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65)
+                .addComponent(jTabButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jTabButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jTabButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(269, Short.MAX_VALUE))
+        );
+
+        jPanel1.add(navbar);
+        navbar.setBounds(0, 0, 170, 750);
+        jPanel1.add(jTabbedPaneLayput);
+        jTabbedPaneLayput.setBounds(170, -30, 1270, 780);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
+        );
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void jTabButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabButton1MouseClicked
+        jTabbedPaneLayput.setSelectedIndex(0);
+        jTabButton1.setBackground(activeTabColor);
+        jTabButton2.setBackground(unactiveTabColor);
+        jTabButton3.setBackground(unactiveTabColor);
+    }//GEN-LAST:event_jTabButton1MouseClicked
+
+    private void jTabButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabButton2MouseClicked
+         jTabbedPaneLayput.setSelectedIndex(1);
+        jTabButton1.setBackground(unactiveTabColor);
+        jTabButton2.setBackground(activeTabColor);
+        jTabButton3.setBackground(unactiveTabColor);
+    }//GEN-LAST:event_jTabButton2MouseClicked
+
+    private void jTabButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabButton3MouseClicked
+         jTabbedPaneLayput.setSelectedIndex(2);
+        jTabButton1.setBackground(unactiveTabColor);
+        jTabButton2.setBackground(unactiveTabColor);
+        jTabButton3.setBackground(activeTabColor);
+    }//GEN-LAST:event_jTabButton3MouseClicked
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainFormUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainFormUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainFormUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainFormUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MainFormUser().setVisible(true);
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jTabButton1;
+    private javax.swing.JLabel jTabButton1_icon;
+    private javax.swing.JPanel jTabButton2;
+    private javax.swing.JLabel jTabButton2_icon;
+    private javax.swing.JPanel jTabButton3;
+    private javax.swing.JLabel jTabButton_icon;
+    private javax.swing.JTabbedPane jTabbedPaneLayput;
+    private javax.swing.JPanel navbar;
+    private javax.swing.JLabel userNameLabel;
+    // End of variables declaration//GEN-END:variables
+}
