@@ -11,7 +11,6 @@ import java.awt.Font;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JTextField;
-import javax.swing.JCheckBox;
 import javax.swing.JButton;
 
 public class Register extends JFrame {
@@ -20,8 +19,36 @@ public class Register extends JFrame {
 	private JTextField txtRePass;
 	private JTextField txtPass;
 	private JTextField txtEmail;
-        private JButton btnRegister;
-        private JLabel lblHavingAcc;
+	private JButton btnRegister;
+	private JLabel lblHavingAcc;
+
+	// TODO 1: viết hàm đăng ký, kiểm tra các field, thêm vào database
+
+	private boolean registerAccount(){
+	// Ok thì trả về true ngược lại false rồi làm hiện lỗi tại hàm btnRegisterActionPerformed()
+
+
+		return true;
+	}
+
+	private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {                                         
+		if(registerAccount()){
+		 MainFormUser menuForm = new MainFormUser();
+		 menuForm.setVisible(true);
+		 this.dispose();
+		 
+		}
+		else{
+		 //TODO 3: Hiện lỗi tại đây, recommend dùng JOptionPane;
+
+		}
+	 }  
+
+
+
+
+
+	
 	/**
 	 * Launch the application.
 	 */
@@ -145,9 +172,5 @@ public class Register extends JFrame {
              this.dispose(); 
         }                                    
 
-        private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {                                         
-            MainFormUser menuForm = new MainFormUser();
-            menuForm.setVisible(true);
-            this.dispose();
-        }  
+       
 }

@@ -13,6 +13,16 @@ public class MenuChat extends JPanel{
     public SearchBar searchBarFriendList;
     public ListItemChatAccount<String> listFriendJlist;
     public JTabbedPane chatLayout;
+
+
+    // TODO : Viết hàm lấy dữ liệu từ database ==> nạp vào listFriendJlist
+    // ứng với ItemChatAccountUI là một chatbox
+    // HIỆN làm
+    public void fillFriendList(){
+
+    }
+
+
     
     public MenuChat() {
         this.setBackground(new java.awt.Color(255, 255, 255));

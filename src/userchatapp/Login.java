@@ -17,12 +17,41 @@ import javax.swing.JButton;
 public class Login extends JFrame {
 
 	private JPanel contentPane;
-	private JTextField txtUser;
-	private JTextField txtPass;
-	private JButton btnLogin;
-	private JLabel lblLogin;
-	private JLabel lblCreateAcc;
-	private JLabel lblForgetPass;
+	private JTextField txtUser;		// chứa tên đăng nhập
+	private JTextField txtPass;		// chứa mật khẩu
+	private JButton btnLogin;		// nút đăng nhập
+
+	private JLabel lblCreateAcc;	// nút tạo acc
+	private JLabel lblForgetPass;	// nút quên mật khẩu
+
+
+	// TODO 1: Viết hàm đăng nhập, kiểm tra các field, so sánh database
+	// Ok thì trả về true ngược lại false rồi làm hiện lỗi tại hàm btnLoginActionPerformed()
+
+	private boolean loginAccount(){
+
+
+
+
+
+		return true;
+	}
+
+	private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
+
+		if(loginAccount()){
+			MainFormUser menuForm = new MainFormUser();
+			menuForm.setVisible(true);
+			this.dispose();
+		}
+		else{
+			//TODO 3: Hiện lỗi tại đây, recommend dùng JOptionPane;
+			// Xử lý lỗi : in lỗi người dùng nhập sai ở đâu ...
+		}
+	
+	}
+
+
 
 	/**
 	 * Launch the application.
@@ -44,47 +73,46 @@ public class Login extends JFrame {
 	 * Create the frame.
 	 */
 	public Login() {
-            initComponent();
-            
-            lblCreateAcc.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseClicked(java.awt.event.MouseEvent evt) {
-                    lblCreateAccMouseClicked(evt);
-                }
-            });
-            
-            lblForgetPass.addMouseListener(new java.awt.event.MouseAdapter() {
-                public void mouseClicked(java.awt.event.MouseEvent evt) {
-                    lblForgetPassMouseClicked(evt);
-                }
-            });
-            
-            btnLogin.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    btnLoginActionPerformed(evt);
-                }
-            });
-            
+		initComponent();
+
+		lblCreateAcc.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				lblCreateAccMouseClicked(evt);
+			}
+		});
+
+		lblForgetPass.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				lblForgetPassMouseClicked(evt);
+			}
+		});
+
+		btnLogin.addActionListener(new java.awt.event.ActionListener() {
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+				btnLoginActionPerformed(evt);
+			}
+		});
+
 	}
-        
-        
-        private void initComponent(){
-            setTitle("Đăng nhập tài khoản");
+
+	private void initComponent() {
+		setTitle("Đăng nhập tài khoản");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 810, 564);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
-                setLocationRelativeTo(null);
+		setLocationRelativeTo(null);
 
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
+
 		btnLogin = new JButton("Đăng nhập");
 		btnLogin.setBackground(Color.BLACK);
 		btnLogin.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnLogin.setBounds(272, 380, 297, 39);
 		contentPane.add(btnLogin);
-		
+
 		JLabel lblLogo = new JLabel("");
 		lblLogo.setForeground(Color.LIGHT_GRAY);
 		lblLogo.setBackground(Color.LIGHT_GRAY);
@@ -92,13 +120,13 @@ public class Login extends JFrame {
 		lblLogo.setIcon(new ImageIcon(Login.class.getResource("/uichatcomponent/chat.png")));
 		lblLogo.setBounds(313, 20, 226, 117);
 		contentPane.add(lblLogo);
-		
-		lblLogin = new JLabel("Đăng nhập tài khoản");
+
+		JLabel lblLogin = new JLabel("Đăng nhập tài khoản");
 		lblLogin.setHorizontalAlignment(SwingConstants.CENTER);
 		lblLogin.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblLogin.setBounds(313, 156, 226, 28);
 		contentPane.add(lblLogin);
-		
+
 		txtUser = new JTextField();
 		txtUser.setBackground(Color.WHITE);
 		txtUser.setForeground(Color.GRAY);
@@ -108,14 +136,14 @@ public class Login extends JFrame {
 		txtUser.setBounds(272, 209, 297, 48);
 		contentPane.add(txtUser);
 		txtUser.setColumns(10);
-		
+
 		JCheckBox chckbxRememberPass = new JCheckBox("   Ghi nhớ tài khoản");
 		chckbxRememberPass.setForeground(Color.GRAY);
 		chckbxRememberPass.setBackground(Color.WHITE);
 		chckbxRememberPass.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		chckbxRememberPass.setBounds(272, 335, 297, 39);
 		contentPane.add(chckbxRememberPass);
-		
+
 		txtPass = new JTextField();
 		txtPass.setText("   Mật khẩu");
 		txtPass.setHorizontalAlignment(SwingConstants.LEFT);
@@ -124,14 +152,14 @@ public class Login extends JFrame {
 		txtPass.setColumns(10);
 		txtPass.setBounds(272, 281, 297, 48);
 		contentPane.add(txtPass);
-		
+
 		lblCreateAcc = new JLabel("Tạo tài khoản mới");
 		lblCreateAcc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblCreateAcc.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		lblCreateAcc.setBounds(272, 471, 297, 26);
 		lblCreateAcc.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		contentPane.add(lblCreateAcc);
-		
+
 		lblForgetPass = new JLabel("Quên mật khẩu?");
 		lblForgetPass.setForeground(new Color(128, 128, 128));
 		lblForgetPass.setHorizontalAlignment(SwingConstants.CENTER);
@@ -139,27 +167,18 @@ public class Login extends JFrame {
 		lblForgetPass.setBounds(272, 435, 297, 26);
 		lblForgetPass.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		contentPane.add(lblForgetPass);
-        }
-        
-        
-        private void lblCreateAccMouseClicked(java.awt.event.MouseEvent evt) {                                     
-             Register registerForm = new Register();
-             registerForm.setVisible(true);
-             this.dispose(); 
-        }            
-        
-        private void lblForgetPassMouseClicked(java.awt.event.MouseEvent evt) {                                     
-             ForgetPassword registerForm = new ForgetPassword();
-             registerForm.setVisible(true);
-             this.dispose(); 
-        }                                    
+	}
 
+	private void lblCreateAccMouseClicked(java.awt.event.MouseEvent evt) {
+		Register registerForm = new Register();
+		registerForm.setVisible(true);
+		this.dispose();
+	}
 
-        private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {                                         
-            MainFormUser menuForm = new MainFormUser();
-            menuForm.setVisible(true);
-            this.dispose();
-        }  
-        
-        
+	private void lblForgetPassMouseClicked(java.awt.event.MouseEvent evt) {
+		ForgetPassword registerForm = new ForgetPassword();
+		registerForm.setVisible(true);
+		this.dispose();
+	}
+
 }

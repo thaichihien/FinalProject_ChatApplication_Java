@@ -8,10 +8,25 @@ import java.util.Properties;
 public class DatabaseManagment {
     
     private static volatile DatabaseManagment instance;
-    private static Connection conn;
+    private Connection conn;
 
     private DatabaseManagment(){
+        try {
+            String databaseName = "";
+            //Class.forName("org.postgresql.Driver");
+            String url = "jdbc:postgresql://localhost:5432/" + databaseName;
+            Properties props = new Properties();
+            props.setProperty("user", System.getenv("POSTGRES_USERNAME"));
+            props.setProperty("password", System.getenv("POSTGRES_PASSWORD"));
+            props.setProperty("ssl", "false");
+            conn = DriverManager.getConnection(url, props);
+            System.out.println("connect successfully");
+            
+                
 
+        } catch (SQLException e) {
+            System.out.println(e);
+        }
     }
 
     public static DatabaseManagment getInstance(){
@@ -19,22 +34,7 @@ public class DatabaseManagment {
             synchronized (DatabaseManagment.class){
                 if(instance == null){
                     instance = new DatabaseManagment();
-                    try {
-                        String databaseName = "";
-                        //Class.forName("org.postgresql.Driver");
-                        String url = "jdbc:postgresql://localhost:5432/" + databaseName;
-                        Properties props = new Properties();
-                        props.setProperty("user", System.getenv("POSTGRES_USERNAME"));
-                        props.setProperty("password", System.getenv("POSTGRES_PASSWORD"));
-                        props.setProperty("ssl", "false");
-                        conn = DriverManager.getConnection(url, props);
-                        System.out.println("connect successfully");
-                        
-                         
-            
-                    } catch (SQLException e) {
-                        System.out.println(e);
-                    }
+                    
                 }
             }
         }
