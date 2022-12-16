@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package adminchatapp;
 
 import java.awt.Color;
@@ -17,6 +14,14 @@ public class MainFormAdmin extends javax.swing.JFrame {
      */
     public MainFormAdmin() {
         initComponents();
+        
+        MenuAccountManager menuAccTest = new MenuAccountManager();
+        MenuLoginHistory menuHistoryTest =new MenuLoginHistory();
+        MenuGroupManager menuGroupTest = new MenuGroupManager();
+        jTabbedPane.addTab("ss", menuAccTest);
+        jTabbedPane.addTab("sas", menuHistoryTest);
+        jTabbedPane.addTab("sss", menuGroupTest);
+        //jTabbedPane.setSelectedIndex(3);
     }
     
     private final Color activeTabColor = new Color(239,239,239);
@@ -41,39 +46,10 @@ public class MainFormAdmin extends javax.swing.JFrame {
         jTabButton3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jTabbedPane = new javax.swing.JTabbedPane();
-        menuAccountManager = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        sortFilter = new javax.swing.JComboBox<>();
-        jLabel5 = new javax.swing.JLabel();
-        searchBar2 = new uichatcomponent.SearchBar();
-        jPanel6 = new javax.swing.JPanel();
-        lockAccountButton = new javax.swing.JButton();
-        addAcountButton = new javax.swing.JButton();
-        viewDetailButton = new javax.swing.JButton();
-        selectedAccountTF = new javax.swing.JTextField();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        deleteAccountButton = new javax.swing.JButton();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        menuLoginHistory = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
-        jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        menuGroupChat = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jTable3 = new javax.swing.JTable();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        viewDetailGroupButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Admin");
         setMinimumSize(new java.awt.Dimension(1440, 750));
-        setPreferredSize(new java.awt.Dimension(1440, 500));
 
         background.setMinimumSize(new java.awt.Dimension(1440, 750));
         background.setLayout(null);
@@ -94,7 +70,7 @@ public class MainFormAdmin extends javax.swing.JFrame {
         });
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminchatapp/icons8-chat-room-50.png"))); // NOI18N
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/icons8-user-60.png"))); // NOI18N
 
         javax.swing.GroupLayout jTabButton1Layout = new javax.swing.GroupLayout(jTabButton1);
         jTabButton1.setLayout(jTabButton1Layout);
@@ -122,7 +98,7 @@ public class MainFormAdmin extends javax.swing.JFrame {
         });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminchatapp/icons8-chat-room-50.png"))); // NOI18N
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/icons8-time-machine-48.png"))); // NOI18N
 
         javax.swing.GroupLayout jTabButton2Layout = new javax.swing.GroupLayout(jTabButton2);
         jTabButton2.setLayout(jTabButton2Layout);
@@ -150,7 +126,7 @@ public class MainFormAdmin extends javax.swing.JFrame {
         });
 
         jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/adminchatapp/icons8-chat-room-50.png"))); // NOI18N
+        jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/icons8-user-groups-48.png"))); // NOI18N
 
         javax.swing.GroupLayout jTabButton3Layout = new javax.swing.GroupLayout(jTabButton3);
         jTabButton3.setLayout(jTabButton3Layout);
@@ -197,207 +173,6 @@ public class MainFormAdmin extends javax.swing.JFrame {
 
         background.add(navbar);
         navbar.setBounds(0, 0, 170, 750);
-
-        menuAccountManager.setBackground(new java.awt.Color(255, 255, 255));
-        menuAccountManager.setMinimumSize(new java.awt.Dimension(1275, 750));
-        menuAccountManager.setPreferredSize(new java.awt.Dimension(1275, 750));
-        menuAccountManager.setLayout(null);
-
-        jTable1.setBackground(new java.awt.Color(235, 235, 235));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "Tên đăng nhập", "Họ tên", "Địa chỉ", "Ngày sinh", "Giới tính", "Email"
-            }
-        ));
-        jScrollPane1.setViewportView(jTable1);
-
-        menuAccountManager.add(jScrollPane1);
-        jScrollPane1.setBounds(320, 120, 920, 560);
-
-        sortFilter.setBackground(new java.awt.Color(235, 235, 235));
-        sortFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mặc định", "Họ và tên", "Tên đăng nhập", "Ngày tạo" }));
-        sortFilter.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                sortFilterActionPerformed(evt);
-            }
-        });
-        menuAccountManager.add(sortFilter);
-        sortFilter.setBounds(850, 50, 200, 40);
-
-        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel5.setLabelFor(sortFilter);
-        jLabel5.setText("Sắp xếp theo:");
-        menuAccountManager.add(jLabel5);
-        jLabel5.setBounds(720, 50, 130, 30);
-
-        searchBar2.setForeground(new java.awt.Color(0, 0, 0));
-        searchBar2.setBackgroundColor(new java.awt.Color(236, 236, 236));
-        searchBar2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        searchBar2.setPlaceHolder("Tìm kiếm theo tên");
-        menuAccountManager.add(searchBar2);
-        searchBar2.setBounds(400, 40, 290, 50);
-
-        jPanel6.setBackground(new java.awt.Color(235, 235, 235));
-        jPanel6.setLayout(null);
-
-        lockAccountButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lockAccountButton.setText("Khóa tài khoản");
-        lockAccountButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lockAccountButtonActionPerformed(evt);
-            }
-        });
-        jPanel6.add(lockAccountButton);
-        lockAccountButton.setBounds(30, 550, 240, 70);
-
-        addAcountButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        addAcountButton.setText("Thêm tài khoản");
-        addAcountButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addAcountButtonActionPerformed(evt);
-            }
-        });
-        jPanel6.add(addAcountButton);
-        addAcountButton.setBounds(30, 250, 240, 70);
-
-        viewDetailButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        viewDetailButton.setText("Xem thông tin chi tiết");
-        viewDetailButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewDetailButtonActionPerformed(evt);
-            }
-        });
-        jPanel6.add(viewDetailButton);
-        viewDetailButton.setBounds(30, 350, 240, 70);
-        jPanel6.add(selectedAccountTF);
-        selectedAccountTF.setBounds(30, 170, 240, 40);
-
-        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel6.setLabelFor(selectedAccountTF);
-        jLabel6.setText("Tài khoản đang được chọn :");
-        jPanel6.add(jLabel6);
-        jLabel6.setBounds(30, 130, 210, 30);
-
-        jLabel7.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel7.setText("Quản lý tài khoản");
-        jPanel6.add(jLabel7);
-        jLabel7.setBounds(50, 40, 220, 70);
-
-        deleteAccountButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        deleteAccountButton.setText("Xóa tài khoản");
-        deleteAccountButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                deleteAccountButtonActionPerformed(evt);
-            }
-        });
-        jPanel6.add(deleteAccountButton);
-        deleteAccountButton.setBounds(30, 450, 240, 70);
-
-        menuAccountManager.add(jPanel6);
-        jPanel6.setBounds(0, 0, 300, 750);
-
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tăng dần", "Giảm dần" }));
-        menuAccountManager.add(jComboBox3);
-        jComboBox3.setBounds(1080, 50, 150, 40);
-
-        jTabbedPane.addTab("tab1", menuAccountManager);
-
-        menuLoginHistory.setBackground(new java.awt.Color(255, 255, 255));
-        menuLoginHistory.setMinimumSize(new java.awt.Dimension(1220, 750));
-        menuLoginHistory.setPreferredSize(new java.awt.Dimension(1275, 750));
-        menuLoginHistory.setLayout(null);
-
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null},
-                {null, null, null},
-                {null, null, null},
-                {null, null, null}
-            },
-            new String [] {
-                "Thời gian đăng nhập", "Tên đăng nhập", "Họ và tên"
-            }
-        ));
-        jScrollPane2.setViewportView(jTable2);
-
-        menuLoginHistory.add(jScrollPane2);
-        jScrollPane2.setBounds(40, 90, 1180, 580);
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel8.setText("Lịch sử đăng nhập tài khoản");
-        menuLoginHistory.add(jLabel8);
-        jLabel8.setBounds(60, 20, 370, 50);
-
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel9.setText("Sắp xếp theo :");
-        menuLoginHistory.add(jLabel9);
-        jLabel9.setBounds(520, 40, 120, 25);
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mặc định", "Ngày đăng nhập mới", "Ngày đăng nhập cũ" }));
-        menuLoginHistory.add(jComboBox1);
-        jComboBox1.setBounds(660, 30, 190, 40);
-
-        jTabbedPane.addTab("tab2", menuLoginHistory);
-
-        menuGroupChat.setBackground(new java.awt.Color(255, 255, 255));
-        menuGroupChat.setPreferredSize(new java.awt.Dimension(1275, 750));
-        menuGroupChat.setLayout(null);
-
-        jTable3.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Tên nhóm", "Admin", "Số lượng", "Ngày tạo"
-            }
-        ));
-        jScrollPane3.setViewportView(jTable3);
-
-        menuGroupChat.add(jScrollPane3);
-        jScrollPane3.setBounds(40, 90, 1180, 600);
-
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel10.setText("Danh sách nhóm");
-        menuGroupChat.add(jLabel10);
-        jLabel10.setBounds(40, 20, 370, 50);
-
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel11.setText("Sắp xếp theo :");
-        menuGroupChat.add(jLabel11);
-        jLabel11.setBounds(530, 30, 120, 40);
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mặc định", "Tên nhóm", "Thời gian tạo" }));
-        menuGroupChat.add(jComboBox2);
-        jComboBox2.setBounds(660, 30, 190, 40);
-
-        viewDetailGroupButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        viewDetailGroupButton.setText("Xem chi tiết");
-        viewDetailGroupButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                viewDetailGroupButtonActionPerformed(evt);
-            }
-        });
-        menuGroupChat.add(viewDetailGroupButton);
-        viewDetailGroupButton.setBounds(1040, 30, 180, 40);
-
-        jTabbedPane.addTab("tab2", menuGroupChat);
-
         background.add(jTabbedPane);
         jTabbedPane.setBounds(170, -33, 1270, 950);
 
@@ -415,28 +190,6 @@ public class MainFormAdmin extends javax.swing.JFrame {
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void sortFilterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sortFilterActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_sortFilterActionPerformed
-
-    private void lockAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lockAccountButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_lockAccountButtonActionPerformed
-
-    private void addAcountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addAcountButtonActionPerformed
-        CreateAccountForm createAccountForm = new CreateAccountForm(this);
-        
-        createAccountForm.setVisible(true);
-        this.setEnabled(false);
-    }//GEN-LAST:event_addAcountButtonActionPerformed
-
-    private void viewDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewDetailButtonActionPerformed
-       DetailAccountForm detailAccountForm = new DetailAccountForm(this);
-       
-       detailAccountForm.setVisible(true);
-       this.setEnabled(false);
-    }//GEN-LAST:event_viewDetailButtonActionPerformed
 
     private void jTabButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabButton1MouseClicked
         jTabbedPane.setSelectedIndex(0);
@@ -458,17 +211,6 @@ public class MainFormAdmin extends javax.swing.JFrame {
         jTabButton2.setBackground(unactiveTabColor);
         jTabButton3.setBackground(activeTabColor);
     }//GEN-LAST:event_jTabButton3MouseClicked
-
-    private void deleteAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteAccountButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_deleteAccountButtonActionPerformed
-
-    private void viewDetailGroupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewDetailGroupButtonActionPerformed
-       DetailGroupForm detailGroupForm = new DetailGroupForm(this);
-       
-       detailGroupForm.setVisible(true);
-       this.setEnabled(false);
-    }//GEN-LAST:event_viewDetailGroupButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -506,43 +248,15 @@ public class MainFormAdmin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addAcountButton;
     private javax.swing.JPanel background;
-    private javax.swing.JButton deleteAccountButton;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
-    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JPanel jTabButton1;
     private javax.swing.JPanel jTabButton2;
     private javax.swing.JPanel jTabButton3;
     private javax.swing.JTabbedPane jTabbedPane;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTable jTable2;
-    private javax.swing.JTable jTable3;
-    private javax.swing.JButton lockAccountButton;
-    private javax.swing.JPanel menuAccountManager;
-    private javax.swing.JPanel menuGroupChat;
-    private javax.swing.JPanel menuLoginHistory;
     private javax.swing.JPanel navbar;
-    private uichatcomponent.SearchBar searchBar2;
-    private javax.swing.JTextField selectedAccountTF;
-    private javax.swing.JComboBox<String> sortFilter;
-    private javax.swing.JButton viewDetailButton;
-    private javax.swing.JButton viewDetailGroupButton;
     // End of variables declaration//GEN-END:variables
 }
