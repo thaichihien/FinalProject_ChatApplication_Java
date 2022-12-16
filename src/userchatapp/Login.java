@@ -19,10 +19,10 @@ public class Login extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUser;
 	private JTextField txtPass;
-        private JButton btnLogin;
-        private JLabel lblLogin;
-        private JLabel lblCreateAcc;
-        private JLabel lblForgetPass;
+	private JButton btnLogin;
+	private JLabel lblLogin;
+	private JLabel lblCreateAcc;
+	private JLabel lblForgetPass;
 
 	/**
 	 * Launch the application.
