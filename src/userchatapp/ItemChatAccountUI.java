@@ -1,15 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
+
 package userchatapp;
 
 import java.awt.Color;
 
-/**
- *
- * @author HIEN
- */
+
 public class ItemChatAccountUI extends javax.swing.JPanel {
 
     public boolean isSeleted() {

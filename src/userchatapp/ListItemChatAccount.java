@@ -8,10 +8,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
-/**
- *
- * @author HIEN
- */
+
 public class ListItemChatAccount<E extends Object> extends JList<E>{
 
     private final DefaultListModel model;

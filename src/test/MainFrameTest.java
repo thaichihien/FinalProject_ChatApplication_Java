@@ -5,7 +5,7 @@ import java.awt.Color;
 
 import javax.swing.JPanel;
 
-
+import adminchatapp.MenuAccountManager;
 import userchatapp.MenuChat;
 
 
@@ -16,8 +16,8 @@ public class MainFrameTest extends javax.swing.JFrame {
         initComponents();
         
         //set menu here
-        MenuChat menuChat = new MenuChat();
-        setMenu(menuChat);
+        MenuAccountManager manager = new MenuAccountManager();
+        setMenu(manager);
 
         
 
