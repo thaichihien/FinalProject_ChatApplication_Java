@@ -1,5 +1,5 @@
 
-package userchatapp;
+package uichatcomponent;
 
 import java.awt.Color;
 

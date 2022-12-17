@@ -3,6 +3,7 @@ package userchatapp;
 import java.awt.Color;
 import uichatcomponent.ChatBoxGroup;
 import uichatcomponent.ChatBoxUser;
+import uichatcomponent.ItemChatAccount;
 
 
 /**
