@@ -1,6 +1,9 @@
 
 package uichatcomponent;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -20,6 +23,18 @@ public class ChatBoxLayout extends JPanel{
     public ChatMessageDisplay displayChat;
     protected JTextArea inputChatTextArea;
     protected JButton sendButton;
+
+    private void sendButtonActionPerformed(ActionEvent e){
+
+    }
+
+    public void addMessage(String message){
+
+        displayChat.addMessage(null);
+    }
+
+
+
 
     public ChatBoxLayout() {
         this.setBackground(new java.awt.Color(255, 255, 255));
@@ -57,7 +72,13 @@ public class ChatBoxLayout extends JPanel{
 
         sendButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         sendButton.setText("Gửi");
-        
+        sendButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendButtonActionPerformed(e);
+                
+            }
+       });
         
         javax.swing.GroupLayout chatBoxUserLayout = new javax.swing.GroupLayout(layout);
         layout.setLayout(chatBoxUserLayout);
@@ -101,4 +122,6 @@ public class ChatBoxLayout extends JPanel{
             statusJLabel.setText("Offline");
         }
     }
+
+    
 }
