@@ -14,6 +14,13 @@ public class MenuGroupManager extends JPanel{
     JTable tableGroup;
     JComboBox<String> sortFilter;
     JButton viewDetailGroupButton;
+
+    //TODO 1: nạp dữ liệu từ database vào tableLoginHistory, dựa vào sortFilter
+    // để lọc 
+    public void filltableGroup(){
+        
+    }
+
     
     
     public MenuGroupManager() {

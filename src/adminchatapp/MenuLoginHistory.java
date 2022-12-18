@@ -18,6 +18,16 @@ public class MenuLoginHistory extends  JPanel{
 
     JTable tableLoginHistory;
     JComboBox<String> sortFilter;
+
+
+    //TODO 1: nạp dữ liệu từ database vào tableLoginHistory, dựa vào sortFilter
+    // để lọc 
+    public void filltableLoginHistory(){
+        
+    }
+
+
+
     
     public MenuLoginHistory() {
         this.setBackground(new java.awt.Color(255, 255, 255));

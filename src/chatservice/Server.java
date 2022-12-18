@@ -3,10 +3,13 @@ package chatservice;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
 public class Server {
     ServerSocket server;
     final int PORT = 500;
+
+    public static HashMap<String,ClientRoom> clientList = new HashMap<>();
 
     public Server(){
         try {

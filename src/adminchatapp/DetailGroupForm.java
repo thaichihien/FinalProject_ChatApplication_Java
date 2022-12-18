@@ -31,12 +31,12 @@ public class DetailGroupForm extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel3 = new javax.swing.JLabel();
+        jScrollPane_tabelListAccount = new javax.swing.JScrollPane();
+        tableListAccount = new javax.swing.JTable();
+        jLabel_tennhom = new javax.swing.JLabel();
+        tennhomLabel = new javax.swing.JLabel();
+        filterCombobox = new javax.swing.JComboBox<>();
+        jLabel_xemdanhsach = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Chi tiết nhóm");
@@ -51,7 +51,7 @@ public class DetailGroupForm extends javax.swing.JFrame {
         jPanel1.setMinimumSize(new java.awt.Dimension(900, 500));
         jPanel1.setLayout(null);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableListAccount.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null},
                 {null, null, null},
@@ -62,32 +62,32 @@ public class DetailGroupForm extends javax.swing.JFrame {
                 "Tên đăng nhập", "Họ và tên", "Chức vụ"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane_tabelListAccount.setViewportView(tableListAccount);
 
-        jPanel1.add(jScrollPane1);
-        jScrollPane1.setBounds(20, 90, 840, 440);
+        jPanel1.add(jScrollPane_tabelListAccount);
+        jScrollPane_tabelListAccount.setBounds(20, 90, 840, 440);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel1.setText("Tên Nhóm :");
-        jPanel1.add(jLabel1);
-        jLabel1.setBounds(30, 30, 120, 30);
+        jLabel_tennhom.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel_tennhom.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel_tennhom.setText("Tên Nhóm :");
+        jPanel1.add(jLabel_tennhom);
+        jLabel_tennhom.setBounds(30, 30, 120, 30);
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel2.setText("<Group Name>");
-        jPanel1.add(jLabel2);
-        jLabel2.setBounds(140, 30, 200, 30);
+        tennhomLabel.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        tennhomLabel.setForeground(new java.awt.Color(0, 0, 0));
+        tennhomLabel.setText("<Group Name>");
+        jPanel1.add(tennhomLabel);
+        tennhomLabel.setBounds(140, 30, 200, 30);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả thành viên", "Thành viên", "Admin" }));
-        jPanel1.add(jComboBox1);
-        jComboBox1.setBounds(640, 30, 220, 40);
+        filterCombobox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tất cả thành viên", "Thành viên", "Admin" }));
+        jPanel1.add(filterCombobox);
+        filterCombobox.setBounds(640, 30, 220, 40);
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel3.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel3.setText("Xem danh sách");
-        jPanel1.add(jLabel3);
-        jLabel3.setBounds(490, 30, 140, 30);
+        jLabel_xemdanhsach.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        jLabel_xemdanhsach.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel_xemdanhsach.setText("Xem danh sách");
+        jPanel1.add(jLabel_xemdanhsach);
+        jLabel_xemdanhsach.setBounds(490, 30, 140, 30);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -144,12 +144,12 @@ public class DetailGroupForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
+    private javax.swing.JComboBox<String> filterCombobox;
+    private javax.swing.JLabel jLabel_tennhom;
+    private javax.swing.JLabel jLabel_xemdanhsach;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
+    private javax.swing.JScrollPane jScrollPane_tabelListAccount;
+    private javax.swing.JTable tableListAccount;
+    private javax.swing.JLabel tennhomLabel;
     // End of variables declaration//GEN-END:variables
 }

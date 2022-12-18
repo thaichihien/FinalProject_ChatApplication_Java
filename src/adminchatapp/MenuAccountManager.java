@@ -25,6 +25,16 @@ public class MenuAccountManager extends JPanel{
     JButton deleteAccountButton;
     JComboBox<String> sortCriteria;
 
+
+    //TODO 1: nạp dữ liệu vào bảng tableUserAccount, kiểm tra searchBarFIndUser, sortFilter,
+    // sort Criteria để lọc dữ liệu theo yêu cầu
+    public void filltableUserAccount(){
+        
+    }
+
+
+
+
     public MenuAccountManager() {
         this.setBackground(new java.awt.Color(255, 255, 255));
         this.setMinimumSize(new java.awt.Dimension(1275, 750));

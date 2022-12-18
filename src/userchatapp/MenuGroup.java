@@ -21,6 +21,14 @@ public class MenuGroup extends JPanel{
     JButton cancelButton;
     JButton createGroupButton;
     SearchBar searchBarFriend;
+
+    // TODO 1: nạp dữ liệu bảng ListFriend dựa vào searchBarFriend
+
+    public void filltableListFriend(){
+
+    }
+
+
     
     public MenuGroup() {
         this.setBackground(new java.awt.Color(255, 255, 255));

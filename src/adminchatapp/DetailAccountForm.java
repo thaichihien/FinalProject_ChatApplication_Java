@@ -33,17 +33,16 @@ public class DetailAccountForm extends javax.swing.JFrame {
         genderGroup = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        userNameLabel = new javax.swing.JLabel();
+        jlabel_tendangnhap = new javax.swing.JLabel();
         userNameField = new javax.swing.JTextField();
-        nameLabel = new javax.swing.JLabel();
+        jLabel_hovaten = new javax.swing.JLabel();
         nameField = new javax.swing.JTextField();
-        addressLabel = new javax.swing.JLabel();
+        jlabel_diachi = new javax.swing.JLabel();
         addressField = new javax.swing.JTextField();
-        dobLabel = new javax.swing.JLabel();
-        dobField = new javax.swing.JTextField();
-        emailLabel = new javax.swing.JLabel();
+        jLabel_ngaysinh = new javax.swing.JLabel();
+        jLabel_email = new javax.swing.JLabel();
         emailField = new javax.swing.JTextField();
-        genderLabel = new javax.swing.JLabel();
+        jLabel_gioitinh = new javax.swing.JLabel();
         femaleRadioButton = new javax.swing.JRadioButton();
         maleRadioButton = new javax.swing.JRadioButton();
         changePasswordButton = new javax.swing.JButton();
@@ -51,6 +50,7 @@ public class DetailAccountForm extends javax.swing.JFrame {
         viewHistoryButton = new javax.swing.JButton();
         lockAccountButton = new javax.swing.JButton();
         deleteAccountButton = new javax.swing.JButton();
+        birthDayChooser = new com.toedter.calendar.JDateChooser();
         jScrollPane1 = new javax.swing.JScrollPane();
         friendListTable = new javax.swing.JTable();
         friendListLabel = new javax.swing.JLabel();
@@ -70,39 +70,29 @@ public class DetailAccountForm extends javax.swing.JFrame {
 
         jPanel2.setBackground(new java.awt.Color(235, 235, 235));
 
-        userNameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        userNameLabel.setForeground(new java.awt.Color(0, 0, 0));
-        userNameLabel.setText("Tên đăng nhập :");
+        jlabel_tendangnhap.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jlabel_tendangnhap.setForeground(new java.awt.Color(0, 0, 0));
+        jlabel_tendangnhap.setText("Tên đăng nhập :");
 
-        userNameField.setText("jTextField1");
+        jLabel_hovaten.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel_hovaten.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel_hovaten.setText("Họ và tên :");
 
-        nameLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        nameLabel.setForeground(new java.awt.Color(0, 0, 0));
-        nameLabel.setText("Họ và tên :");
+        jlabel_diachi.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jlabel_diachi.setForeground(new java.awt.Color(0, 0, 0));
+        jlabel_diachi.setText("Địa chỉ :");
 
-        nameField.setText("jTextField1");
+        jLabel_ngaysinh.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel_ngaysinh.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel_ngaysinh.setText("Ngày sinh :");
 
-        addressLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        addressLabel.setForeground(new java.awt.Color(0, 0, 0));
-        addressLabel.setText("Địa chỉ :");
+        jLabel_email.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel_email.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel_email.setText("Email :");
 
-        addressField.setText("jTextField1");
-
-        dobLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        dobLabel.setForeground(new java.awt.Color(0, 0, 0));
-        dobLabel.setText("Ngày sinh :");
-
-        dobField.setText("jTextField1");
-
-        emailLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        emailLabel.setForeground(new java.awt.Color(0, 0, 0));
-        emailLabel.setText("Email :");
-
-        emailField.setText("jTextField1");
-
-        genderLabel.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        genderLabel.setForeground(new java.awt.Color(0, 0, 0));
-        genderLabel.setText("Giới tính :");
+        jLabel_gioitinh.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabel_gioitinh.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel_gioitinh.setText("Giới tính :");
 
         genderGroup.add(femaleRadioButton);
         femaleRadioButton.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
@@ -139,32 +129,32 @@ public class DetailAccountForm extends javax.swing.JFrame {
                         .addGap(29, 29, 29)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(addressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jlabel_diachi, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(30, 30, 30)
                                 .addComponent(addressField, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel_hovaten, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(30, 30, 30)
                                 .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(userNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jlabel_tendangnhap, javax.swing.GroupLayout.PREFERRED_SIZE, 112, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
                                 .addComponent(userNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(dobLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(genderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jLabel_ngaysinh, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel_gioitinh, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(30, 30, 30)
-                                        .addComponent(dobField, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
                                         .addGap(40, 40, 40)
                                         .addComponent(maleRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addGap(51, 51, 51)
-                                        .addComponent(femaleRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                        .addComponent(femaleRadioButton, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                                        .addGap(30, 30, 30)
+                                        .addComponent(birthDayChooser, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))))
                             .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel_email, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(30, 30, 30)
                                 .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel2Layout.createSequentialGroup()
@@ -178,35 +168,35 @@ public class DetailAccountForm extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(133, 133, 133)
                         .addComponent(editorButton, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(21, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGap(31, 31, 31)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(userNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlabel_tendangnhap, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(userNameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(nameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_hovaten, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(nameField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(addressLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jlabel_diachi, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addressField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(dobLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(dobField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel_ngaysinh, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(birthDayChooser, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(21, 21, 21)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(genderLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_gioitinh, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(femaleRadioButton)
                     .addComponent(maleRadioButton))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(emailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_email, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(emailField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(editorButton, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
@@ -304,28 +294,28 @@ public class DetailAccountForm extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField addressField;
-    private javax.swing.JLabel addressLabel;
+    private com.toedter.calendar.JDateChooser birthDayChooser;
     private javax.swing.JButton changePasswordButton;
     private javax.swing.JButton deleteAccountButton;
-    private javax.swing.JTextField dobField;
-    private javax.swing.JLabel dobLabel;
     private javax.swing.JToggleButton editorButton;
     private javax.swing.JTextField emailField;
-    private javax.swing.JLabel emailLabel;
     private javax.swing.JRadioButton femaleRadioButton;
     private javax.swing.JLabel friendListLabel;
     private javax.swing.JTable friendListTable;
     private javax.swing.ButtonGroup genderGroup;
-    private javax.swing.JLabel genderLabel;
+    private javax.swing.JLabel jLabel_email;
+    private javax.swing.JLabel jLabel_gioitinh;
+    private javax.swing.JLabel jLabel_hovaten;
+    private javax.swing.JLabel jLabel_ngaysinh;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel jlabel_diachi;
+    private javax.swing.JLabel jlabel_tendangnhap;
     private javax.swing.JButton lockAccountButton;
     private javax.swing.JRadioButton maleRadioButton;
     private javax.swing.JTextField nameField;
-    private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField userNameField;
-    private javax.swing.JLabel userNameLabel;
     private javax.swing.JButton viewHistoryButton;
     // End of variables declaration//GEN-END:variables
 }
