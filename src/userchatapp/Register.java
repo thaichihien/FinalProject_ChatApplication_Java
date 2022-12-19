@@ -33,9 +33,9 @@ public class Register extends JFrame {
 
 	private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {                                         
 		if(registerAccount()){
-		 MainFormUser menuForm = new MainFormUser();
-		 menuForm.setVisible(true);
-		 this.dispose();
+		//  MainFormUser menuForm = new MainFormUser();
+		//  menuForm.setVisible(true);
+		//  this.dispose();
 		 
 		}
 		else{

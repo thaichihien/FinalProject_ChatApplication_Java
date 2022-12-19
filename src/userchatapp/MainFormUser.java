@@ -1,6 +1,8 @@
 
 package userchatapp;
 import java.awt.Color;
+
+import datastructure.UserAccount;
 import uichatcomponent.ChatBoxGroup;
 import uichatcomponent.ChatBoxUser;
 import uichatcomponent.ItemChatAccount;
@@ -14,9 +16,15 @@ public class MainFormUser extends javax.swing.JFrame {
 
     private final Color activeTabColor = new Color(239,239,239);
     private final Color unactiveTabColor = new Color(217,217,217);
+    private UserAccount user;
+
+
     
-    public MainFormUser() {
+    public MainFormUser(UserAccount user) {
         initComponents();
+        this.user = user;
+        userNameLabel.setText(this.user.getUsername());
+
         MenuChat menuChatLayout = new MenuChat();
         jTabbedPaneLayput.addTab("ss", menuChatLayout);
         menuChatLayout.addToListFriendJlist(new ItemChatAccount("Người dùng 1",true));
@@ -290,7 +298,7 @@ public class MainFormUser extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new MainFormUser().setVisible(true);
+                new MainFormUser(new UserAccount()).setVisible(true);
             }
         });
     }

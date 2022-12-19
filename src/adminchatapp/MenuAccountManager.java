@@ -32,6 +32,27 @@ public class MenuAccountManager extends JPanel{
         
     }
 
+    private void lockAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                  
+        // TODO add your handling code here:
+    }                                                 
+
+    private void addAcountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                
+//        CreateAccountForm createAccountForm = new CreateAccountForm(this);
+//        
+//        createAccountForm.setVisible(true);
+//        this.setEnabled(false);
+    }                                               
+
+    private void viewDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+//       DetailAccountForm detailAccountForm = new DetailAccountForm(this);
+//       
+//       detailAccountForm.setVisible(true);
+//       this.setEnabled(false);
+    }                     
+    
+    private void deleteAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                    
+        // TODO add your handling code here:
+    }    
 
 
 
@@ -165,26 +186,6 @@ public class MenuAccountManager extends JPanel{
         sortCriteria.setBounds(1080, 50, 150, 40);
     }
     
-    private void lockAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                  
-        // TODO add your handling code here:
-    }                                                 
-
-    private void addAcountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                
-//        CreateAccountForm createAccountForm = new CreateAccountForm(this);
-//        
-//        createAccountForm.setVisible(true);
-//        this.setEnabled(false);
-    }                                               
-
-    private void viewDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-//       DetailAccountForm detailAccountForm = new DetailAccountForm(this);
-//       
-//       detailAccountForm.setVisible(true);
-//       this.setEnabled(false);
-    }                     
     
-    private void deleteAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                    
-        // TODO add your handling code here:
-    }    
     
 }

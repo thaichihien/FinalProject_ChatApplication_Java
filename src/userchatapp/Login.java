@@ -40,9 +40,9 @@ public class Login extends JFrame {
 	private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
 
 		if(loginAccount()){
-			MainFormUser menuForm = new MainFormUser();
-			menuForm.setVisible(true);
-			this.dispose();
+			// MainFormUser menuForm = new MainFormUser();
+			// menuForm.setVisible(true);
+			// this.dispose();
 		}
 		else{
 			//TODO 3: Hiện lỗi tại đây, recommend dùng JOptionPane;

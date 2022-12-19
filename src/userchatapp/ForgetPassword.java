@@ -114,9 +114,9 @@ public class ForgetPassword extends JFrame {
 
         
          private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {                                         
-            MainFormUser menuForm = new MainFormUser();
-            menuForm.setVisible(true);
-            this.dispose();
+            // MainFormUser menuForm = new MainFormUser();
+            // menuForm.setVisible(true);
+            // this.dispose();
         }  
          
           private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {                                         
