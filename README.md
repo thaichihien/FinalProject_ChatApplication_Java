@@ -3,7 +3,9 @@
 - [Công việc](#công-việc)
 - [Giải thích package](#giải-thích-package)
 - [Lưu ý](#lưu-ý)
-
+- [Một số đoạn code mẫu](#một-số-đoạn-code-mẫu)
+- [Công việc](#công-việc)
+- [Phân công](#phân-công)
 
 ## Hướng dẫn test UI
 - ***Giao diện người dùng*** : chạy file _Login.java_ hoặc _MainFormUser.java_ trong package **userchatapp**
