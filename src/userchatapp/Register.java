@@ -5,6 +5,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import datastructure.UserAccount;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -24,22 +27,24 @@ public class Register extends JFrame {
 
 	// TODO 1: viết hàm đăng ký, kiểm tra các field, thêm vào database
 
-	private boolean registerAccount(){
-	// Ok thì trả về true ngược lại false rồi làm hiện lỗi tại hàm btnRegisterActionPerformed()
+	private UserAccount registerAccount(){
+	// Ok thì trả về account vừa đăng ký ngược lại null rồi làm hiện lỗi tại hàm btnRegisterActionPerformed()
 
 
-		return true;
+		return null;
 	}
 
 	private void btnRegisterActionPerformed(java.awt.event.ActionEvent evt) {                                         
-		if(registerAccount()){
-		//  MainFormUser menuForm = new MainFormUser();
-		//  menuForm.setVisible(true);
-		//  this.dispose();
+		
+		UserAccount account = registerAccount();
+		if(account != null){
+		 MainFormUser menuForm = new MainFormUser(account);
+		 menuForm.setVisible(true);
+		 this.dispose();
 		 
 		}
 		else{
-		 //TODO 3: Hiện lỗi tại đây, recommend dùng JOptionPane;
+		 //TODO 2: Hiện lỗi tại đây, recommend dùng JOptionPane;
 
 		}
 	 }  

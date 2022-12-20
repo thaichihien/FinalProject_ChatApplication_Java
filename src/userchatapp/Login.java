@@ -5,6 +5,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import datastructure.UserAccount;
+
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
@@ -26,26 +29,25 @@ public class Login extends JFrame {
 
 
 	// TODO 1: Viết hàm đăng nhập, kiểm tra các field, so sánh database
-	// Ok thì trả về true ngược lại false rồi làm hiện lỗi tại hàm btnLoginActionPerformed()
+	// Ok thì trả về account đăng nhập ngược lại null rồi làm hiện lỗi tại hàm btnLoginActionPerformed()
 
-	private boolean loginAccount(){
-
-
+	private UserAccount loginAccount(){
 
 
 
-		return true;
+		return null;
 	}
 
 	private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
 
-		if(loginAccount()){
-			// MainFormUser menuForm = new MainFormUser();
-			// menuForm.setVisible(true);
-			// this.dispose();
+		UserAccount account = loginAccount();
+		if(account != null){
+			MainFormUser menuForm = new MainFormUser(account);
+			menuForm.setVisible(true);
+			this.dispose();
 		}
 		else{
-			//TODO 3: Hiện lỗi tại đây, recommend dùng JOptionPane;
+			//TODO 2: Hiện lỗi tại đây, recommend dùng JOptionPane;
 			// Xử lý lỗi : in lỗi người dùng nhập sai ở đâu ...
 		}
 	
