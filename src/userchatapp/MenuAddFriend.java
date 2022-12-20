@@ -30,7 +30,7 @@ public class MenuAddFriend extends JPanel{
 
     // TODO 1: lấy dữ liệu từ searchBarFindFriend, thực hiện truy vấn tài khoản theo tên tìm kiếm
     // nạp vào bảng tableFindFriend nếu thanh tìm kiếm rỗng thì nạp tất cả vào
-
+    // Hiển thị danh sách tài khoản chưa kết bạn
     public void filltableFindFriend(){
         
 
@@ -43,7 +43,10 @@ public class MenuAddFriend extends JPanel{
 
     //TODO 3: lấy dữ liệu từ searchBarFindFriend, thực hiện truy vấn tài khoản theo tên tìm kiếm
     // nạp vào bảng tableFindFriend nếu thanh tìm kiếm rỗng thì nạp tất cả vào
+    // Hiển thị danh sách tài khoản đã kết bạn
     public void filltableListFriend(){
+
+
 
     }
 

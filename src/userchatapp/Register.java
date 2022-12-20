@@ -44,7 +44,7 @@ public class Register extends JFrame {
 		 
 		}
 		else{
-		 //TODO 2: Hiện lỗi tại đây, recommend dùng JOptionPane;
+		 //TODO 2: Hiện lỗi tại đây cho người dùng, recommend dùng JOptionPane;
 
 		}
 	 }  

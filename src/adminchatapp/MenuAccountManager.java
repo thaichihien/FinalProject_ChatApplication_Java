@@ -33,6 +33,10 @@ public class MenuAccountManager extends MenuAdminLayout{
         
     }
 
+
+
+    
+
     private void lockAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                  
         // TODO add your handling code here:
     }                                                 

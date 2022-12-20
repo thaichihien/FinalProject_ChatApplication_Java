@@ -16,6 +16,7 @@ import java.util.Locale;
 import java.util.Properties;
 
 import datastructure.GroupChat;
+import datastructure.LoginHistory;
 import datastructure.UserAccount;
 
 public class DatabaseManagment {
@@ -34,9 +35,6 @@ public class DatabaseManagment {
             props.setProperty("ssl", "false");
             conn = DriverManager.getConnection(url, props);
             System.out.println("connect successfully");
-            
-            
-
         } catch (SQLException e) {
             System.out.println(e);
         }
@@ -50,11 +48,11 @@ public class DatabaseManagment {
                 }
             }
         }
-
         return instance;
-        
     }
 
+
+    // Sử dụng các hàm bên dưới để lấy dữ liệu:------------------------------
 
     
     /**Thêm một tài khoản vào database
@@ -88,8 +86,6 @@ public class DatabaseManagment {
         }
     }
 
-
-    
     /**Lấy danh sách bạn bè của một account với ID
      * @param ID
      * @return  ArrayList<UserAccount>
@@ -448,6 +444,52 @@ public class DatabaseManagment {
         } catch (Exception e) {
             System.out.println(e);
         }
+        
+    }
+
+    /** Lấy dữ liệu tất cả lịch sử đăng nhập
+     * @return
+     */
+    public ArrayList<LoginHistory> getAllLoginHistory(){
+        String SELECT_QUERY = "SELECT * FROM LOGIN_HISTORY";
+        ResultSet data = null;
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            //statment.setString(1, name);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return null;
+            }
+            else{
+                ArrayList<LoginHistory> loginList = new ArrayList<>();
+                
+                do {                    
+                    LoginHistory login = new LoginHistory();
+                    login.setID(data.getInt("ID"));
+                    login.setUserID(data.getInt("USER_ID"));
+                    Timestamp date = data.getTimestamp("LOGIN_TIME");
+                    String formattedDate = new SimpleDateFormat("yyyyMMdd").format(date);
+                    login.setLoginTime(formattedDate);
+                    loginList.add(login);
+                    
+                } while (data.next());
+                return loginList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 
     /** thêm dữ liệu lịch sử đăng nhập của tài khoản với ID ngay tại lúc gọi hàm này
@@ -513,6 +555,52 @@ public class DatabaseManagment {
         }
         return null;
 
+    }
+
+    /** lấy tất cả các nhóm chat có trong database
+     * @return
+     */
+    public ArrayList<GroupChat> getAllGroupChat(){
+        String SELECT_QUERY = "SELECT * FROM GROUPCHAT";
+        ResultSet data = null;
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            //statment.setString(1, name);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return null;
+            }
+            else{
+                ArrayList<GroupChat> groupList = new ArrayList<>();
+                
+                do {                    
+                    GroupChat group = new GroupChat();
+                    group.setID(data.getInt("ID"));
+                    group.setGroupname("GROUP_NAME");
+                    Timestamp date = data.getTimestamp("CREATED_AT");
+                    String formattedDate = new SimpleDateFormat("yyyyMMdd").format(date);
+                    group.setCreatedAt(formattedDate);
+                    group.setOnline(data.getBoolean("ONLINE"));
+                    groupList.add(group);
+                    
+                } while (data.next());
+                return groupList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
 
 }

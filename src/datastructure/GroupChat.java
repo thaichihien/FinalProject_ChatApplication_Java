@@ -6,6 +6,7 @@ public class GroupChat {
     private int ID;
     private String groupname;
     private boolean online;
+    private String createdAt;
     ArrayList<UserAccount> members;
     ArrayList<UserAccount> admins;
 
@@ -24,6 +25,14 @@ public class GroupChat {
         this.online = online;
         this.members = members;
         this.admins = admins;
+    }
+
+    public String getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
     
 
