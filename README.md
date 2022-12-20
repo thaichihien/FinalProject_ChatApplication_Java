@@ -3,9 +3,7 @@
 - [Công việc](#công-việc)
 - [Giải thích package](#giải-thích-package)
 - [Lưu ý](#lưu-ý)
-- [Một số đoạn code mẫu](#một-số-đoạn-code-mẫu)
-- [Công việc](#công-việc)
-- [Phân công](#phân-công)
+
 
 ## Hướng dẫn test UI
 - ***Giao diện người dùng*** : chạy file _Login.java_ hoặc _MainFormUser.java_ trong package **userchatapp**
@@ -26,9 +24,10 @@
 - Đọc hướng dẫn chi tiết tại thư mục ***doc***
 ## Hướng dẫn kết nối Postgres từ java:
 - Nhớ add driver nói trên
-- Vào database/DatabaseConfig.java
+- Copy đoạn code bên dưới, tạo file tên là **DatabaseConfig.java** đặt trong thư mục **database**, dán code vào
 - Sửa tài khoản và mật khẩu cho phù hợp:
 ```
+package database;
 public class DatabaseConfig {
     public static String databaseName = "finalproject_chatapplication";
     public static String username = System.getenv("POSTGRES_USERNAME"); // thay bằng chuỗi tài khoản postgres nếu k dùng biến môi trường, mặc định là "postgres"
@@ -40,6 +39,8 @@ public class DatabaseConfig {
 - Viết code tại các file Login.java Register.java. Chạy code ở các file này
 - Code thành công khi vào trang chủ có hiển thị tên tài khoản **(username)** ở góc trên bên trái
 ### Đối với chức năng ở các Menu Chat,AddFriend,Group
+- Copy code tại : https://pastecode.io/s/gmcntshd
+- Tạo một file là **MainFrameTest.java**  trong thư mục **test** (k có thì tạo thư mục), dán vào đoạn code vừa copy
 - Vào code test chức năng ở /test/MainFrameTest.java
 - Tại hàm tạo của MainFrameTest, chuẩn bị giao diện menu mà mình đang làm: (Ví dụ bên dưới đang thực hiện test chức năng cho **MenuAddFriend**)
 ```
