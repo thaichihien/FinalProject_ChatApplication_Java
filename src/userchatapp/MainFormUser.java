@@ -51,11 +51,11 @@ public class MainFormUser extends javax.swing.JFrame {
         menuChatLayout.chatLayout.addTab("", testChatGroup1);
         //jTabbedPane.setSelectedIndex();
         
-        MenuAddFriend menuFriendLayout = new MenuAddFriend();
+        MenuAddFriend menuFriendLayout = new MenuAddFriend(this.user);
         jTabbedPaneLayput.addTab("ss", menuFriendLayout);
         //jTabbedPane.setSelectedIndex(3);
         
-        MenuGroup menuGroupLayout = new MenuGroup();
+        MenuGroup menuGroupLayout = new MenuGroup(this.user);
         jTabbedPaneLayput.addTab("asaa", menuGroupLayout);
         
 //        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
@@ -284,21 +284,19 @@ public class MainFormUser extends javax.swing.JFrame {
         jTabButton3.setBackground(activeTabColor);
     }//GEN-LAST:event_jTabButton3MouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    // public static void main(String args[]) {
+    //MAIN
+    public static void main(String args[]) {
        
         
         
 
     //     /* Create and display the form */
-    //     java.awt.EventQueue.invokeLater(new Runnable() {
-    //         public void run() {
-    //             new MainFormUser(new UserAccount()).setVisible(true);
-    //         }
-    //     });
-    // }
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new MainFormUser(new UserAccount()).setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel jPanel1;

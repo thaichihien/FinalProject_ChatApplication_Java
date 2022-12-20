@@ -2,8 +2,6 @@ package datastructure;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
 
 public class UserAccount {
     private int ID;
@@ -134,6 +132,11 @@ public class UserAccount {
 
     public void setOnline(boolean online) {
         this.online = online;
+    }
+
+    public String toString(){
+        String result = String.format("{%d, %s, %s, %s, %b}", this.ID,this.username,this.fullname,this.email,this.online);
+        return result;
     }
 
 

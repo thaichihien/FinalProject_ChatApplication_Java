@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -13,7 +14,7 @@ import javax.swing.JTextField;
 import uichatcomponent.SearchBar;
 
 
-public class MenuAccountManager extends JPanel{
+public class MenuAccountManager extends MenuAdminLayout{
     
     JTable tableUserAccount;
     JComboBox<String> sortFilter;
@@ -44,10 +45,10 @@ public class MenuAccountManager extends JPanel{
     }                                               
 
     private void viewDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-//       DetailAccountForm detailAccountForm = new DetailAccountForm(this);
-//       
-//       detailAccountForm.setVisible(true);
-//       this.setEnabled(false);
+    //   DetailAccountForm detailAccountForm = new DetailAccountForm(this);
+      
+    //   detailAccountForm.setVisible(true);
+    //   this.setEnabled(false);
     }                     
     
     private void deleteAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                    
@@ -56,11 +57,8 @@ public class MenuAccountManager extends JPanel{
 
 
 
-    public MenuAccountManager() {
-        this.setBackground(new java.awt.Color(255, 255, 255));
-        this.setMinimumSize(new java.awt.Dimension(1275, 750));
-        this.setPreferredSize(new java.awt.Dimension(1275, 750));
-        this.setLayout(null);
+    public MenuAccountManager(JFrame parentFrame) {
+        super(parentFrame);
         tableUserAccount = new JTable();
         sortFilter = new JComboBox<>();
         searchBarFindUser = new SearchBar();
@@ -81,10 +79,7 @@ public class MenuAccountManager extends JPanel{
         tableUserAccount.setBackground(new java.awt.Color(235, 235, 235));
         tableUserAccount.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+              
             },
             new String [] {
                 "Tên đăng nhập", "Họ tên", "Địa chỉ", "Ngày sinh", "Giới tính", "Email"

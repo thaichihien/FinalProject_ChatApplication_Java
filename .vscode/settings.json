@@ -1,7 +1,6 @@
 {
-    "java.project.referencedLibraries": {
-        "include": [
-            "lib/**/*.jar"
-        ]
-    }
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "d:\\JAVA\\postgresql-42.5.1.jar"
+    ]
 }

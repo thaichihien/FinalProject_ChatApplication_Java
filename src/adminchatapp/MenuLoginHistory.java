@@ -5,6 +5,7 @@
 package adminchatapp;
 
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,7 +15,7 @@ import javax.swing.JTable;
  *
  * @author HIEN
  */
-public class MenuLoginHistory extends  JPanel{
+public class MenuLoginHistory extends  MenuAdminLayout{
 
     JTable tableLoginHistory;
     JComboBox<String> sortFilter;
@@ -29,11 +30,8 @@ public class MenuLoginHistory extends  JPanel{
 
 
     
-    public MenuLoginHistory() {
-        this.setBackground(new java.awt.Color(255, 255, 255));
-        this.setMinimumSize(new java.awt.Dimension(1220, 750));
-        this.setPreferredSize(new java.awt.Dimension(1275, 750));
-        this.setLayout(null);
+    public MenuLoginHistory(JFrame parentFrame) {
+        super(parentFrame);
         tableLoginHistory = new JTable();
         sortFilter = new JComboBox<>();
         

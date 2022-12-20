@@ -1,8 +1,8 @@
 -- Quét đoạn này chạy trước
 CREATE DATABASE finalproject_chatapplication
 
--- Vì một sự ngu học nào đó mà postgres không cho sử dụng use finalproject_chatapplication
--- Nên sau đó hả vào finalpeoject_chatapplication chạy hết đoạn bên dưới
+-- Postgres không cho sử dụng use finalproject_chatapplication
+-- Nên sau đó kết nối vào database finalpeoject_chatapplication và chạy hết đoạn bên dưới
 CREATE TABLE USER_ACCOUNT (
 	ID SERIAL,
     	USERNAME varchar(20),
@@ -34,10 +34,10 @@ CREATE TABLE LOGIN_HISTORY(
 
 CREATE TABLE MESSAGE_USER(
 	ID BIGSERIAL PRIMARY KEY,
-	CHATBOX_ID INTEGER,
+	CHATBOX_ID VARCHAR(10),
 	FROM_USER INTEGER REFERENCES USER_ACCOUNT(ID),
 	TO_USER INTEGER REFERENCES USER_ACCOUNT(ID),
-	CHAT_TIME TIMESTAMP,
+	TIME_SEND TIMESTAMP,
 	CONTENT TEXT,
 	VISIBLE_ONLY INTEGER REFERENCES USER_ACCOUNT(ID) 
 );

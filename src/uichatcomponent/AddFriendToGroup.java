@@ -1,5 +1,5 @@
 
-package userchatapp;
+package uichatcomponent;
 
 
 public class AddFriendToGroup extends javax.swing.JFrame {

@@ -2,11 +2,16 @@
 package test;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import javax.swing.JPanel;
 
 import adminchatapp.MenuAccountManager;
+import database.DatabaseManagment;
+import datastructure.UserAccount;
+import userchatapp.MenuAddFriend;
 import userchatapp.MenuChat;
+import userchatapp.MenuGroup;
 
 
 public class MainFrameTest extends javax.swing.JFrame {
@@ -15,11 +20,20 @@ public class MainFrameTest extends javax.swing.JFrame {
     public MainFrameTest() {
         initComponents();
         
-        //set menu here
-        MenuAccountManager manager = new MenuAccountManager();
-        setMenu(manager);
+        //Tạo tài khoản mẫu để test. lấy account với ID = 1
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        UserAccount testAccount = database.getDetailAccount(1);
+        jLabel1.setText(testAccount.getUsername());
 
-        
+
+        //set menu here
+        MenuAddFriend menuTest = new MenuAddFriend(testAccount);
+        setMenu(menuTest);
+
+        // MenuAccountManager menuTest = new MenuAccountManager();
+        // setMenu(menuTest);
+
+        // Test các chức năng tại đây đối với gọi hàm của menu
 
 
 
@@ -238,6 +252,10 @@ public class MainFrameTest extends javax.swing.JFrame {
                 new MainFrameTest().setVisible(true);
             }
         });
+            
+        
+        
+
     }
 
     private void setMenu(JPanel menu){

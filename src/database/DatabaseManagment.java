@@ -25,12 +25,12 @@ public class DatabaseManagment {
 
     private DatabaseManagment(){
         try {
-            String databaseName = "";
+            String databaseName = DatabaseConfig.databaseName;
             //Class.forName("org.postgresql.Driver");
             String url = "jdbc:postgresql://localhost:5432/" + databaseName;
             Properties props = new Properties();
-            props.setProperty("user", System.getenv("POSTGRES_USERNAME"));
-            props.setProperty("password", System.getenv("POSTGRES_PASSWORD"));
+            props.setProperty("user", DatabaseConfig.username);
+            props.setProperty("password", DatabaseConfig.password);
             props.setProperty("ssl", "false");
             conn = DriverManager.getConnection(url, props);
             System.out.println("connect successfully");
@@ -55,6 +55,11 @@ public class DatabaseManagment {
         
     }
 
+
+    
+    /**Thêm một tài khoản vào database
+     * @param account
+     */
     public void addNewAccount(UserAccount account){
         if(account.isEmpty()){
             System.out.println("account information is empty");
@@ -84,6 +89,11 @@ public class DatabaseManagment {
     }
 
 
+    
+    /**Lấy danh sách bạn bè của một account với ID
+     * @param ID
+     * @return  ArrayList<UserAccount>
+     */
     public ArrayList<UserAccount> getFriendArrayList(int ID){
         String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE UF.ID = ?";
         ResultSet data = null;
@@ -125,6 +135,11 @@ public class DatabaseManagment {
         return null;
     }
 
+    
+    /**
+     * Lấy thông tin chi tiết của một account với ID
+     * @return UserAccount
+     */
     public UserAccount getDetailAccount(int ID){
         String SELECT_QUERY = "SELECT * FROM USER_ACCOUNT WHERE ID = ?";
         ResultSet data = null;
@@ -160,6 +175,10 @@ public class DatabaseManagment {
         return null;
     }
 
+    /** Kiểm tra xem tài khoản có tồn tại trong database
+     * @param ID
+     * @return true nếu có và false nếu không
+     */
     public boolean checkAccount(int ID){
         String SELECT_QUERY = "SELECT ID FROM USER_ACCOUNT WHERE ID = ?";
         ResultSet data = null;
@@ -189,6 +208,10 @@ public class DatabaseManagment {
         return false;
     }
 
+    /** Tìm danh sách account với username bắt đầu bằng name
+     * @param name
+     * @return ArrayList
+     */
     public ArrayList<UserAccount> searchAccounts(String name){
         String SELECT_QUERY = "SELECT * FROM USER_ACCOUNT WHERE USERNAME LIKE '?%'";
         ResultSet data = null;
@@ -230,6 +253,11 @@ public class DatabaseManagment {
         return null;
     }
 
+    /** Tìm các tài khoản có username bắt đầu bằng name nằm trong danh sách bạn bè của tài khoản với ID
+     * @param ID
+     * @param name
+     * @return ArrayList
+     */
     public ArrayList<UserAccount> searchFriendList(int ID,String name){
         String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE UF.ID = ? AND UA.USERNAME LIKE '?%'";
         ResultSet data = null;
@@ -271,6 +299,11 @@ public class DatabaseManagment {
         return null;
     }
 
+    /** Tìm các tài khoản có username bắt đầu bằng name KHÔNG nằm trong danh sách bạn bè của tài khoản với ID
+     * @param ID
+     * @param name
+     * @return
+     */
     public ArrayList<UserAccount> searchAccountsNotFriend(int ID,String name){
         String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE NOT UF.ID = ? AND UA.USERNAME LIKE '?%'";
         ResultSet data = null;
@@ -312,6 +345,12 @@ public class DatabaseManagment {
         return null;
     }
 
+
+
+    /** danh sách các ID của nhóm chat có tài khoản với ID tham gia
+     * @param ID
+     * @return
+     */
     public ArrayList<Integer> searchGroupIDFromUser(int ID){
         String SELECT_QUERY = "SELECT GROUPCHAT_ID FROM GROUPCHAT_MEMBER WHERE MEMBER_ID = ?";
         ResultSet data = null;
@@ -348,6 +387,9 @@ public class DatabaseManagment {
         return null;
     }
 
+    /** Thêm một nhóm chat vào database
+     * @param group
+     */
     public void addNewGroup(GroupChat group){
         if(group.isEmpty()){
             System.out.println("group is empty");
@@ -408,6 +450,9 @@ public class DatabaseManagment {
         }
     }
 
+    /** thêm dữ liệu lịch sử đăng nhập của tài khoản với ID ngay tại lúc gọi hàm này
+     * @param ID
+     */
     public void addToLoginHistory(int ID){
         String INSERT_QUERY = "INSERT INTO LOGIN_HISTORY(USER_ID,LOGIN_TIME)"
          + "VALUES(?,?)";
@@ -424,5 +469,50 @@ public class DatabaseManagment {
         }
     }
     
+
+    /** Lấy tất cả tài khoản có trong database
+     * @return ArrayList
+     */
+    public ArrayList<UserAccount> getAllAccounts(){
+        String SELECT_QUERY = "SELECT * FROM USER_ACCOUNT";
+        ResultSet data = null;
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            //statment.setString(1, name);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return null;
+            }
+            else{
+                ArrayList<UserAccount> accountList = new ArrayList<>();
+                
+                do {                    
+                    UserAccount account = new UserAccount();
+                    account.setID(data.getInt("ID"));
+                    account.setUsername(data.getString("USERNAME"));
+                    account.setFullname(data.getString("FULLNAME"));
+                    account.setOnline(data.getBoolean("ONLINE"));
+                    accountList.add(account);
+                    
+                } while (data.next());
+                return accountList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return null;
+
+    }
 
 }

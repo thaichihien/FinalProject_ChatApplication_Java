@@ -15,9 +15,9 @@ public class MainFormAdmin extends javax.swing.JFrame {
     public MainFormAdmin() {
         initComponents();
         
-        MenuAccountManager menuAccTest = new MenuAccountManager();
-        MenuLoginHistory menuHistoryTest =new MenuLoginHistory();
-        MenuGroupManager menuGroupTest = new MenuGroupManager();
+        MenuAccountManager menuAccTest = new MenuAccountManager(this);
+        MenuLoginHistory menuHistoryTest =new MenuLoginHistory(this);
+        MenuGroupManager menuGroupTest = new MenuGroupManager(this);
         jTabbedPane.addTab("ss", menuAccTest);
         jTabbedPane.addTab("sas", menuHistoryTest);
         jTabbedPane.addTab("sss", menuGroupTest);

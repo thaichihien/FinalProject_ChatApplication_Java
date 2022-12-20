@@ -3,13 +3,14 @@ package adminchatapp;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 
-public class MenuGroupManager extends JPanel{
+public class MenuGroupManager extends MenuAdminLayout{
 
     JTable tableGroup;
     JComboBox<String> sortFilter;
@@ -23,10 +24,8 @@ public class MenuGroupManager extends JPanel{
 
     
     
-    public MenuGroupManager() {
-        this.setBackground(new java.awt.Color(255, 255, 255));
-        this.setPreferredSize(new java.awt.Dimension(1275, 750));
-        this.setLayout(null);
+    public MenuGroupManager(JFrame parentFrame) {
+        super(parentFrame);
         tableGroup = new JTable();
         sortFilter = new JComboBox<>();
         viewDetailGroupButton = new JButton();

@@ -1,11 +1,19 @@
 
 package userchatapp;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import database.DatabaseManagment;
+import datastructure.UserAccount;
 import uichatcomponent.SearchBar;
 
 
@@ -17,12 +25,14 @@ public class MenuAddFriend extends JPanel{
     JButton addfriendButton;
     JTable tableFindFriend;
     JTable tableListFriend;
+    UserAccount user;
     
 
     // TODO 1: lấy dữ liệu từ searchBarFindFriend, thực hiện truy vấn tài khoản theo tên tìm kiếm
-    // nạp vào bảng tableFindFriend
+    // nạp vào bảng tableFindFriend nếu thanh tìm kiếm rỗng thì nạp tất cả vào
 
     public void filltableFindFriend(){
+        
 
     }
 
@@ -32,7 +42,7 @@ public class MenuAddFriend extends JPanel{
     }
 
     //TODO 3: lấy dữ liệu từ searchBarFindFriend, thực hiện truy vấn tài khoản theo tên tìm kiếm
-    // nạp vào bảng tableFindFriend nếu thanh rỗng thì nạp tất cả vào
+    // nạp vào bảng tableFindFriend nếu thanh tìm kiếm rỗng thì nạp tất cả vào
     public void filltableListFriend(){
 
     }
@@ -42,10 +52,22 @@ public class MenuAddFriend extends JPanel{
         
     }
 
+   
 
 
-    
-    public MenuAddFriend() {
+    public MenuAddFriend(UserAccount account) {
+        this.user = account;
+        initComponent();
+
+        //filltableFindFriend();
+    }
+
+
+
+
+
+    private void initComponent(){
+       
         this.setBackground(new java.awt.Color(255, 255, 255));
         JLabel jLabel_danhsachbanbe = new JLabel();
         JLabel jLabel_thembanbe = new JLabel();
@@ -55,29 +77,39 @@ public class MenuAddFriend extends JPanel{
         addfriendButton = new JButton();
         tableFindFriend = new JTable();
         tableListFriend = new JTable();
+
+        searchBarFindFriend.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filltableFindFriend();
+                
+            }
+        });
+        searchBarFindFriendinList.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              filltableListFriend();
+            }
+        });
+
+
         
         //for view only
         tableFindFriend.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "username", "fullname", "email", "online"
             }
         ));
         
         tableListFriend.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+              
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "username", "fullname", "email", "online"
             }
         ));
         

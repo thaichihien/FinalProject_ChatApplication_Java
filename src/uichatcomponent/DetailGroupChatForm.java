@@ -1,5 +1,5 @@
 
-package userchatapp;
+package uichatcomponent;
 
 import javax.swing.JFrame;
 
@@ -38,10 +38,6 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
 
         tableMemberGroup.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
             },
             new String [] {
                 "Title 1", "Title 2", "Title 3", "Title 4"
@@ -173,11 +169,11 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-//        java.awt.EventQueue.invokeLater(new Runnable() {
-//            public void run() {
-//                new DetailGroupChatForm().setVisible(true);
-//            }
-//        });
+    //    java.awt.EventQueue.invokeLater(new Runnable() {
+    //        public void run() {
+    //            new DetailGroupChatForm().setVisible(true);
+    //        }
+    //    });
     }
 
     // Variables declaration - do not modify                     

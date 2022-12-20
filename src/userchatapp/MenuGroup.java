@@ -8,7 +8,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
-
+import datastructure.UserAccount;
 import uichatcomponent.ListItemChatAccount;
 import uichatcomponent.SearchBar;
 
@@ -22,6 +22,7 @@ public class MenuGroup extends JPanel{
     JButton createGroupButton;
     JButton addToGroupButton;
     SearchBar searchBarFriend;
+    UserAccount user;
 
     // TODO 1: nạp dữ liệu bảng ListFriend dựa vào searchBarFriend
 
@@ -36,7 +37,15 @@ public class MenuGroup extends JPanel{
 
 
     
-    public MenuGroup() {
+    public MenuGroup(UserAccount account) {
+       initComponent();
+       this.user = account;
+        
+
+        
+    }
+
+    private void initComponent(){
         this.setBackground(new java.awt.Color(255, 255, 255));
         inputGroupName = new JTextField();
         tableListFriend = new JTable();
@@ -177,9 +186,6 @@ public class MenuGroup extends JPanel{
                         .addComponent(cancelButton, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(40, Short.MAX_VALUE))
         );
-        
-
-        
     }
     
 }
