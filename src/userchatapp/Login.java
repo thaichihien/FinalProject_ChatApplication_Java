@@ -47,7 +47,7 @@ public class Login extends JFrame {
 			this.dispose();
 		}
 		else{
-			//TODO 2: Hiện lỗi tại đây, recommend dùng JOptionPane;
+			//TODO 2: Hiện lỗi tại đây cho người, recommend dùng JOptionPane;
 			// Xử lý lỗi : in lỗi người dùng nhập sai ở đâu ...
 		}
 	
