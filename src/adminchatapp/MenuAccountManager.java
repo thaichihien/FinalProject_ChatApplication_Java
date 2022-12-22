@@ -3,6 +3,8 @@ package adminchatapp;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -11,6 +13,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
+
+import database.DatabaseManagment;
+import datastructure.GroupChat;
+import datastructure.UserAccount;
 import uichatcomponent.SearchBar;
 
 
@@ -30,7 +37,19 @@ public class MenuAccountManager extends MenuAdminLayout{
     //TODO 1: nạp dữ liệu vào bảng tableUserAccount, kiểm tra searchBarFIndUser, sortFilter,
     // sort Criteria để lọc dữ liệu theo yêu cầu
     public void filltableUserAccount(){
-        
+    	DatabaseManagment database = DatabaseManagment.getInstance();
+    	ArrayList<UserAccount> allUser = database.getAllAccounts();
+    	// tableFindFriend is JTable
+    	DefaultTableModel tableModel = (DefaultTableModel) tableUserAccount.getModel();
+    	for(UserAccount user : allUser){
+    		String ID = String.valueOf(user.getID());
+    	    String username = user.getUsername();
+    	    String fullname = user.getFullname();
+    	    String online = String.valueOf(user.getOnline());
+    	    
+    	    String row[] = {ID, username, fullname, online};
+    	    tableModel.addRow(row);
+    	}
     }
 
 
@@ -183,6 +202,7 @@ public class MenuAccountManager extends MenuAdminLayout{
         sortCriteria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tăng dần", "Giảm dần" }));
         this.add(sortCriteria);
         sortCriteria.setBounds(1080, 50, 150, 40);
+        filltableUserAccount();
     }
     
     
