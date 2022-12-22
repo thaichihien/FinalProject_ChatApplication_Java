@@ -1,6 +1,8 @@
 
 package adminchatapp;
 
+import java.util.ArrayList;
+
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
@@ -8,6 +10,10 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import database.DatabaseManagment;
+import datastructure.GroupChat;
 
 
 public class MenuGroupManager extends MenuAdminLayout{
@@ -19,7 +25,28 @@ public class MenuGroupManager extends MenuAdminLayout{
     //TODO 1: nạp dữ liệu từ database vào tableLoginHistory, dựa vào sortFilter
     // để lọc 
     public void filltableGroup(){
-        
+        tableGroup.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "Tên nhóm", "Admin", "Số lượng", "Ngày tạo"
+            }
+        ));
+
+
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        ArrayList<GroupChat> allGroupChat = database.getAllGroupChat();
+        // tableFindFriend is JTable
+        DefaultTableModel tableModel = (DefaultTableModel) tableGroup.getModel();
+        for(GroupChat group : allGroupChat){
+            String ID = String.valueOf(group.getID());
+            String Groupname = group.getGroupname();
+            String CreatedAt = group.getCreatedAt();
+            String Online = String.valueOf(group.getOnline());
+
+            String row[] = {Groupname,ID,Online,CreatedAt};
+            tableModel.addRow(row);
+        }
     }
 
     
@@ -77,7 +104,7 @@ public class MenuGroupManager extends MenuAdminLayout{
         });
         this.add(viewDetailGroupButton);
         viewDetailGroupButton.setBounds(1040, 30, 180, 40);
-    
+        filltableGroup();
     }
     
     private void viewDetailGroupButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                      
