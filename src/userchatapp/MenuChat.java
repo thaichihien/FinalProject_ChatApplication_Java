@@ -1,11 +1,19 @@
 
 package userchatapp;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ListSelectionEvent;
 
+import database.DatabaseManagment;
+import datastructure.Message;
+import datastructure.UserAccount;
+import uichatcomponent.ChatBoxUser;
+import uichatcomponent.ChatMessageBlock;
 import uichatcomponent.ItemChatAccount;
 import uichatcomponent.ListItemChatAccount;
 import uichatcomponent.SearchBar;
@@ -16,18 +24,54 @@ public class MenuChat extends JPanel{
     public SearchBar searchBarFriendList;
     public ListItemChatAccount<String> listFriendJlist;
     public JTabbedPane chatLayout;
+    private DatabaseManagment database;
+    private UserAccount user;
 
 
     // TODO : Viết hàm lấy dữ liệu từ database ==> nạp vào listFriendJlist
     // ứng với ItemChatAccountUI là một chatbox
     // HIỆN làm
     public void fillFriendList(){
+        HashMap<String,ChatBoxUser> chatAndBox = new HashMap<>();
+        ArrayList<UserAccount> onlineUser = database.getFriendArrayListByOnline(user.getID());
+        ArrayList<Message> allChat = database.getAllMessageFromUser(user.getID());
+        for(UserAccount account : onlineUser){
+            ItemChatAccount chatAccount = new ItemChatAccount(account.getID(),account.getUsername(),account.getOnline());
+            ChatBoxUser chatBoxUser = new ChatBoxUser(chatAccount.getName(),chatAccount.getStatus());
+            listFriendJlist.addItem(chatAccount);
+            chatLayout.addTab(chatAccount.getName(), chatBoxUser);
+            String chatBoxID = ChatBoxUser.createChatBoxUserID(user.getID(), account.getID());
+            chatAndBox.put(chatBoxID, chatBoxUser);
+        }
 
+        for(Message message: allChat){
+            ChatMessageBlock messageBlock;
+            if(message.getUserName().equals(user.getUsername())){
+                messageBlock = new ChatMessageBlock(message.getUserName(), message.getDateSend(), ChatMessageBlock.MINE, message.getContent());
+            }
+            else{
+                messageBlock = new ChatMessageBlock(message.getUserName(), message.getDateSend(), ChatMessageBlock.OTHER, message.getContent());
+            }
+            if(chatAndBox.containsKey(message.getChatboxID())){
+                chatAndBox.get(message.getChatboxID()).addMessage(messageBlock);
+            }
+            
+        }
+
+        
     }
 
 
     
-    public MenuChat() {
+    public MenuChat(UserAccount account) {
+        initComponents();
+        user = account;
+        database = DatabaseManagment.getInstance();
+
+        fillFriendList();
+    }
+
+    private void initComponents(){
         this.setBackground(new java.awt.Color(255, 255, 255));
         this.setLayout(null);
         searchBarFriendList = new SearchBar();

@@ -86,6 +86,19 @@ public class ChatBoxUser extends ChatBoxLayout{
 
         
     }
+
+    public static String createChatBoxUserID(int firstID,int secondID){
+        if(firstID > secondID){
+            firstID = firstID ^ secondID;
+            secondID = firstID ^ secondID;
+            firstID = firstID ^ secondID;
+        }
+
+        String ID1 = String.valueOf(firstID);
+        String ID2 = String.valueOf(secondID);
+
+        return ID1 + "-" + ID2;
+    }
     
    
     

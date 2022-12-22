@@ -17,6 +17,7 @@ import java.util.Properties;
 
 import datastructure.GroupChat;
 import datastructure.LoginHistory;
+import datastructure.Message;
 import datastructure.UserAccount;
 
 public class DatabaseManagment {
@@ -131,7 +132,49 @@ public class DatabaseManagment {
         return null;
     }
 
-    
+    public ArrayList<UserAccount> getFriendArrayListByOnline(int ID){
+        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE UF.ID = ? ORDER BY UA.ONLINE DESC";
+        ResultSet data = null;
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            statment.setInt(1, ID);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return null;
+            }
+            else{
+                ArrayList<UserAccount> friendList = new ArrayList<>();
+                
+                do {                    
+                    UserAccount account = new UserAccount();
+                    account.setID(data.getInt("ID"));
+                    account.setUsername(data.getString("USERNAME"));
+                    account.setFullname(data.getString("FULLNAME"));
+                    account.setOnline(data.getBoolean("ONLINE"));
+                    friendList.add(account);
+                    
+                } while (data.next());
+                return friendList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
+
+
     /**
      * Lấy thông tin chi tiết của một account với ID
      * @return UserAccount
@@ -563,16 +606,16 @@ public class DatabaseManagment {
     public ArrayList<GroupChat> getAllGroupChat(){
         String SELECT_QUERY = "SELECT * FROM GROUPCHAT";
         ResultSet data = null;
+        ArrayList<GroupChat> groupList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
             //statment.setString(1, name);
             data = statment.executeQuery();
             
             if(!data.next()){
-                return null;
+                return groupList;
             }
             else{
-                ArrayList<GroupChat> groupList = new ArrayList<>();
                 
                 do {                    
                     GroupChat group = new GroupChat();
@@ -600,7 +643,66 @@ public class DatabaseManagment {
                 }
             }
         }
-        return null;
+        return groupList;
     }
+
+
+    public ArrayList<Message> getAllMessageFromUser(int ID){
+        String SELECT_QUERY = "SELECT MU.ID,MU.CHATBOX_ID,UA.USERNAME,MU.TIME_SEND,MU.CONTENT,MU.VISIBLE_ONLY FROM MESSAGE_USER MU INNER JOIN USER_ACCOUNT UA ON UA.ID = MU.FROM_USER WHERE CHATBOX_ID LIKE ? ORDER BY MU.TIME_SEND DESC";
+        ResultSet data = null;
+        ArrayList<Message> messageList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            String id = String.valueOf(ID);
+            statment.setString(1, id + "-%");
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return messageList;
+            }
+            else{
+               
+                
+                do {                    
+                    Message message = new Message();
+                    message.setChatboxID(data.getString("chatbox_id"));
+                    Timestamp date = data.getTimestamp("time_send");
+                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(date);
+                    message.setDateSend(formattedDate);
+                    message.setUserName(data.getString("username"));
+                    message.setContent(data.getString("content"));
+                    int id_visibleOnly = data.getInt("visible_only");
+                    if(data.wasNull()){
+                        message.setVisible_only(message.NOT_HIDE);
+                    }
+                    else{
+                        message.setVisible_only(id_visibleOnly);
+                    }
+                   
+                    messageList.add(message);
+                    
+                } while (data.next());
+                return messageList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return messageList;
+
+
+
+    }
+
+
 
 }

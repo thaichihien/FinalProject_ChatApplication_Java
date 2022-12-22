@@ -28,9 +28,9 @@ public class ChatBoxLayout extends JPanel{
 
     }
 
-    public void addMessage(String message){
+    public void addMessage(ChatMessageBlock messageBlock){
 
-        displayChat.addMessage(null);
+        displayChat.addMessage(messageBlock);
     }
 
 

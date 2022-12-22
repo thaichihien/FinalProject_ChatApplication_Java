@@ -41,10 +41,10 @@ public class MainFormUser extends javax.swing.JFrame {
         this.user = user;
         userNameLabel.setText(this.user.getUsername());
 
-        MenuChat menuChatLayout = new MenuChat();
+        MenuChat menuChatLayout = new MenuChat(this.user);
         jTabbedPaneLayput.addTab("ss", menuChatLayout);
-        menuChatLayout.addToListFriendJlist(new ItemChatAccount("Người dùng 1",true));
-        menuChatLayout.addToListFriendJlist(new ItemChatAccount("Nhóm 2",true));
+        //menuChatLayout.addToListFriendJlist(new ItemChatAccount("Người dùng 1",true));
+        //menuChatLayout.addToListFriendJlist(new ItemChatAccount("Nhóm 2",true));
         ChatBoxUser testChatBox1 = new ChatBoxUser("Chí Hiện",true);
         ChatBoxGroup testChatGroup1 = new ChatBoxGroup("Lương Sơn Bạc", false);
         menuChatLayout.chatLayout.addTab("", testChatBox1);

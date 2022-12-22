@@ -6,6 +6,7 @@ package uichatcomponent;
  * @author HIEN
  */
 public class ItemChatAccount {
+    private int ID;
     private String name;
     private Boolean status;
 
@@ -28,11 +29,26 @@ public class ItemChatAccount {
     public ItemChatAccount() {
     }
     
-    public ItemChatAccount(String name, Boolean status) {
+
+    public int getID() {
+        return this.ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public Boolean isStatus() {
+        return this.status;
+    }
+    
+
+    public ItemChatAccount(int ID, String name, Boolean status) {
+        this.ID = ID;
         this.name = name;
         this.status = status;
     }
-    
+
     
     
     
