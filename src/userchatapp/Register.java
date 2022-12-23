@@ -5,13 +5,21 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.xml.crypto.Data;
 
 import datastructure.UserAccount;
 
+import database.DatabaseManagment;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Insets;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JTextField;
@@ -30,11 +38,44 @@ public class Register extends JFrame {
 	private JButton btnRegister;
 	private JLabel lblHavingAcc;
 
+	private int getLargestID(){
+		DatabaseManagment db=new DatabaseManagment();
+		Connection conn=db.getConnection();
+		try{
+		Statement stmt=conn.createStatement();
+		String query="Select MAX(ID) as LargestID from USER_ACCOUNT;";
+		ResultSet rs=stmt.executeQuery(query);
+		if(rs.next())
+			return rs.getInt("LargestID");
+		}
+		catch (SQLException e){}
+		return -1;
+	}
+
 	// TODO 1: viết hàm đăng ký, kiểm tra các field, thêm vào database
 
 	private UserAccount registerAccount(){
 	// Ok thì trả về account vừa đăng ký ngược lại null rồi làm hiện lỗi tại hàm btnRegisterActionPerformed()
-
+		UserAccount result=new UserAccount();
+	
+		String username, password, email, repass;
+		username=new String(txtUser.getText());
+		password=new String(txtPass.getText());
+		repass=new String(txtRePass.getText());
+		email=new String(txtEmail.getText());
+		if(username.isBlank()||password.isBlank()||email.isBlank()||repass.isBlank())
+			return null;
+		else if(repass.equals(password))
+		{
+			result=new UserAccount();
+			result.setID(getLargestID()+1);
+			result.setUsername(username);
+			result.setPassword(password);
+			result.setEmail(email);
+			DatabaseManagment db=new DatabaseManagment();
+			db.addNewAccount(result);
+			return result;
+		}
 
 		return null;
 	}
@@ -50,8 +91,28 @@ public class Register extends JFrame {
 		}
 		else{
 		 //TODO 2: Hiện lỗi tại đây cho người dùng, recommend dùng JOptionPane;
+			JFrame frame = new JFrame("Error");
+			frame.setSize(200, 200);
+			frame.setLocationRelativeTo(null);
+			frame.setVisible(true);
+			
 
+			String username, password, email, repass;
+			username=new String(txtUser.getText());
+			password=new String(txtPass.getText());
+			repass=new String(txtRePass.getText());
+			email=new String(txtEmail.getText());
+			if(username.isBlank()||password.isBlank()||email.isBlank()||repass.isBlank())
+				JOptionPane.showMessageDialog(frame,"Please enter all required fields");
+
+			if(!repass.equals(password))
+			 	JOptionPane.showMessageDialog(frame,"Your repassword is incorrect");
 		}
+
+		txtUser.setText("");
+		txtEmail.setText("");
+		txtPass.setText("");
+		txtRePass.setText("");
 	 }  
 
 
