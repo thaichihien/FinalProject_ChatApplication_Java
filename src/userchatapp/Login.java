@@ -6,9 +6,11 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import database.DatabaseManagment;
 import datastructure.UserAccount;
 
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Color;
@@ -32,8 +34,22 @@ public class Login extends JFrame {
 	// Ok thì trả về account đăng nhập ngược lại null rồi làm hiện lỗi tại hàm btnLoginActionPerformed()
 
 	private UserAccount loginAccount(){
-
-
+		String username,password;
+		username=new String(txtUser.getText());
+		password=new String(txtPass.getText());
+		if(username.isBlank()||password.isBlank())
+			return null;
+		else {
+			DatabaseManagment db=new DatabaseManagment();
+			boolean result=db.checkAccount(username, password);
+			if (result==true)
+			{
+				UserAccount account=new UserAccount();
+				account.setUsername(username);
+				account.setPassword(password);	
+				return account;
+			}
+		}
 
 		return null;
 	}
@@ -49,6 +65,19 @@ public class Login extends JFrame {
 		else{
 			//TODO 2: Hiện lỗi tại đây cho người, recommend dùng JOptionPane;
 			// Xử lý lỗi : in lỗi người dùng nhập sai ở đâu ...
+			JFrame frame = new JFrame("Error");
+			frame.setSize(200, 200);
+			frame.setLocationRelativeTo(null);
+			frame.setVisible(true);
+
+			String username,password;
+		username=new String(txtUser.getText());
+		password=new String(txtPass.getText());
+			if(username.isBlank()||password.isBlank())
+				JOptionPane.showMessageDialog(frame,"Please enter all required fields!");
+			else {
+				JOptionPane.showMessageDialog(frame,"Your username or password is incorrect!");
+			}
 		}
 	
 	}
