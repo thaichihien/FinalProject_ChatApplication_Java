@@ -40,7 +40,7 @@ public class Login extends JFrame {
 		if(username.isBlank()||password.isBlank())
 			return null;
 		else {
-			DatabaseManagment db=new DatabaseManagment();
+			DatabaseManagment db=DatabaseManagment.getInstance();
 			boolean result=db.checkAccount(username, password);
 			if (result==true)
 			{

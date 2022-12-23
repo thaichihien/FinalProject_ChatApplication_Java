@@ -27,7 +27,7 @@ public class DatabaseManagment {
         return conn;
     }
 
-    public DatabaseManagment(){
+    private DatabaseManagment(){
         try {
             String databaseName = DatabaseConfig.databaseName;
             //Class.forName("org.postgresql.Driver");
@@ -43,6 +43,9 @@ public class DatabaseManagment {
         }
     }
 
+
+    // Gọi database bằng cách dùng hàm getInstance()
+    // Ex: DatabaseManagement database = DatabaseManagment.getInstance()
     public static DatabaseManagment getInstance(){
         if(instance == null){
             synchronized (DatabaseManagment.class){

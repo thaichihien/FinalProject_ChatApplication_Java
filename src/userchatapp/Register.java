@@ -39,7 +39,7 @@ public class Register extends JFrame {
 	private JLabel lblHavingAcc;
 
 	private int getLargestID(){
-		DatabaseManagment db=new DatabaseManagment();
+		DatabaseManagment db=DatabaseManagment.getInstance();
 		Connection conn=db.getConnection();
 		try{
 		Statement stmt=conn.createStatement();
@@ -72,7 +72,7 @@ public class Register extends JFrame {
 			result.setUsername(username);
 			result.setPassword(password);
 			result.setEmail(email);
-			DatabaseManagment db=new DatabaseManagment();
+			DatabaseManagment db=DatabaseManagment.getInstance();
 			db.addNewAccount(result);
 			return result;
 		}
