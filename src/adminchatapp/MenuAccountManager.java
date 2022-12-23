@@ -3,6 +3,8 @@ package adminchatapp;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -18,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import database.DatabaseManagment;
 import datastructure.UserAccount;
 import uichatcomponent.SearchBar;
+import utils.Utils;
 
 
 public class MenuAccountManager extends MenuAdminLayout{
@@ -33,9 +36,10 @@ public class MenuAccountManager extends MenuAdminLayout{
     JComboBox<String> sortCriteria;
 
 
-    //TODO 1: nạp dữ liệu vào bảng tableUserAccount, kiểm tra searchBarFIndUser, sortFilter,
-    // sort Criteria để lọc dữ liệu theo yêu cầu
+   
     public void filltableUserAccount(){
+        Utils.clearTable(tableUserAccount);
+
     	DatabaseManagment database = DatabaseManagment.getInstance();
     	ArrayList<UserAccount> allUser = database.getAllAccounts();
     	// tableFindFriend is JTable
@@ -44,12 +48,38 @@ public class MenuAccountManager extends MenuAdminLayout{
     		String ID = String.valueOf(user.getID());
     	    String username = user.getUsername();
     	    String fullname = user.getFullname();
-    	    String online = String.valueOf(user.getOnline());
+            String address = user.getAddress();
+            String birthDay = user.getBirthDay();
+            String gender = user.getGender();
+            String email = user.getEmail();
+    	    //String online = String.valueOf(user.getOnline());
     	    
-    	    String row[] = {ID, username, fullname, online};
+    	    String row[] = {ID, username, fullname, address,birthDay,gender,email};
     	    tableModel.addRow(row);
     	}
     }
+
+
+    //TODO 2: Tương tự nạp dữ liệu vào bảng nhưng lần này thực hiện search và 
+    // lọc theo tiêu chí họ và tên, tên đăng nhập, ngày sinh theo tăng dần hay
+    // giảm dần. Kiểm tra searchBarFindUser, sortFilter, sortCriteria 
+    // nếu mặc định ở sortFilter, sortCriteria và searchBarFindUser thì gọi filltableUserAccount()
+    //sử dụng database.getAllAccounts(String name,String sort,String by)
+    // - Trong đó : 
+    //      + name: là họ tên hoặc tên đăng nhập cần tìm, nếu searchBarFindUser trả về chuỗi rỗng
+    //          thì truyền tham số là null
+    //      + sort: chi chấp nhận các tham số : "USERNAME","FULLNAME","CREATED_AT",null
+    //      + by: chỉ chấp nhận các tham số: "ASC","DESC"
+    private void fillTableBySort(){
+        
+
+
+
+
+
+    }
+
+
 
 
 
@@ -83,7 +113,31 @@ public class MenuAccountManager extends MenuAdminLayout{
         super(parentFrame);
         initComponents();
 
-        
+        sortFilter.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+               fillTableBySort();       
+            }
+        });
+
+        sortCriteria.addItemListener(new ItemListener(){
+            @Override
+            public void itemStateChanged(ItemEvent e){
+                fillTableBySort();
+            }
+        });
+
+        searchBarFindUser.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fillTableBySort();
+                
+            }
+            
+        });
+
+
         filltableUserAccount();
     }
 
@@ -112,7 +166,7 @@ public class MenuAccountManager extends MenuAdminLayout{
               
             },
             new String [] {
-                "Tên đăng nhập", "Họ tên", "Địa chỉ", "Ngày sinh", "Giới tính", "Email"
+                "id","Tên đăng nhập", "Họ tên", "Địa chỉ", "Ngày sinh", "Giới tính", "Email"
             }
         ));
         JScrollPane jScrollpane_tableUserAccount = new JScrollPane();

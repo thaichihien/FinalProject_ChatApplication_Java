@@ -10,9 +10,10 @@ public class UserAccount {
     private String fullname;
     private String address;
     private String birthDay;
-    private boolean gender;
+    private String gender;
     private String email;
     private boolean online;
+    private String createdAt;
 
 
     public UserAccount() {
@@ -22,7 +23,7 @@ public class UserAccount {
         this.fullname = "";
         this.address = "";
         this.birthDay = "";
-        this.gender = false;
+        this.gender = "";
         this.email = "";
         this.online = false;
     }
@@ -35,7 +36,7 @@ public class UserAccount {
     }
 
 
-    public UserAccount(int ID, String username, String password, String fullname, String address, String birthDay, boolean gender, String email, boolean online) {
+    public UserAccount(int ID, String username, String password, String fullname, String address, String birthDay, String gender, String email, boolean online) {
         this.ID = ID;
         this.username = username;
         this.password = password;
@@ -45,6 +46,14 @@ public class UserAccount {
         this.gender = gender;
         this.email = email;
         this.online = online;
+    }
+
+    public String getCreatedAt() {
+        return this.createdAt;
+    }
+
+    public void setCreatedAt(String createdAt) {
+        this.createdAt = createdAt;
     }
     
     
@@ -102,17 +111,15 @@ public class UserAccount {
         this.birthDay = birthDay;
     }
 
-    public boolean isMale() {
+
+    public String getGender() {
         return this.gender;
     }
 
-    public boolean getGender() {
-        return this.gender;
-    }
-
-    public void setGender(boolean gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
+    
 
     public String getEmail() {
         return this.email;

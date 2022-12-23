@@ -73,8 +73,7 @@ public class DatabaseManagment {
             statement.setString(4, account.getAddress());
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             statement.setDate(5, new java.sql.Date(formatter.parse(account.getBirthDay()).getTime()));
-            if(account.isMale()) statement.setString(6, "Male");
-            else  statement.setString(6, "Female");
+            statement.setString(6, account.getGender());
             statement.setString(7, account.getEmail());
             statement.setBoolean(8, false);
    
@@ -296,11 +295,12 @@ public class DatabaseManagment {
      * @return ArrayList
      */
     public ArrayList<UserAccount> searchFriendList(int ID,String name){
-        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE UF.ID = ? AND UA.USERNAME LIKE '?%'";
+        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE UF.ID = ? AND UA.USERNAME LIKE ? OR UA.FULLNAME LIKE ?";
         ResultSet data = null;
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             statment.setInt(1, ID);
-            statment.setString(2, name);
+            statment.setString(2, "%" + name + "%");
+            statment.setString(3, "%" + name + "%");
             data = statment.executeQuery();
             
             if(!data.next()){
@@ -535,6 +535,50 @@ public class DatabaseManagment {
         return loginList;
     }
 
+    public ArrayList<LoginHistory> getAllLoginHistory(String sort,String by){
+        String SELECT_QUERY = "SELECT LH.*,UA.USERNAME FROM LOGIN_HISTORY LH INNER JOIN USER_ACCOUNT UA ON LH.USER_ID = UA.ID ORDER BY " + sort + " " + by ;
+        ResultSet data = null;
+        ArrayList<LoginHistory> loginList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            //statment.setString(1, name);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return loginList;
+            }
+            else{
+                
+                
+                do {                    
+                    LoginHistory login = new LoginHistory();
+                    login.setID(data.getInt("LOGIN_ID"));
+                    login.setUserID(data.getInt("USER_ID"));
+                    login.setUserName(data.getString("username"));
+                    Timestamp date = data.getTimestamp("LOGIN_TIME");
+                    String formattedDate = new SimpleDateFormat("yyyyMMdd").format(date);
+                    login.setLoginTime(formattedDate);
+                    loginList.add(login);
+                    
+                } while (data.next());
+                return loginList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return loginList;
+    }
+
     /** thêm dữ liệu lịch sử đăng nhập của tài khoản với ID ngay tại lúc gọi hàm này
      * @param ID
      */
@@ -578,6 +622,14 @@ public class DatabaseManagment {
                     account.setID(data.getInt("ID"));
                     account.setUsername(data.getString("USERNAME"));
                     account.setFullname(data.getString("FULLNAME"));
+                    account.setAddress(data.getString("address"));
+                    Date birthDay = data.getDate("date_of_birth");
+                    account.setBirthDay(birthDay.toString());
+                    account.setGender(data.getString("Gender"));
+                    account.setEmail(data.getString("email"));
+                    Timestamp createdAt = data.getTimestamp("created_at");
+                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(createdAt);
+                    account.setCreatedAt(formattedDate);
                     account.setOnline(data.getBoolean("ONLINE"));
                     accountList.add(account);
                     
@@ -600,6 +652,77 @@ public class DatabaseManagment {
         return accountList;
 
     }
+
+    // ! FIX COLUMN VARIABLE
+    public ArrayList<UserAccount> getAllAccounts(String name,String sort,String by){
+        
+        String SELECT_QUERY = "SELECT * FROM USER_ACCOUNT WHERE USERNAME LIKE ? OR FULLNAME LIKE ?  ORDER BY " + sort + " " + by;
+        if(sort == null && name == null){
+            SELECT_QUERY = "SELECT * FROM USER_ACCOUNT";
+        }
+        else if(sort != null && name == null){
+            SELECT_QUERY = "SELECT * FROM USER_ACCOUNT ORDER BY " + sort + " " + by;
+        }
+        else if(name != null && sort == null){
+            SELECT_QUERY = "SELECT * FROM USER_ACCOUNT WHERE USERNAME LIKE ? OR FULLNAME LIKE ?";
+        }
+
+
+        ResultSet data = null;
+        ArrayList<UserAccount> accountList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            if(name != null){
+                statment.setString(1, "%" + name + "%");
+                statment.setString(2, "%" + name + "%");
+            }
+            
+
+
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return accountList;
+            }
+            else{
+                
+                
+                do {                    
+                    UserAccount account = new UserAccount();
+                    account.setID(data.getInt("ID"));
+                    account.setUsername(data.getString("USERNAME"));
+                    account.setFullname(data.getString("FULLNAME"));
+                    account.setAddress(data.getString("address"));
+                    Date birthDay = data.getDate("date_of_birth");
+                    account.setBirthDay(birthDay.toString());
+                    account.setGender(data.getString("Gender"));
+                    account.setEmail(data.getString("email"));
+                    Timestamp createdAt = data.getTimestamp("created_at");
+                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(createdAt);
+                    account.setCreatedAt(formattedDate);
+                    account.setOnline(data.getBoolean("ONLINE"));
+                    accountList.add(account);
+                    
+                } while (data.next());
+                return accountList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return accountList;
+
+    }
+
 
     /** lấy tất cả các nhóm chat có trong database
      * @return
@@ -624,7 +747,7 @@ public class DatabaseManagment {
                     group.setGroupname(data.getString("GROUP_NAME"));
                     group.setNumberOfMember(data.getInt("soluong"));
                     Timestamp date = data.getTimestamp("CREATED_AT");
-                    String formattedDate = new SimpleDateFormat("yyyyMMdd").format(date);
+                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(date);
                     group.setCreatedAt(formattedDate);
                     group.setOnline(data.getBoolean("ONLINE"));
                     groupList.add(group);
@@ -648,7 +771,49 @@ public class DatabaseManagment {
         return groupList;
     }
 
-
+    public ArrayList<GroupChat> getAllGroupChat(String sort,String by){
+        String SELECT_QUERY = "SELECT GC.ID,GC.GROUP_NAME,COUNT(MB.MEMBER_ID) AS SOLUONG,GC.CREATED_AT,GC.ONLINE FROM GROUPCHAT GC INNER JOIN GROUPCHAT_MEMBER MB ON GC.ID = MB.GROUPCHAT_ID GROUP BY GC.ID ORDER BY " + sort + " " + by;
+        ResultSet data = null;
+        ArrayList<GroupChat> groupList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            //statment.setString(1, name);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return groupList;
+            }
+            else{
+                
+                do {                    
+                    GroupChat group = new GroupChat();
+                    group.setID(data.getInt("ID"));
+                    group.setGroupname(data.getString("GROUP_NAME"));
+                    group.setNumberOfMember(data.getInt("soluong"));
+                    Timestamp date = data.getTimestamp("CREATED_AT");
+                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(date);
+                    group.setCreatedAt(formattedDate);
+                    group.setOnline(data.getBoolean("ONLINE"));
+                    groupList.add(group);
+                    
+                } while (data.next());
+                return groupList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return groupList;
+    }
     
 
 

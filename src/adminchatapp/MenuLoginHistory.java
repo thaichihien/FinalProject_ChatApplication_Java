@@ -4,6 +4,8 @@
  */
 package adminchatapp;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.JComboBox;
@@ -27,8 +29,14 @@ public class MenuLoginHistory extends  MenuAdminLayout{
     JComboBox<String> sortFilter;
 
 
-    //TODO 1: nạp dữ liệu từ database vào tableLoginHistory, dựa vào sortFilter
-    // để lọc 
+    //TODO 2: cải tiến hàm Dựa vào sortFilter để lọc dữ liệu
+    // sử dụng database.getAllLoginHistory(String sort,String by)
+    // Trong đó:
+    // + sort: chỉ chấp nhận giá trị "LOGIN_TIME"
+    // + by: chỉ chấp nhận giá trị "ASC","DESC"
+    // sortFilter mặc định gọi hàm database.getAllLoginHistory()
+
+
     public void filltableLoginHistory(){
         Utils.clearTable(tableLoginHistory);
         DatabaseManagment database = DatabaseManagment.getInstance();
@@ -48,6 +56,19 @@ public class MenuLoginHistory extends  MenuAdminLayout{
     public MenuLoginHistory(JFrame parentFrame) {
         super(parentFrame);
         initComponents();
+
+
+        sortFilter.addItemListener(new ItemListener(){
+
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+               filltableLoginHistory();
+                
+            }
+            
+        });
+
+
         filltableLoginHistory();
     }
 
