@@ -23,7 +23,11 @@ public class DatabaseManagment {
     private static volatile DatabaseManagment instance;
     private Connection conn;
 
-    private DatabaseManagment(){
+    public Connection getConnection(){
+        return conn;
+    }
+
+    public DatabaseManagment(){
         try {
             String databaseName = DatabaseConfig.databaseName;
             //Class.forName("org.postgresql.Driver");
