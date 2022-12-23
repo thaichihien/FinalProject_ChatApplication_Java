@@ -241,10 +241,10 @@ public class Register extends JFrame {
 		txtPass.setBounds(273, 345, 297, 48);
 		contentPane.add(txtPass);
 
-		labelUser = new JLabel("Email");
-		labelUser.setFont(new Font("Tahoma", Font.ITALIC, 12));
-		labelUser.setBounds(273, 245, 226, 28);
-		contentPane.add(labelUser);
+		labelEmail = new JLabel("Email");
+		labelEmail.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		labelEmail.setBounds(273, 245, 226, 28);
+		contentPane.add(labelEmail);
 		
 		txtEmail = new JTextField();
 		txtEmail.setMargin(new Insets(10, 15, 10, 10));
