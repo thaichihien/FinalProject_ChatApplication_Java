@@ -12,7 +12,6 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseManagment;
-import datastructure.GroupChat;
 import datastructure.UserAccount;
 import uichatcomponent.ListItemChatAccount;
 import uichatcomponent.SearchBar;
@@ -29,20 +28,18 @@ public class MenuGroup extends JPanel{
     SearchBar searchBarFriend;
     UserAccount user;
 
-    // TODO 1: nạp dữ liệu bảng ListFriend dựa vào searchBarFriend
+    
 
     public void filltableListFriend(){
     	DatabaseManagment database = DatabaseManagment.getInstance();
-    	ArrayList<GroupChat> allGroup = database.getAllGroupChat();
+    	ArrayList<UserAccount> allFriend = database.getFriendArrayList(user.getID());
     	// tableFindFriend is JTable
     	DefaultTableModel tableModel = (DefaultTableModel) tableListFriend.getModel();
-    	for(GroupChat group : allGroup){
-    		String ID = String.valueOf(group.getID());
-    	    String groupname = group.getGroupname();
-    	    String createdat = group.getCreatedAt();
-    	    String online = String.valueOf(group.getOnline());
-    	    
-    	    String row[] = {ID, groupname, createdat, online};
+    	for(UserAccount friend : allFriend){
+    		String username = String.valueOf(friend.getUsername());
+    	    String email = friend.getEmail();
+    	    String online = String.valueOf(friend.getOnline());  
+    	    String row[] = {username,email, online};
     	    tableModel.addRow(row);
 //    		System.out.println(group.getGroupname());
     	}
@@ -102,13 +99,10 @@ public class MenuGroup extends JPanel{
         tableListFriend.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         tableListFriend.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Username", "Email", "Online"
             }
         ));
         JScrollPane jScrollPane_tableListFriend = new JScrollPane();

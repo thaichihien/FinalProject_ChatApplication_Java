@@ -7,11 +7,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.LinkedList;
+
 import java.util.Locale;
 import java.util.Properties;
 
@@ -494,23 +492,25 @@ public class DatabaseManagment {
      * @return
      */
     public ArrayList<LoginHistory> getAllLoginHistory(){
-        String SELECT_QUERY = "SELECT * FROM LOGIN_HISTORY";
+        String SELECT_QUERY = "SELECT LH.*,UA.USERNAME FROM LOGIN_HISTORY LH INNER JOIN USER_ACCOUNT UA ON LH.USER_ID = UA.ID";
         ResultSet data = null;
+        ArrayList<LoginHistory> loginList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
             //statment.setString(1, name);
             data = statment.executeQuery();
             
             if(!data.next()){
-                return null;
+                return loginList;
             }
             else{
-                ArrayList<LoginHistory> loginList = new ArrayList<>();
+                
                 
                 do {                    
                     LoginHistory login = new LoginHistory();
-                    login.setID(data.getInt("ID"));
+                    login.setID(data.getInt("LOGIN_ID"));
                     login.setUserID(data.getInt("USER_ID"));
+                    login.setUserName(data.getString("username"));
                     Timestamp date = data.getTimestamp("LOGIN_TIME");
                     String formattedDate = new SimpleDateFormat("yyyyMMdd").format(date);
                     login.setLoginTime(formattedDate);
@@ -532,7 +532,7 @@ public class DatabaseManagment {
                 }
             }
         }
-        return null;
+        return loginList;
     }
 
     /** thêm dữ liệu lịch sử đăng nhập của tài khoản với ID ngay tại lúc gọi hàm này
@@ -561,16 +561,17 @@ public class DatabaseManagment {
     public ArrayList<UserAccount> getAllAccounts(){
         String SELECT_QUERY = "SELECT * FROM USER_ACCOUNT";
         ResultSet data = null;
+        ArrayList<UserAccount> accountList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
             //statment.setString(1, name);
             data = statment.executeQuery();
             
             if(!data.next()){
-                return null;
+                return accountList;
             }
             else{
-                ArrayList<UserAccount> accountList = new ArrayList<>();
+                
                 
                 do {                    
                     UserAccount account = new UserAccount();
@@ -596,7 +597,7 @@ public class DatabaseManagment {
                 }
             }
         }
-        return null;
+        return accountList;
 
     }
 
@@ -604,7 +605,7 @@ public class DatabaseManagment {
      * @return
      */
     public ArrayList<GroupChat> getAllGroupChat(){
-        String SELECT_QUERY = "SELECT * FROM GROUPCHAT";
+        String SELECT_QUERY = "SELECT GC.ID,GC.GROUP_NAME,COUNT(MB.MEMBER_ID) AS SOLUONG,GC.CREATED_AT,GC.ONLINE FROM GROUPCHAT GC INNER JOIN GROUPCHAT_MEMBER MB ON GC.ID = MB.GROUPCHAT_ID GROUP BY GC.ID";
         ResultSet data = null;
         ArrayList<GroupChat> groupList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
@@ -620,7 +621,8 @@ public class DatabaseManagment {
                 do {                    
                     GroupChat group = new GroupChat();
                     group.setID(data.getInt("ID"));
-                    group.setGroupname("GROUP_NAME");
+                    group.setGroupname(data.getString("GROUP_NAME"));
+                    group.setNumberOfMember(data.getInt("soluong"));
                     Timestamp date = data.getTimestamp("CREATED_AT");
                     String formattedDate = new SimpleDateFormat("yyyyMMdd").format(date);
                     group.setCreatedAt(formattedDate);
@@ -645,6 +647,10 @@ public class DatabaseManagment {
         }
         return groupList;
     }
+
+
+    
+
 
 
     public ArrayList<Message> getAllMessageFromUser(int ID){
