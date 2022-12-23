@@ -64,13 +64,14 @@ public class DatabaseManagment {
     /**Thêm một tài khoản vào database
      * @param account
      */
-    public void addNewAccount(UserAccount account){
+    public int addNewAccount(UserAccount account){
         if(account.isEmpty()){
             System.out.println("account information is empty");
-            return;
+            return -1;
         }
         String INSERT_QUERY = "INSERT INTO USER_ACCOUNT(USERNAME,PASSWORD,FULLNAME,ADDRESS,DATE_OF_BIRTH,GENDER,EMAIL,ONLINE)"
          + "VALUES(?,?,?,?,?,?,?,?)";
+
         try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY);) {
             statement.setString(1, account.getUsername());
 
@@ -84,11 +85,17 @@ public class DatabaseManagment {
             statement.setString(7, account.getEmail());
             statement.setBoolean(8, false);
    
-            statement.execute();
+            statement.executeUpdate();
+            ResultSet rs = statement.getGeneratedKeys();
+            rs.next();
+            int id = rs.getInt("ID");
+            return id;
             
         } catch (Exception e) {
             System.out.println(e);
         }
+
+        return -1;
     }
 
     /**Lấy danh sách bạn bè của một account với ID

@@ -121,7 +121,7 @@ for(UserAccount acc : allAccount){
 ### User:
 
 <details>
-    <summary> <b>1. Đăng ký tài khoản &#9733</b> </summary>
+    <summary> <b>1. Đăng ký tài khoản &#x2713</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
@@ -135,7 +135,7 @@ for(UserAccount acc : allAccount){
     </details>
 
 <details>
-    <summary> <b>2. Đăng nhập tài khoản &#9733</b> </summary>
+    <summary> <b>2. Đăng nhập tài khoản &#x2713</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:

@@ -38,19 +38,7 @@ public class Register extends JFrame {
 	private JButton btnRegister;
 	private JLabel lblHavingAcc;
 
-	private int getLargestID(){
-		DatabaseManagment db=DatabaseManagment.getInstance();
-		Connection conn=db.getConnection();
-		try{
-		Statement stmt=conn.createStatement();
-		String query="Select MAX(ID) as LargestID from USER_ACCOUNT;";
-		ResultSet rs=stmt.executeQuery(query);
-		if(rs.next())
-			return rs.getInt("LargestID");
-		}
-		catch (SQLException e){}
-		return -1;
-	}
+	
 
 	// TODO 1: viết hàm đăng ký, kiểm tra các field, thêm vào database
 
@@ -68,12 +56,12 @@ public class Register extends JFrame {
 		else if(repass.equals(password))
 		{
 			result=new UserAccount();
-			result.setID(getLargestID()+1);
 			result.setUsername(username);
 			result.setPassword(password);
 			result.setEmail(email);
 			DatabaseManagment db=DatabaseManagment.getInstance();
-			db.addNewAccount(result);
+			int newID = db.addNewAccount(result);
+			result.setID(newID);
 			return result;
 		}
 
