@@ -248,6 +248,36 @@ public class DatabaseManagment {
         return false;
     }
 
+    public boolean checkAccount(String username, String password){
+        String SELECT_QUERY = "SELECT ID FROM USER_ACCOUNT WHERE USERNAME = '?' AND PASSWORD = '?'";
+        ResultSet data = null;
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+
+            statment.setString(1, username);
+            statment.setString(2, password);
+            data = statment.executeQuery();
+
+            if(!data.next()){
+                return false;
+            }
+            else{
+               return true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
     /** Tìm danh sách account với username bắt đầu bằng name
      * @param name
      * @return ArrayList
