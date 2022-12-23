@@ -17,7 +17,10 @@ import javax.swing.JScrollPane;
 public class ChatMessageDisplay extends JScrollPane{
 
     private Color backgroundColor;
-    private int marginTopBottom;
+    private int marginTopBottom = 10;
+    private int marginLeftRight = 20;
+    private int row;
+    private JPanel messagePanel;
 
     public int getMarginTopBottom() {
         return marginTopBottom;
@@ -34,9 +37,7 @@ public class ChatMessageDisplay extends JScrollPane{
     public void setMarginLeftRight(int marginLeftRight) {
         this.marginLeftRight = marginLeftRight;
     }
-    private int marginLeftRight;
-    private int row;
-    private JPanel messagePanel;
+    
 
     public Color getBackgroundColor() {
         return backgroundColor;
@@ -48,6 +49,8 @@ public class ChatMessageDisplay extends JScrollPane{
     
     
     public ChatMessageDisplay() {
+        marginTopBottom = 10;
+        marginLeftRight = 100;
         initComponent();
         
     }

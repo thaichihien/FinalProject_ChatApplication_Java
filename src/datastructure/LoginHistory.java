@@ -3,6 +3,7 @@ package datastructure;
 public class LoginHistory {
     private int ID;
     private int userID;
+    private String userName;
     private String loginTime;
 
     public LoginHistory() {
@@ -19,11 +20,22 @@ public class LoginHistory {
     }
 
 
+
     public LoginHistory(int ID, int userID, String loginTime) {
         this.ID = ID;
         this.userID = userID;
         this.loginTime = loginTime;
     }
+
+
+    public String getUserName() {
+        return this.userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
 
     public int getID() {
         return this.ID;

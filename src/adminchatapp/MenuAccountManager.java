@@ -16,7 +16,6 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseManagment;
-import datastructure.GroupChat;
 import datastructure.UserAccount;
 import uichatcomponent.SearchBar;
 
@@ -82,6 +81,14 @@ public class MenuAccountManager extends MenuAdminLayout{
 
     public MenuAccountManager(JFrame parentFrame) {
         super(parentFrame);
+        initComponents();
+
+        
+        filltableUserAccount();
+    }
+
+    private void initComponents(){
+        
         tableUserAccount = new JTable();
         sortFilter = new JComboBox<>();
         searchBarFindUser = new SearchBar();
@@ -202,7 +209,6 @@ public class MenuAccountManager extends MenuAdminLayout{
         sortCriteria.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tăng dần", "Giảm dần" }));
         this.add(sortCriteria);
         sortCriteria.setBounds(1080, 50, 150, 40);
-        filltableUserAccount();
     }
     
     

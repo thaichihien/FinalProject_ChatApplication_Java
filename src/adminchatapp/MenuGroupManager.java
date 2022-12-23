@@ -7,13 +7,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseManagment;
 import datastructure.GroupChat;
+import utils.Utils;
 
 
 public class MenuGroupManager extends MenuAdminLayout{
@@ -25,14 +25,7 @@ public class MenuGroupManager extends MenuAdminLayout{
     //TODO 1: nạp dữ liệu từ database vào tableLoginHistory, dựa vào sortFilter
     // để lọc 
     public void filltableGroup(){
-        tableGroup.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-            },
-            new String [] {
-                "Tên nhóm", "Admin", "Số lượng", "Ngày tạo"
-            }
-        ));
-
+        Utils.clearTable(tableGroup);
 
         DatabaseManagment database = DatabaseManagment.getInstance();
         ArrayList<GroupChat> allGroupChat = database.getAllGroupChat();
@@ -41,10 +34,11 @@ public class MenuGroupManager extends MenuAdminLayout{
         for(GroupChat group : allGroupChat){
             String ID = String.valueOf(group.getID());
             String Groupname = group.getGroupname();
+            String number = String.valueOf(group.getNumberOfMember());
             String CreatedAt = group.getCreatedAt();
             String Online = String.valueOf(group.getOnline());
 
-            String row[] = {Groupname,ID,Online,CreatedAt};
+            String row[] = {ID,Groupname,number,CreatedAt,Online};
             tableModel.addRow(row);
         }
     }
@@ -64,13 +58,10 @@ public class MenuGroupManager extends MenuAdminLayout{
 
         tableGroup.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                
             },
             new String [] {
-                "Tên nhóm", "Admin", "Số lượng", "Ngày tạo"
+                "Group ID","Tên nhóm", "Số lượng", "Ngày tạo", "Online"
             }
         ));
         JScrollPane jScrollPane_tableGroup = new JScrollPane();
