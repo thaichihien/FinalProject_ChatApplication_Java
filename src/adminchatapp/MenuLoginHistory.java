@@ -4,12 +4,18 @@
  */
 package adminchatapp;
 
+import java.util.ArrayList;
+
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import database.DatabaseManagment;
+import datastructure.LoginHistory;
 
 /**
  *
@@ -24,12 +30,29 @@ public class MenuLoginHistory extends  MenuAdminLayout{
     //TODO 1: nạp dữ liệu từ database vào tableLoginHistory, dựa vào sortFilter
     // để lọc 
     public void filltableLoginHistory(){
-        
+        tableLoginHistory.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+            },
+            new String [] {
+                "Thời gian đăng nhập", "Tên đăng nhập", "Họ và tên"
+            }
+        ));
+
+        DatabaseManagment database = DatabaseManagment.getInstance();
+
+        ArrayList<LoginHistory> allLogin = database.getAllLoginHistory();
+        // tableFindFriend is JTable
+        DefaultTableModel tableModel = (DefaultTableModel) tableLoginHistory.getModel();
+        for(LoginHistory login : allLogin){
+            String username = String.valueOf(login.getID());
+            String fullname = String.valueOf(login.getUserID());
+            String email = String.valueOf(login.getLoginTime());
+
+            String row[] = {username,fullname,email};
+            tableModel.addRow(row);
+        }
     }
 
-
-
-    
     public MenuLoginHistory(JFrame parentFrame) {
         super(parentFrame);
         tableLoginHistory = new JTable();
@@ -70,6 +93,6 @@ public class MenuLoginHistory extends  MenuAdminLayout{
         sortFilter.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mặc định", "Ngày đăng nhập mới", "Ngày đăng nhập cũ" }));
         this.add(sortFilter);
         sortFilter.setBounds(660, 30, 190, 40);
+        filltableLoginHistory();
     }
-    
 }
