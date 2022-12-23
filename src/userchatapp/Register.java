@@ -11,6 +11,7 @@ import datastructure.UserAccount;
 import javax.swing.JLabel;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JTextField;
@@ -22,6 +23,10 @@ public class Register extends JFrame {
 	private JTextField txtRePass;
 	private JTextField txtPass;
 	private JTextField txtEmail;
+	private JLabel labelUser;
+	private JLabel labelRePass;
+	private JLabel labelEmail;
+	private JLabel labelPass;
 	private JButton btnRegister;
 	private JLabel lblHavingAcc;
 
@@ -96,19 +101,19 @@ public class Register extends JFrame {
             setFont(null);
 		setTitle("Đăng ký tài khoản");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 810, 564);
+		setBounds(100, 100, 810, 650);
 		contentPane = new JPanel();
 		contentPane.setBackground(Color.WHITE);
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
-                setLocationRelativeTo(null);
+ 		setLocationRelativeTo(null);
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		btnRegister = new JButton("Đăng ký");
 		btnRegister.setBackground(Color.BLACK);
 		btnRegister.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnRegister.setBounds(273, 431, 297, 39);
+		btnRegister.setBounds(273, 490, 297, 39);
 		contentPane.add(btnRegister);
 		
 		JLabel lblLogo = new JLabel("");
@@ -124,49 +129,69 @@ public class Register extends JFrame {
 		lblRegister.setFont(new Font("Tahoma", Font.BOLD, 20));
 		lblRegister.setBounds(314, 137, 226, 28);
 		contentPane.add(lblRegister);
+
+		labelUser = new JLabel("Tên đăng nhập");
+		labelUser.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		labelUser.setBounds(273, 170, 226, 28);
+		contentPane.add(labelUser);
 		
 		txtUser = new JTextField();
+		txtUser.setMargin(new Insets(10, 15, 10, 10));
 		txtUser.setBackground(Color.WHITE);
 		txtUser.setForeground(Color.GRAY);
 		txtUser.setHorizontalAlignment(SwingConstants.LEFT);
 		txtUser.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		txtUser.setText("   Tên tài khoản");
-		txtUser.setBounds(273, 186, 297, 48);
+		txtUser.setBounds(273, 195, 297, 48);
 		contentPane.add(txtUser);
 		txtUser.setColumns(10);
+
+		labelRePass = new JLabel("Nhập lại mật khẩu");
+		labelRePass.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		labelRePass.setBounds(273, 395, 226, 28);
+		contentPane.add(labelRePass);
 		
 		txtRePass = new JTextField();
-		txtRePass.setText("   Nhập lại mật khẩu");
+		txtRePass.setMargin(new Insets(10, 15, 10, 10));
 		txtRePass.setHorizontalAlignment(SwingConstants.LEFT);
 		txtRePass.setForeground(Color.GRAY);
 		txtRePass.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtRePass.setColumns(10);
-		txtRePass.setBounds(273, 362, 297, 48);
+		txtRePass.setBounds(273, 420, 297, 48);
 		contentPane.add(txtRePass);
 		
 		lblHavingAcc = new JLabel("Đã có tài khoản");
 		lblHavingAcc.setHorizontalAlignment(SwingConstants.CENTER);
 		lblHavingAcc.setFont(new Font("Tahoma", Font.PLAIN, 15));
-		lblHavingAcc.setBounds(273, 480, 297, 26);
+		lblHavingAcc.setBounds(273, 540, 297, 26);
 		lblHavingAcc.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		contentPane.add(lblHavingAcc);
+
+		labelPass = new JLabel("Mật khẩu");
+		labelPass.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		labelPass.setBounds(273, 320, 226, 28);
+		contentPane.add(labelPass);
 		
 		txtPass = new JTextField();
-		txtPass.setText("   Mật khẩu");
+		txtPass.setMargin(new Insets(10, 15, 10, 10));
 		txtPass.setHorizontalAlignment(SwingConstants.LEFT);
 		txtPass.setForeground(Color.GRAY);
 		txtPass.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtPass.setColumns(10);
-		txtPass.setBounds(273, 304, 297, 48);
+		txtPass.setBounds(273, 345, 297, 48);
 		contentPane.add(txtPass);
+
+		labelUser = new JLabel("Email");
+		labelUser.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		labelUser.setBounds(273, 245, 226, 28);
+		contentPane.add(labelUser);
 		
 		txtEmail = new JTextField();
-		txtEmail.setText("   Email");
+		txtEmail.setMargin(new Insets(10, 15, 10, 10));
 		txtEmail.setHorizontalAlignment(SwingConstants.LEFT);
 		txtEmail.setForeground(Color.GRAY);
 		txtEmail.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtEmail.setColumns(10);
-		txtEmail.setBounds(273, 244, 297, 48);
+		txtEmail.setBounds(273, 270, 297, 48);
 		contentPane.add(txtEmail);
         }
         
