@@ -85,10 +85,10 @@ for(UserAccount acc : allAccount){
 ```
 ## Công việc:
 ### Bên người dùng
-- [ ] Đăng ký tài khoản
-- [ ] Đăng nhập tài khoản
+- [X] Đăng ký tài khoản + (cải tiến mã hóa mật khẩu, UI che mật khẩu)
+- [X] Đăng nhập tài khoản
 - [ ] Quên mật khẩu
-- [ ] Hiển thị danh sách bạn bè
+- [X] Hiển thị danh sách bạn bè
 - [ ] Thêm bạn bè bằng tên đăng nhập
 - [ ] Hủy kết bạn
 - [ ] Tạo nhóm chat
@@ -104,10 +104,10 @@ for(UserAccount acc : allAccount){
 - [ ] Thêm/cập nhật/xoá
 - [ ] Khoá tài khoản
 - [ ] Cập nhật mật khẩu
-- [ ] Xem lịch sử đăng nhập
+- [X] Xem lịch sử đăng nhập
 - [ ] Danh sách bạn bè.
 - [ ] Xem danh sách đăng nhập theo thứ tự thời gian. Thông tin gồm: thời gian, tên đăng nhập, họ tên.
-- [ ] Xem danh sách các nhóm chat
+- [X] Xem danh sách các nhóm chat
 - [ ] Sắp xếp theo tên/thời gian tạo
 - [ ] Xem danh sách thành viên 1 nhóm
 - [ ] Xem danh sách admin 1 nhóm.
