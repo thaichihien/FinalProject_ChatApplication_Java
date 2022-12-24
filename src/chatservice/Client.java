@@ -37,10 +37,17 @@ public class Client {
 
     public void connect(){
 
-            Login loginForm  = new Login();        
-            
+            Login loginForm  = new Login(client,pw,br);        
 
 
+            // try {
+            //     br.close();
+            //     pw.close();
+            //     client.close();
+            // } catch (IOException e) {
+            //     // TODO Auto-generated catch block
+            //     e.printStackTrace();
+            // }
 
     }
 

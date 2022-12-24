@@ -14,6 +14,9 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Insets;
+import java.io.BufferedReader;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JTextField;
@@ -32,6 +35,7 @@ public class Login extends JFrame {
 
 	private JLabel lblUser;
 	private JLabel lblPass;
+	private UserAccount socketTemp;
 
 
 	// TODO 1: Viết hàm đăng nhập, kiểm tra các field, so sánh database
@@ -61,6 +65,12 @@ public class Login extends JFrame {
 
 		UserAccount account = loginAccount();
 		if(account != null){
+			account.setClienSocket(socketTemp.getClienSocket());
+			account.setPw(socketTemp.getPw());
+			account.setBr(socketTemp.getBr());
+
+			// TODO send ID to server
+
 			MainFormUser menuForm = new MainFormUser(account);
 			menuForm.setVisible(true);
 			this.dispose();
@@ -90,24 +100,28 @@ public class Login extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login frame = new Login();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	// public static void main(String[] args) {
+	// 	EventQueue.invokeLater(new Runnable() {
+	// 		public void run() {
+	// 			try {
+	// 				Login frame = new Login();
+	// 				frame.setVisible(true);
+	// 			} catch (Exception e) {
+	// 				e.printStackTrace();
+	// 			}
+	// 		}
+	// 	});
+	// }
 
 	/**
 	 * Create the frame.
 	 */
-	public Login() {
+	public Login(Socket clienSocket,PrintWriter pw,BufferedReader br) {
 		initComponent();
+		socketTemp = new UserAccount();
+		socketTemp.setClienSocket(clienSocket);
+		socketTemp.setPw(pw);
+		socketTemp.setBr(br);
 
 		lblCreateAcc.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {

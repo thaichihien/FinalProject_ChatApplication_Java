@@ -44,11 +44,7 @@ public class Register extends JFrame {
 
 	private UserAccount registerAccount(){
 	// Ok thì trả về account vừa đăng ký ngược lại null rồi làm hiện lỗi tại hàm btnRegisterActionPerformed()
-<<<<<<< HEAD
-		UserAccount result = new UserAccount();
-=======
 		UserAccount newAccount;
->>>>>>> 1cc0cec2f4666cc7677074db242e872913b67a71
 	
 		String username, password, email, repass;
 		username=new String(txtUser.getText());
@@ -252,9 +248,9 @@ public class Register extends JFrame {
         
         
         private void lblHavingAccMouseClicked(java.awt.event.MouseEvent evt) {                                     
-             Login registerForm = new Login();
-             registerForm.setVisible(true);
-             this.dispose(); 
+            //  Login registerForm = new Login();
+            //  registerForm.setVisible(true);
+            //  this.dispose(); 
         }                                    
 
        

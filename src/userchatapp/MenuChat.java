@@ -28,9 +28,7 @@ public class MenuChat extends JPanel{
     private UserAccount user;
 
 
-    // TODO : Viết hàm lấy dữ liệu từ database ==> nạp vào listFriendJlist
-    // ứng với ItemChatAccountUI là một chatbox
-    // HIỆN làm
+    // TODO cải tiến search bạn bè, hiển thị nhóm chat
     public void fillFriendList(){
         HashMap<String,ChatBoxUser> chatAndBox = new HashMap<>();
         ArrayList<UserAccount> onlineUser = database.getFriendArrayListByOnline(user.getID());

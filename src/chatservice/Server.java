@@ -9,7 +9,7 @@ public class Server {
     ServerSocket server;
     final int PORT = 500;
 
-    public static HashMap<String,ClientRoom> clientList = new HashMap<>();
+    public static HashMap<Integer,ClientRoom> clientList = new HashMap<>();
 
     public Server(){
         try {
