@@ -3,9 +3,6 @@
 - [Công việc](#công-việc)
 - [Giải thích package](#giải-thích-package)
 - [Lưu ý](#lưu-ý)
-- [Một số đoạn code mẫu](#một-số-đoạn-code-mẫu)
-- [Công việc](#công-việc)
-- [Phân công](#phân-công)
 
 
 ## Hướng dẫn test UI
@@ -88,10 +85,10 @@ for(UserAccount acc : allAccount){
 ```
 ## Công việc:
 ### Bên người dùng
-- [ ] Đăng ký tài khoản
-- [ ] Đăng nhập tài khoản
+- [X] Đăng ký tài khoản + (cải tiến mã hóa mật khẩu, UI che mật khẩu)
+- [X] Đăng nhập tài khoản
 - [ ] Quên mật khẩu
-- [ ] Hiển thị danh sách bạn bè
+- [X] Hiển thị danh sách bạn bè
 - [ ] Thêm bạn bè bằng tên đăng nhập
 - [ ] Hủy kết bạn
 - [ ] Tạo nhóm chat
@@ -99,15 +96,18 @@ for(UserAccount acc : allAccount){
 - [ ] Thêm thành viên
 - [ ] Gán quyền admin
 - [ ] Xóa thành viên
+- [ ] Xem lịch sử chat
+- [ ] Tìm kiếm lịch sử chat
+- [ ] Xóa lịch sử chat
 ### Bên quản trị
 - [ ] Xem danh sách cho phép lọc theo tên/tên đăng nhập, sắp xếp theo tên/ngày tạo
 - [ ] Thêm/cập nhật/xoá
 - [ ] Khoá tài khoản
 - [ ] Cập nhật mật khẩu
-- [ ] Xem lịch sử đăng nhập
+- [X] Xem lịch sử đăng nhập
 - [ ] Danh sách bạn bè.
 - [ ] Xem danh sách đăng nhập theo thứ tự thời gian. Thông tin gồm: thời gian, tên đăng nhập, họ tên.
-- [ ] Xem danh sách các nhóm chat
+- [X] Xem danh sách các nhóm chat
 - [ ] Sắp xếp theo tên/thời gian tạo
 - [ ] Xem danh sách thành viên 1 nhóm
 - [ ] Xem danh sách admin 1 nhóm.
@@ -121,7 +121,7 @@ for(UserAccount acc : allAccount){
 ### User:
 
 <details>
-    <summary> <b>1. Đăng ký tài khoản &#9733</b> </summary>
+    <summary> <b>1. Đăng ký tài khoản &#x2713</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
@@ -135,7 +135,7 @@ for(UserAccount acc : allAccount){
     </details>
 
 <details>
-    <summary> <b>2. Đăng nhập tài khoản &#9733</b> </summary>
+    <summary> <b>2. Đăng nhập tài khoản &#x2713</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
@@ -179,7 +179,7 @@ for(UserAccount acc : allAccount){
     </details>
     
 <details>
-    <summary> <b>5. Hiển thị danh sách bạn bè ở MenuGroup &#9733</b> </summary>
+    <summary> <b>5. Thực hiện search bạn bè để thêm vào nhóm ở MenuGroup &#9733</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
@@ -264,7 +264,7 @@ for(UserAccount acc : allAccount){
     
 ### Admin:
 <details>
-    <summary> <b>1. Hiển thị danh sách tất cả tài khoản &#9733</b> </summary>
+    <summary> <b>1. Hiển thị danh sách tất cả tài khoản &#x2713</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
@@ -278,7 +278,7 @@ for(UserAccount acc : allAccount){
     </details>
     
 <details>
-    <summary> <b>2. Lọc danh sách tài khoản theo tên, sắp xếp</b> </summary>
+    <summary> <b>2. Lọc danh sách tài khoản theo tên, sắp xếp ở MenuAccountManager &#9733</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
@@ -287,7 +287,7 @@ for(UserAccount acc : allAccount){
             </ul>
         </li>
         <li>File làm việc: /adminchatapp/MenuAccountManager.java</li>
-        <li>Deadline: 23/12/2022</li>
+        <li>Deadline: 25/12/2022</li>
     </ul>
     </details>
     
@@ -306,7 +306,7 @@ for(UserAccount acc : allAccount){
     </details>
     
 <details>
-    <summary> <b>4. Hiển thị danh sách đăng nhập theo thứ tự thời gian &#9733</b> </summary>
+    <summary> <b>4. Hiển thị danh sách đăng nhập theo thứ tự thời gian &#x2713</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
@@ -320,7 +320,7 @@ for(UserAccount acc : allAccount){
     </details>
     
 <details>
-    <summary> <b>5. Hiển thị danh sách tất cả các nhóm chat &#9733</b> </summary>
+    <summary> <b>5. Hiển thị danh sách tất cả các nhóm chat &#x2713</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
@@ -330,5 +330,19 @@ for(UserAccount acc : allAccount){
         </li>
         <li>File làm việc: /adminchatapp/MenuGroupManager.java</li>
         <li>Deadline: 22/12/2022</li>
+    </ul>
+    </details>
+    
+<details>
+    <summary> <b>6. Thực hiện lọc dữ liệu ở MenuGroupManager, MenuLoginHistory &#9733</b> </summary>
+    <ul>
+        <li>Người làm: </li>
+        <li>Mô tả:
+            <ul>
+                <li>Hiển thị danh sách các nhóm chat</li>
+            </ul>
+        </li>
+        <li>File làm việc: /adminchatapp/MenuGroupManager.java và MenuLoginHistory.java</li>
+        <li>Deadline: 25/12/2022</li>
     </ul>
     </details>

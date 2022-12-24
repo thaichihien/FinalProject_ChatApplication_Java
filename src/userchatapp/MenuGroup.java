@@ -1,6 +1,8 @@
 
 package userchatapp;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -25,10 +27,15 @@ public class MenuGroup extends JPanel{
     JButton cancelButton;
     JButton createGroupButton;
     JButton addToGroupButton;
-    SearchBar searchBarFriend;
+    SearchBar searchBarFriend;  // khi đang nhập nhấn enter để tìm
     UserAccount user;
 
     
+    // TODO 2: cải tiến hàm dựa vào searchBarFriend
+    // searchBarFriend trả về chuỗi rỗng thì nạp hết như bình thường
+    // sử dụng database.searchFriendList(int ID,String name)
+    // trong đó: + ID là user.getID() (ID của người dùng hiện tại)
+    //             + name là tên người bạn muôn tìm để thêm vào nhóm
 
     public void filltableListFriend(){
     	DatabaseManagment database = DatabaseManagment.getInstance();
@@ -41,7 +48,7 @@ public class MenuGroup extends JPanel{
     	    String online = String.valueOf(friend.getOnline());  
     	    String row[] = {username,email, online};
     	    tableModel.addRow(row);
-//    		System.out.println(group.getGroupname());
+
     	}
     }
 
@@ -55,6 +62,17 @@ public class MenuGroup extends JPanel{
     public MenuGroup(UserAccount account) {
        initComponent();
        this.user = account;
+
+       searchBarFriend.addActionListener(new ActionListener(){
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            filltableListFriend();
+            
+        }
+
+       });
+
        filltableListFriend();
 
         

@@ -6,6 +6,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -27,7 +28,7 @@ public class DatabaseManagment {
         return conn;
     }
 
-    public DatabaseManagment(){
+    private DatabaseManagment(){
         try {
             String databaseName = DatabaseConfig.databaseName;
             //Class.forName("org.postgresql.Driver");
@@ -43,6 +44,9 @@ public class DatabaseManagment {
         }
     }
 
+
+    // Gọi database bằng cách dùng hàm getInstance()
+    // Ex: DatabaseManagement database = DatabaseManagment.getInstance()
     public static DatabaseManagment getInstance(){
         if(instance == null){
             synchronized (DatabaseManagment.class){
@@ -61,13 +65,14 @@ public class DatabaseManagment {
     /**Thêm một tài khoản vào database
      * @param account
      */
-    public void addNewAccount(UserAccount account){
+    public int addNewAccount(UserAccount account){
         if(account.isEmpty()){
             System.out.println("account information is empty");
-            return;
+            return -1;
         }
         String INSERT_QUERY = "INSERT INTO USER_ACCOUNT(USERNAME,PASSWORD,FULLNAME,ADDRESS,DATE_OF_BIRTH,GENDER,EMAIL,ONLINE)"
          + "VALUES(?,?,?,?,?,?,?,?)";
+
         try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY);) {
             statement.setString(1, account.getUsername());
 
@@ -77,17 +82,55 @@ public class DatabaseManagment {
             statement.setString(4, account.getAddress());
             SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
             statement.setDate(5, new java.sql.Date(formatter.parse(account.getBirthDay()).getTime()));
-            if(account.isMale()) statement.setString(6, "Male");
-            else  statement.setString(6, "Female");
+            statement.setString(6, account.getGender());
             statement.setString(7, account.getEmail());
             statement.setBoolean(8, false);
    
-            statement.execute();
+            statement.executeUpdate();
+            ResultSet rs = statement.getGeneratedKeys();
+            rs.next();
+            int id = rs.getInt("ID");
+            return id;
             
         } catch (Exception e) {
             System.out.println(e);
         }
+
+        return -1;
     }
+
+    /**đăng ký một tài khoản vào database không cần đầy đủ các trường
+     * @param account
+     */
+    public int registerNewAccount(UserAccount account){
+        if(account.isEmpty()){
+            System.out.println("account information is empty");
+            return -1;
+        }
+        String INSERT_QUERY = "INSERT INTO USER_ACCOUNT(USERNAME,PASSWORD,EMAIL,ONLINE)"
+         + "VALUES(?,?,?,?)";
+
+        try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);) {
+            statement.setString(1, account.getUsername());
+
+            //TODO encrypt password
+            statement.setString(2, account.getPassword());
+            statement.setString(3, account.getEmail());
+            statement.setBoolean(4, true);
+   
+            statement.executeUpdate();
+            ResultSet rs = statement.getGeneratedKeys();
+            rs.next();
+            int id = rs.getInt("ID");
+            return id;
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+        return -1;
+    }
+
 
     /**Lấy danh sách bạn bè của một account với ID
      * @param ID
@@ -96,16 +139,17 @@ public class DatabaseManagment {
     public ArrayList<UserAccount> getFriendArrayList(int ID){
         String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE UF.ID = ?";
         ResultSet data = null;
+        ArrayList<UserAccount> friendList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
             statment.setInt(1, ID);
             data = statment.executeQuery();
             
             if(!data.next()){
-                return null;
+                return friendList;
             }
             else{
-                ArrayList<UserAccount> friendList = new ArrayList<>();
+               
                 
                 do {                    
                     UserAccount account = new UserAccount();
@@ -131,22 +175,23 @@ public class DatabaseManagment {
                 }
             }
         }
-        return null;
+        return friendList;
     }
 
     public ArrayList<UserAccount> getFriendArrayListByOnline(int ID){
         String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE UF.ID = ? ORDER BY UA.ONLINE DESC";
         ResultSet data = null;
+        ArrayList<UserAccount> friendList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
             statment.setInt(1, ID);
             data = statment.executeQuery();
             
             if(!data.next()){
-                return null;
+                return friendList;
             }
             else{
-                ArrayList<UserAccount> friendList = new ArrayList<>();
+                
                 
                 do {                    
                     UserAccount account = new UserAccount();
@@ -172,7 +217,7 @@ public class DatabaseManagment {
                 }
             }
         }
-        return null;
+        return friendList;
     }
 
 
@@ -249,6 +294,36 @@ public class DatabaseManagment {
         return false;
     }
 
+    public boolean checkAccount(String username, String password){
+        String SELECT_QUERY = "SELECT ID FROM USER_ACCOUNT WHERE USERNAME = ? AND PASSWORD = ?";
+        ResultSet data = null;
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+
+            statment.setString(1, username);
+            statment.setString(2, password);
+            data = statment.executeQuery();
+
+            if(!data.next()){
+                return false;
+            }
+            else{
+               return true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
     /** Tìm danh sách account với username bắt đầu bằng name
      * @param name
      * @return ArrayList
@@ -256,16 +331,17 @@ public class DatabaseManagment {
     public ArrayList<UserAccount> searchAccounts(String name){
         String SELECT_QUERY = "SELECT * FROM USER_ACCOUNT WHERE USERNAME LIKE '?%'";
         ResultSet data = null;
+        ArrayList<UserAccount> accountList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
             statment.setString(1, name);
             data = statment.executeQuery();
             
             if(!data.next()){
-                return null;
+                return accountList;
             }
             else{
-                ArrayList<UserAccount> accountList = new ArrayList<>();
+                
                 
                 do {                    
                     UserAccount account = new UserAccount();
@@ -291,7 +367,7 @@ public class DatabaseManagment {
                 }
             }
         }
-        return null;
+        return accountList;
     }
 
     /** Tìm các tài khoản có username bắt đầu bằng name nằm trong danh sách bạn bè của tài khoản với ID
@@ -300,18 +376,20 @@ public class DatabaseManagment {
      * @return ArrayList
      */
     public ArrayList<UserAccount> searchFriendList(int ID,String name){
-        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE UF.ID = ? AND UA.USERNAME LIKE '?%'";
+        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE UF.ID = ? AND UA.USERNAME LIKE ? OR UA.FULLNAME LIKE ?";
         ResultSet data = null;
+        ArrayList<UserAccount> accountList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             statment.setInt(1, ID);
-            statment.setString(2, name);
+            statment.setString(2, "%" + name + "%");
+            statment.setString(3, "%" + name + "%");
             data = statment.executeQuery();
             
             if(!data.next()){
-                return null;
+                return accountList;
             }
             else{
-                ArrayList<UserAccount> accountList = new ArrayList<>();
+                
                 
                 do {                    
                     UserAccount account = new UserAccount();
@@ -337,7 +415,7 @@ public class DatabaseManagment {
                 }
             }
         }
-        return null;
+        return accountList;
     }
 
     /** Tìm các tài khoản có username bắt đầu bằng name KHÔNG nằm trong danh sách bạn bè của tài khoản với ID
@@ -348,16 +426,17 @@ public class DatabaseManagment {
     public ArrayList<UserAccount> searchAccountsNotFriend(int ID,String name){
         String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE NOT UF.ID = ? AND UA.USERNAME LIKE '?%'";
         ResultSet data = null;
+        ArrayList<UserAccount> accountList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             statment.setInt(1, ID);
             statment.setString(2, name);
             data = statment.executeQuery();
             
             if(!data.next()){
-                return null;
+                return accountList;
             }
             else{
-                ArrayList<UserAccount> accountList = new ArrayList<>();
+               
                 
                 do {                    
                     UserAccount account = new UserAccount();
@@ -383,7 +462,7 @@ public class DatabaseManagment {
                 }
             }
         }
-        return null;
+        return accountList;
     }
 
 
@@ -395,15 +474,16 @@ public class DatabaseManagment {
     public ArrayList<Integer> searchGroupIDFromUser(int ID){
         String SELECT_QUERY = "SELECT GROUPCHAT_ID FROM GROUPCHAT_MEMBER WHERE MEMBER_ID = ?";
         ResultSet data = null;
+        ArrayList<Integer> allGroupID = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             statment.setInt(1, ID);
             data = statment.executeQuery();
             
             if(!data.next()){
-                return null;
+                return allGroupID;
             }
             else{
-                ArrayList<Integer> allGroupID = new ArrayList<>();
+                
                 
                 do {                    
                     int groupID = data.getInt("GROUPCHAT_ID");
@@ -425,7 +505,7 @@ public class DatabaseManagment {
                 }
             }
         }
-        return null;
+        return allGroupID;
     }
 
     /** Thêm một nhóm chat vào database
@@ -539,6 +619,50 @@ public class DatabaseManagment {
         return loginList;
     }
 
+    public ArrayList<LoginHistory> getAllLoginHistory(String sort,String by){
+        String SELECT_QUERY = "SELECT LH.*,UA.USERNAME FROM LOGIN_HISTORY LH INNER JOIN USER_ACCOUNT UA ON LH.USER_ID = UA.ID ORDER BY " + sort + " " + by ;
+        ResultSet data = null;
+        ArrayList<LoginHistory> loginList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            //statment.setString(1, name);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return loginList;
+            }
+            else{
+                
+                
+                do {                    
+                    LoginHistory login = new LoginHistory();
+                    login.setID(data.getInt("LOGIN_ID"));
+                    login.setUserID(data.getInt("USER_ID"));
+                    login.setUserName(data.getString("username"));
+                    Timestamp date = data.getTimestamp("LOGIN_TIME");
+                    String formattedDate = new SimpleDateFormat("yyyyMMdd").format(date);
+                    login.setLoginTime(formattedDate);
+                    loginList.add(login);
+                    
+                } while (data.next());
+                return loginList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return loginList;
+    }
+
     /** thêm dữ liệu lịch sử đăng nhập của tài khoản với ID ngay tại lúc gọi hàm này
      * @param ID
      */
@@ -582,6 +706,14 @@ public class DatabaseManagment {
                     account.setID(data.getInt("ID"));
                     account.setUsername(data.getString("USERNAME"));
                     account.setFullname(data.getString("FULLNAME"));
+                    account.setAddress(data.getString("address"));
+                    Date birthDay = data.getDate("date_of_birth");
+                    account.setBirthDay(birthDay.toString());
+                    account.setGender(data.getString("Gender"));
+                    account.setEmail(data.getString("email"));
+                    Timestamp createdAt = data.getTimestamp("created_at");
+                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(createdAt);
+                    account.setCreatedAt(formattedDate);
                     account.setOnline(data.getBoolean("ONLINE"));
                     accountList.add(account);
                     
@@ -604,6 +736,77 @@ public class DatabaseManagment {
         return accountList;
 
     }
+
+    // ! FIX COLUMN VARIABLE
+    public ArrayList<UserAccount> getAllAccounts(String name,String sort,String by){
+        
+        String SELECT_QUERY = "SELECT * FROM USER_ACCOUNT WHERE USERNAME LIKE ? OR FULLNAME LIKE ?  ORDER BY " + sort + " " + by;
+        if(sort == null && name == null){
+            SELECT_QUERY = "SELECT * FROM USER_ACCOUNT";
+        }
+        else if(sort != null && name == null){
+            SELECT_QUERY = "SELECT * FROM USER_ACCOUNT ORDER BY " + sort + " " + by;
+        }
+        else if(name != null && sort == null){
+            SELECT_QUERY = "SELECT * FROM USER_ACCOUNT WHERE USERNAME LIKE ? OR FULLNAME LIKE ?";
+        }
+
+
+        ResultSet data = null;
+        ArrayList<UserAccount> accountList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            if(name != null){
+                statment.setString(1, "%" + name + "%");
+                statment.setString(2, "%" + name + "%");
+            }
+            
+
+
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return accountList;
+            }
+            else{
+                
+                
+                do {                    
+                    UserAccount account = new UserAccount();
+                    account.setID(data.getInt("ID"));
+                    account.setUsername(data.getString("USERNAME"));
+                    account.setFullname(data.getString("FULLNAME"));
+                    account.setAddress(data.getString("address"));
+                    Date birthDay = data.getDate("date_of_birth");
+                    account.setBirthDay(birthDay.toString());
+                    account.setGender(data.getString("Gender"));
+                    account.setEmail(data.getString("email"));
+                    Timestamp createdAt = data.getTimestamp("created_at");
+                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(createdAt);
+                    account.setCreatedAt(formattedDate);
+                    account.setOnline(data.getBoolean("ONLINE"));
+                    accountList.add(account);
+                    
+                } while (data.next());
+                return accountList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return accountList;
+
+    }
+
 
     /** lấy tất cả các nhóm chat có trong database
      * @return
@@ -628,7 +831,7 @@ public class DatabaseManagment {
                     group.setGroupname(data.getString("GROUP_NAME"));
                     group.setNumberOfMember(data.getInt("soluong"));
                     Timestamp date = data.getTimestamp("CREATED_AT");
-                    String formattedDate = new SimpleDateFormat("yyyyMMdd").format(date);
+                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(date);
                     group.setCreatedAt(formattedDate);
                     group.setOnline(data.getBoolean("ONLINE"));
                     groupList.add(group);
@@ -652,21 +855,35 @@ public class DatabaseManagment {
         return groupList;
     }
 
-    public boolean checkAccount(String username, String password){
-        String SELECT_QUERY = "SELECT ID FROM USER_ACCOUNT WHERE USERNAME = '?' AND PASSWORD = '?'";
+    public ArrayList<GroupChat> getAllGroupChat(String sort,String by){
+        String SELECT_QUERY = "SELECT GC.ID,GC.GROUP_NAME,COUNT(MB.MEMBER_ID) AS SOLUONG,GC.CREATED_AT,GC.ONLINE FROM GROUPCHAT GC INNER JOIN GROUPCHAT_MEMBER MB ON GC.ID = MB.GROUPCHAT_ID GROUP BY GC.ID ORDER BY " + sort + " " + by;
         ResultSet data = null;
+        ArrayList<GroupChat> groupList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
-            statment.setString(1, username);
-            statment.setString(2, password);
+            //statment.setString(1, name);
             data = statment.executeQuery();
             
             if(!data.next()){
-                return false;
+                return groupList;
             }
             else{
-               return true;
+                
+                do {                    
+                    GroupChat group = new GroupChat();
+                    group.setID(data.getInt("ID"));
+                    group.setGroupname(data.getString("GROUP_NAME"));
+                    group.setNumberOfMember(data.getInt("soluong"));
+                    Timestamp date = data.getTimestamp("CREATED_AT");
+                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(date);
+                    group.setCreatedAt(formattedDate);
+                    group.setOnline(data.getBoolean("ONLINE"));
+                    groupList.add(group);
+                    
+                } while (data.next());
+                return groupList;
             }
+            
             
         } catch (SQLException e) {
             e.printStackTrace();
@@ -679,9 +896,8 @@ public class DatabaseManagment {
                 }
             }
         }
-        return false;
+        return groupList;
     }
-
     
 
 

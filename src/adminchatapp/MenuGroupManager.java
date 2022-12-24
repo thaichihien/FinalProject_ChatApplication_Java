@@ -1,6 +1,8 @@
 
 package adminchatapp;
 
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -22,8 +24,14 @@ public class MenuGroupManager extends MenuAdminLayout{
     JComboBox<String> sortFilter;
     JButton viewDetailGroupButton;
 
-    //TODO 1: nạp dữ liệu từ database vào tableLoginHistory, dựa vào sortFilter
-    // để lọc 
+
+    //TODO 2: cải tiến lần này kiểm tra sortFilter có 3 giá trị:
+    //- Mặc định: nạp tất cả bình thường
+    // - Tên nhóm: sort theo tên nhóm tăng dần 
+    //- Thời gian tạo: sort thêm thời gian lâu nhất
+    // Sử dụng database.getAllGroupChat(String sort,String by):
+    // + sort: chỉ chấp nhận giá trị "GROUP_NAME","CREATED_AT"
+    //+ by: chỉ chấp nhận giá trị "ASC","DESC"
     public void filltableGroup(){
         Utils.clearTable(tableGroup);
 
@@ -47,6 +55,22 @@ public class MenuGroupManager extends MenuAdminLayout{
     
     public MenuGroupManager(JFrame parentFrame) {
         super(parentFrame);
+        initComponents();
+
+        sortFilter.addItemListener(new ItemListener(){
+
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+               filltableGroup();
+                
+            }
+            
+        });
+
+        filltableGroup();
+    }
+
+    private void initComponents(){
         tableGroup = new JTable();
         sortFilter = new JComboBox<>();
         viewDetailGroupButton = new JButton();
@@ -95,7 +119,6 @@ public class MenuGroupManager extends MenuAdminLayout{
         });
         this.add(viewDetailGroupButton);
         viewDetailGroupButton.setBounds(1040, 30, 180, 40);
-        filltableGroup();
     }
     
     private void viewDetailGroupButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                      
