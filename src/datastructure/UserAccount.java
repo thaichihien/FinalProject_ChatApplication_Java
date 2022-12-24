@@ -30,9 +30,9 @@ public class UserAccount {
 
     public boolean isEmpty(){
         if(username.isEmpty() || password.isEmpty() || email.isEmpty()){
-            return false;
+            return true;
         }
-        else return true;
+        else return false;
     }
 
 

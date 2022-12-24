@@ -41,8 +41,7 @@ public class Login extends JFrame {
 			return null;
 		else {
 			DatabaseManagment db=DatabaseManagment.getInstance();
-			boolean result=db.checkAccount(username, password);
-			if (result==true)
+			if (db.checkAccount(username, password))
 			{
 				UserAccount account=new UserAccount();
 				account.setUsername(username);
@@ -65,18 +64,18 @@ public class Login extends JFrame {
 		else{
 			//TODO 2: Hiện lỗi tại đây cho người, recommend dùng JOptionPane;
 			// Xử lý lỗi : in lỗi người dùng nhập sai ở đâu ...
-			JFrame frame = new JFrame("Error");
-			frame.setSize(200, 200);
-			frame.setLocationRelativeTo(null);
-			frame.setVisible(true);
+			// JFrame frame = new JFrame("Error");
+			// frame.setSize(200, 200);
+			// frame.setLocationRelativeTo(null);
+			// frame.setVisible(true);
 
 			String username,password;
-		username=new String(txtUser.getText());
-		password=new String(txtPass.getText());
+			username=new String(txtUser.getText());
+			password=new String(txtPass.getText());
 			if(username.isBlank()||password.isBlank())
-				JOptionPane.showMessageDialog(frame,"Please enter all required fields!");
+				JOptionPane.showMessageDialog(null,"Please enter all required fields!");
 			else {
-				JOptionPane.showMessageDialog(frame,"Your username or password is incorrect!");
+				JOptionPane.showMessageDialog(null,"Your username or password is incorrect!");
 			}
 		}
 	
