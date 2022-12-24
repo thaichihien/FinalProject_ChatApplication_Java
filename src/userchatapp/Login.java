@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.Insets;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JTextField;
@@ -28,6 +29,9 @@ public class Login extends JFrame {
 
 	private JLabel lblCreateAcc;	// nút tạo acc
 	private JLabel lblForgetPass;	// nút quên mật khẩu
+
+	private JLabel lblUser;
+	private JLabel lblPass;
 
 
 	// TODO 1: Viết hàm đăng nhập, kiểm tra các field, so sánh database
@@ -158,13 +162,18 @@ public class Login extends JFrame {
 		lblLogin.setBounds(313, 156, 226, 28);
 		contentPane.add(lblLogin);
 
+		lblUser = new JLabel("Tên đăng nhập");
+		lblUser.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		lblUser.setBounds(272, 190, 226, 28);
+		contentPane.add(lblUser);
+
 		txtUser = new JTextField();
+		txtUser.setMargin(new Insets(10, 15, 10, 10));
 		txtUser.setBackground(Color.WHITE);
 		txtUser.setForeground(Color.GRAY);
 		txtUser.setHorizontalAlignment(SwingConstants.LEFT);
 		txtUser.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		txtUser.setText("   Tên tài khoản");
-		txtUser.setBounds(272, 209, 297, 48);
+		txtUser.setBounds(272, 215, 297, 48);
 		contentPane.add(txtUser);
 		txtUser.setColumns(10);
 
@@ -172,16 +181,21 @@ public class Login extends JFrame {
 		chckbxRememberPass.setForeground(Color.GRAY);
 		chckbxRememberPass.setBackground(Color.WHITE);
 		chckbxRememberPass.setFont(new Font("Tahoma", Font.PLAIN, 16));
-		chckbxRememberPass.setBounds(272, 335, 297, 39);
+		chckbxRememberPass.setBounds(272, 340, 297, 39);
 		contentPane.add(chckbxRememberPass);
 
+		lblUser = new JLabel("Mật khẩu");
+		lblUser.setFont(new Font("Tahoma", Font.ITALIC, 12));
+		lblUser.setBounds(270, 265, 226, 28);
+		contentPane.add(lblUser);
+
 		txtPass = new JTextField();
-		txtPass.setText("   Mật khẩu");
+		txtPass.setMargin(new Insets(10, 15, 10, 10));
 		txtPass.setHorizontalAlignment(SwingConstants.LEFT);
 		txtPass.setForeground(Color.GRAY);
 		txtPass.setFont(new Font("Tahoma", Font.PLAIN, 16));
 		txtPass.setColumns(10);
-		txtPass.setBounds(272, 281, 297, 48);
+		txtPass.setBounds(272, 290, 297, 48);
 		contentPane.add(txtPass);
 
 		lblCreateAcc = new JLabel("Tạo tài khoản mới");

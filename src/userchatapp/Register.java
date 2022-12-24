@@ -56,7 +56,7 @@ public class Register extends JFrame {
 
 	private UserAccount registerAccount(){
 	// Ok thì trả về account vừa đăng ký ngược lại null rồi làm hiện lỗi tại hàm btnRegisterActionPerformed()
-		UserAccount result=new UserAccount();
+		UserAccount result = new UserAccount();
 	
 		String username, password, email, repass;
 		username=new String(txtUser.getText());
