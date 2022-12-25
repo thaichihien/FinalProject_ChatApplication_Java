@@ -6,6 +6,8 @@ package uichatcomponent;
 
 import javax.swing.JButton;
 
+import datastructure.UserAccount;
+
 /**
  *
  * @author HIEN
@@ -14,7 +16,8 @@ public class ChatBoxGroup extends ChatBoxLayout{
 
     private JButton viewGroupInforButton;
     
-    public ChatBoxGroup(String groupName,boolean isOnline) {
+    public ChatBoxGroup(UserAccount me,String groupName,boolean isOnline) {
+        super(me);
         nameJLabel.setText(groupName);
         setStatusHeader(isOnline);
         viewGroupInforButton = new JButton();

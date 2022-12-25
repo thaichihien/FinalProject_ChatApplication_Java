@@ -1,7 +1,13 @@
 
 package uichatcomponent;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import datastructure.UserAccount;
 
 /**
  *
@@ -9,9 +15,23 @@ package uichatcomponent;
  */
 public class ChatBoxUser extends ChatBoxLayout{
 
-    public ChatBoxUser(String name,Boolean isOnline) {
-        nameJLabel.setText(name);
-        setStatusHeader(isOnline);
+    UserAccount other;
+
+    private void sendButtonActionPerformed(ActionEvent e){
+        String message = inputChatTextArea.getText();
+        //ZonedDateTime  myDateObj = ZonedDateTime.now( ZoneId.of("Asia/Ho_Chi_Minh")); 
+        Timestamp sendTime =new Timestamp(new Date().getTime());
+        String formattedsendTime = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(sendTime);
+        addMessage(new ChatMessageBlock(user.getUsername(), formattedsendTime, ChatMessageBlock.MINE, message));
+        inputChatTextArea.setText("");
+        // TODO send to server to a friend
+    }
+
+    public ChatBoxUser(UserAccount me,UserAccount other) {
+        super(me);
+        this.other = other;
+        nameJLabel.setText(other.getUsername());
+        setStatusHeader(other.isOnline());
         
         javax.swing.GroupLayout headerChatLayoutLayout = new javax.swing.GroupLayout(headerJPanel);
         headerJPanel.setLayout(headerChatLayoutLayout);
@@ -41,6 +61,13 @@ public class ChatBoxUser extends ChatBoxLayout{
         );
         
         createInput(this);
+        sendButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendButtonActionPerformed(e);
+                
+            }
+       });
         
 //        inputChatTextArea.setColumns(20);
 //        inputChatTextArea.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N

@@ -35,7 +35,7 @@ public class MenuChat extends JPanel{
         ArrayList<Message> allChat = database.getAllMessageFromUser(user.getID());
         for(UserAccount account : onlineUser){
             ItemChatAccount chatAccount = new ItemChatAccount(account.getID(),account.getUsername(),account.getOnline());
-            ChatBoxUser chatBoxUser = new ChatBoxUser(chatAccount.getName(),chatAccount.getStatus());
+            ChatBoxUser chatBoxUser = new ChatBoxUser(user,account);
             listFriendJlist.addItem(chatAccount);
             chatLayout.addTab(chatAccount.getName(), chatBoxUser);
             String chatBoxID = ChatBoxUser.createChatBoxUserID(user.getID(), account.getID());
