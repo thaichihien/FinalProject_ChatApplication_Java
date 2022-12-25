@@ -9,13 +9,14 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 import chatservice.ChatService;
+import datastructure.Message;
 import datastructure.UserAccount;
 
 /**
  *
  * @author HIEN
  */
-public class ChatBoxUser extends ChatBoxLayout implements Runnable{
+public class ChatBoxUser extends ChatBoxLayout{
 
     UserAccount other;
 
@@ -31,16 +32,7 @@ public class ChatBoxUser extends ChatBoxLayout implements Runnable{
         user.sendPacket(packetSend);
     }
 
-    @Override
-    public void run() {
-       while (true) {
-            String receiveMessage = user.receivePacket();
-            System.out.println(receiveMessage);
-            String[] allMessage = ChatService.packetAnalysis(receiveMessage);
-            // ID#time#message
-            addMessage(new ChatMessageBlock(other.getUsername(), allMessage[2], ChatMessageBlock.OTHER, allMessage[3]));
-       }
-    }
+    
 
     public ChatBoxUser(UserAccount me,UserAccount other) {
         super(me);
@@ -84,8 +76,7 @@ public class ChatBoxUser extends ChatBoxLayout implements Runnable{
             }
        });
         
-       Thread receiveMessageProcess = new Thread(this);
-       receiveMessageProcess.start();
+      
     }
 
     public static String createChatBoxUserID(int firstID,int secondID){
@@ -101,7 +92,9 @@ public class ChatBoxUser extends ChatBoxLayout implements Runnable{
         return ID1 + "-" + ID2;
     }
 
-   
+   public void addMessage(Message message){
+        this.addMessage(new ChatMessageBlock(other.getUsername(), message.getDateSend(), ChatMessageBlock.OTHER, message.getContent()));
+   }
     
    
     

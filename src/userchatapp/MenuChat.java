@@ -9,6 +9,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ListSelectionEvent;
 
+import chatservice.ChatService;
 import database.DatabaseManagment;
 import datastructure.Message;
 import datastructure.UserAccount;
@@ -19,18 +20,19 @@ import uichatcomponent.ListItemChatAccount;
 import uichatcomponent.SearchBar;
 
 
-public class MenuChat extends JPanel{
+public class MenuChat extends JPanel implements Runnable{
     
     public SearchBar searchBarFriendList;
     public ListItemChatAccount<String> listFriendJlist;
     public JTabbedPane chatLayout;
     private DatabaseManagment database;
     private UserAccount user;
+    private HashMap<String,ChatBoxUser> chatAndBox;
 
 
     // TODO cải tiến search bạn bè, hiển thị nhóm chat
     public void fillFriendList(){
-        HashMap<String,ChatBoxUser> chatAndBox = new HashMap<>();
+        
         ArrayList<UserAccount> onlineUser = database.getFriendArrayListByOnline(user.getID());
         ArrayList<Message> allChat = database.getAllMessageFromUser(user.getID());
         for(UserAccount account : onlineUser){
@@ -59,22 +61,42 @@ public class MenuChat extends JPanel{
         
     }
 
+    @Override
+    public void run() {
+       while (true) {
+            String receiveMessage = user.receivePacket();
+            System.out.println(receiveMessage);
+            String[] allMessage = ChatService.packetAnalysis(receiveMessage);
+            // chat#ID#time#message
+            // TODO handle messgae from mutiple source => display to right chatbox
+            String chatBoxID = ChatBoxUser.createChatBoxUserID(user.getID(), Integer.parseInt(allMessage[1]));
+            ChatBoxUser chatBoxToDisplay = chatAndBox.get(chatBoxID);
+            Message newMessage = new Message();
+            newMessage.setDateSend(allMessage[2]);
+            newMessage.setContent(allMessage[3]);
+            chatBoxToDisplay.addMessage(newMessage);
+       }
+    }
 
     
     public MenuChat(UserAccount account) {
         initComponents();
         user = account;
         database = DatabaseManagment.getInstance();
-
+        chatAndBox = new HashMap<>();
         fillFriendList();
+
+        Thread receiveMessageProcess = new Thread(this);
+        receiveMessageProcess.start();
     }
 
     private void initComponents(){
+        
         this.setBackground(new java.awt.Color(255, 255, 255));
         this.setLayout(null);
         searchBarFriendList = new SearchBar();
         chatLayout = new JTabbedPane();
-        chatLayout.setBounds(410, -30, 880, 880);
+        chatLayout.setBounds(410, -30, 880, 880);   
         
         JPanel sidePanel = new JPanel();
         sidePanel.setBackground(new java.awt.Color(235, 235, 235));

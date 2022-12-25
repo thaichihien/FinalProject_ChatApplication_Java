@@ -109,7 +109,7 @@ public class ClientRoom extends Thread {
                 PrintWriter pw = new PrintWriter(new OutputStreamWriter(clientOut, "UTF-8"), true);
                 String timeSend = allMessage[2];
                 String messageSend = allMessage[3];
-                String packetSend = ChatService.createPacket(ChatService.CHAT, IDtoSend, messageSend, timeSend);
+                String packetSend = ChatService.createPacket(ChatService.CHAT, ID, messageSend, timeSend);
                 System.out.println(packetSend);
                 pw.println(packetSend);
             }
