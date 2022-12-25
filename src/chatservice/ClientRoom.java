@@ -35,8 +35,10 @@ public class ClientRoom extends Thread {
         InputStream clientIn = clientSocket.getInputStream();
         BufferedReader br_getID = new BufferedReader(new InputStreamReader(clientIn,"UTF-8"));
         
+        OutputStream validateOut = this.clientSocket.getOutputStream();
+        PrintWriter pwValidate = new PrintWriter(new OutputStreamWriter(validateOut, "UTF-8"), true);
 
-
+        
 
         String idFromClient = "";
         int idConverted = -1;
@@ -45,8 +47,12 @@ public class ClientRoom extends Thread {
             idConverted = Integer.parseInt(idFromClient);
             if(Server.clientList.containsKey(idConverted)){
                 System.out.println("This ID is already online");
+                String ans = "IDEXIST";
+                pwValidate.println(ans);
             }
             else{
+                String ans = "OK";
+                pwValidate.println(ans);
                 break;
             }
            

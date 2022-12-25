@@ -36,7 +36,7 @@ public class MenuAddFriend extends JPanel{
 
     }
 
-    // TODO 2: Tạo kết bạn với tài khoản với id
+    
     public void addNewFriend(int id){
 
     }
@@ -50,7 +50,7 @@ public class MenuAddFriend extends JPanel{
 
     }
 
-    //TODO 4: Thực hiện hủy kết bạn
+    
     public void unfriend(int id){
         
     }

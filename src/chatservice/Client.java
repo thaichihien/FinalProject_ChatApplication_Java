@@ -11,6 +11,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.InetAddress;
 import java.net.Socket;
 
+import javax.swing.SwingUtilities;
+
 import userchatapp.Login;
 
 public class Client {
@@ -37,7 +39,7 @@ public class Client {
 
     public void connect(){
 
-            Login loginForm  = new Login(client,pw,br);        
+              
 
 
             // try {
@@ -48,6 +50,14 @@ public class Client {
             //     // TODO Auto-generated catch block
             //     e.printStackTrace();
             // }
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    System.out.println("Into login");
+                    Login loginForm  = new Login(client,pw,br);   
+                    loginForm.setVisible(true);  
+                }
+            });
 
     }
 

@@ -31,9 +31,9 @@ public class Server {
                 System.out.println("Waiting for connect request...");
                 Socket client = server.accept();
                 
-                // ClientRoom newClient = new ClientRoom(client);
-                // clientList.add(newClient);
-                //newClient.start();
+                ClientRoom newClient = new ClientRoom(client);
+                //clientList.add(newClient);
+                newClient.start();
 
                
             } catch (IOException ie) {

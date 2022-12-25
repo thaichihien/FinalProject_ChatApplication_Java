@@ -1,9 +1,10 @@
 package userchatapp;
 
-import java.awt.EventQueue;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import database.DatabaseManagment;
@@ -13,8 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.awt.Color;
@@ -27,14 +30,14 @@ public class Login extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtUser;		// chứa tên đăng nhập
-	private JTextField txtPass;		// chứa mật khẩu
+	private JPasswordField txtPass;		// chứa mật khẩu
 	private JButton btnLogin;		// nút đăng nhập
 
 	private JLabel lblCreateAcc;	// nút tạo acc
 	private JLabel lblForgetPass;	// nút quên mật khẩu
 
 	private JLabel lblUser;
-	private JLabel lblPass;
+	// private JLabel lblPass;
 	private UserAccount socketTemp;
 
 
@@ -43,7 +46,7 @@ public class Login extends JFrame {
 	private UserAccount loginAccount(){
 		String username,password;
 		username=new String(txtUser.getText());
-		password=new String(txtPass.getText());
+		password=new String(txtPass.getPassword());
 		if(username.isBlank()||password.isBlank())
 			return null;
 		else {
@@ -69,22 +72,39 @@ public class Login extends JFrame {
 			account.setBr(socketTemp.getBr());
 
 			// TODO send ID to server
+			socketTemp.pw.println(String.valueOf(account.getID()));
+			while (true) {
+				try {
+					String validateRespone = socketTemp.br.readLine();
+					if(validateRespone.equals("IDEXIST")){
+						JOptionPane.showMessageDialog(null, 
+						"This account is online on the system", "Login failed", 
+						JOptionPane.WARNING_MESSAGE);
+						txtUser.setText("");
+						txtPass.setText("");
+						return;
+					}
+					else{
+						break;
+					}
+				} catch (HeadlessException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+
 
 			MainFormUser menuForm = new MainFormUser(account);
 			menuForm.setVisible(true);
 			this.dispose();
 		}
 		else{
-			//TODO 2: Hiện lỗi tại đây cho người, recommend dùng JOptionPane;
-			// Xử lý lỗi : in lỗi người dùng nhập sai ở đâu ...
-			// JFrame frame = new JFrame("Error");
-			// frame.setSize(200, 200);
-			// frame.setLocationRelativeTo(null);
-			// frame.setVisible(true);
+			
 
 			String username,password;
 			username=new String(txtUser.getText());
-			password=new String(txtPass.getText());
+			password=new String(txtPass.getPassword());
 			if(username.isBlank()||password.isBlank())
 				JOptionPane.showMessageDialog(null,"Please enter all required fields!");
 			else {
@@ -201,7 +221,7 @@ public class Login extends JFrame {
 		lblUser.setBounds(270, 265, 226, 28);
 		contentPane.add(lblUser);
 
-		txtPass = new JTextField();
+		txtPass = new JPasswordField();
 		txtPass.setMargin(new Insets(10, 15, 10, 10));
 		txtPass.setHorizontalAlignment(SwingConstants.LEFT);
 		txtPass.setForeground(Color.GRAY);
