@@ -3,6 +3,14 @@ package adminchatapp;
 
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.security.Timestamp;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -32,11 +40,105 @@ public class MenuGroupManager extends MenuAdminLayout{
     // Sử dụng database.getAllGroupChat(String sort,String by):
     // + sort: chỉ chấp nhận giá trị "GROUP_NAME","CREATED_AT"
     //+ by: chỉ chấp nhận giá trị "ASC","DESC"
+
+    // Phần Nhật làm start
+
+    // Sửa inner join -> left outer join
+    public ArrayList<GroupChat> getAllGroupChat(){
+        String SELECT_QUERY = "SELECT GC.ID,GC.GROUP_NAME,COUNT(MB.MEMBER_ID) AS SOLUONG,GC.CREATED_AT,GC.ONLINE FROM GROUPCHAT GC LEFT OUTER JOIN GROUPCHAT_MEMBER MB ON GC.ID = MB.GROUPCHAT_ID GROUP BY GC.ID";
+        ResultSet data = null;
+        ArrayList<GroupChat> groupList = new ArrayList<>();
+        Connection conn = DatabaseManagment.getInstance().getConnection();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            //statment.setString(1, name);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return groupList;
+            }
+            else{
+                
+                do {                    
+                    GroupChat group = new GroupChat();
+                    group.setID(data.getInt("ID"));
+                    group.setGroupname(data.getString("GROUP_NAME"));
+                    group.setNumberOfMember(data.getInt("soluong"));
+                    java.sql.Timestamp date = data.getTimestamp("CREATED_AT");
+                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(date);
+                    group.setCreatedAt(formattedDate);
+                    group.setOnline(data.getBoolean("ONLINE"));
+                    groupList.add(group);
+                    
+                } while (data.next());
+                return groupList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return groupList;
+    }
+
+    public ArrayList<GroupChat> getAllGroupChat(String sort,String by){
+        String SELECT_QUERY = "SELECT GC.ID,GC.GROUP_NAME,COUNT(MB.MEMBER_ID) AS SOLUONG,GC.CREATED_AT,GC.ONLINE FROM GROUPCHAT GC LEFT OUTER JOIN GROUPCHAT_MEMBER MB ON GC.ID = MB.GROUPCHAT_ID GROUP BY GC.ID ORDER BY " + sort + " " + by;
+        ResultSet data = null;
+        ArrayList<GroupChat> groupList = new ArrayList<>();
+        Connection conn = DatabaseManagment.getInstance().getConnection();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            //statment.setString(1, name);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return groupList;
+            }
+            else{
+                
+                do {                    
+                    GroupChat group = new GroupChat();
+                    group.setID(data.getInt("ID"));
+                    group.setGroupname(data.getString("GROUP_NAME"));
+                    group.setNumberOfMember(data.getInt("soluong"));
+                    java.sql.Timestamp date = data.getTimestamp("CREATED_AT");
+                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(date);
+                    group.setCreatedAt(formattedDate);
+                    group.setOnline(data.getBoolean("ONLINE"));
+                    groupList.add(group);
+                    
+                } while (data.next());
+                return groupList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return groupList;
+    }
+
     public void filltableGroup(){
         Utils.clearTable(tableGroup);
 
-        DatabaseManagment database = DatabaseManagment.getInstance();
-        ArrayList<GroupChat> allGroupChat = database.getAllGroupChat();
+        // DatabaseManagment database = DatabaseManagment.getInstance();
+        ArrayList<GroupChat> allGroupChat = getAllGroupChat();
         // tableFindFriend is JTable
         DefaultTableModel tableModel = (DefaultTableModel) tableGroup.getModel();
         for(GroupChat group : allGroupChat){
@@ -51,8 +153,56 @@ public class MenuGroupManager extends MenuAdminLayout{
         }
     }
 
+    // overide with SORT and By, sử dung hàm tự tạo vì lỗi INNER JOIN
+    public void filltableGroup(String sort, String by) {
+        Utils.clearTable(tableGroup);
+
+        // DatabaseManagment database = DatabaseManagment.getInstance();
+        ArrayList<GroupChat> allGroupChat = getAllGroupChat(sort, by);
+        // tableFindFriend is JTable
+        DefaultTableModel tableModel = (DefaultTableModel) tableGroup.getModel();
+        for(GroupChat group : allGroupChat){
+            String ID = String.valueOf(group.getID());
+            String Groupname = group.getGroupname();
+            String number = String.valueOf(group.getNumberOfMember());
+            String CreatedAt = group.getCreatedAt();
+            String Online = String.valueOf(group.getOnline());
+
+            String row[] = {ID,Groupname,number,CreatedAt,Online};
+            tableModel.addRow(row);
+        }
+    }
+
+    //handle combobox
+    public void handleSortCb() {
+
+        ActionListener cbActionListener = new ActionListener() {//add actionlistner to listen for change
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                String s = (String) sortFilter.getSelectedItem();//get the selected item
+
+                switch (s) {//check for a match
+                    case "Mặc định":
+                        filltableGroup();
+                        break;
+                    case "Tên nhóm":
+                        filltableGroup("GROUP_NAME", "ASC");
+                        break;
+                    case "Thời gian tạo":
+                        filltableGroup("CREATED_AT",  "DESC");
+                        break;
+                    default:
+                        System.out.println("No match selected!");
+                        break;
+                }
+            }
+        };
+
+        sortFilter.addActionListener(cbActionListener);
+    }
     
-    
+    // Phần Nhật làm end
     public MenuGroupManager(JFrame parentFrame) {
         super(parentFrame);
         initComponents();
@@ -68,6 +218,7 @@ public class MenuGroupManager extends MenuAdminLayout{
         });
 
         filltableGroup();
+        handleSortCb();
     }
 
     private void initComponents(){
