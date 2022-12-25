@@ -38,8 +38,7 @@ public class Login extends JFrame {
 	private UserAccount socketTemp;
 
 
-	// TODO 1: Viết hàm đăng nhập, kiểm tra các field, so sánh database
-	// Ok thì trả về account đăng nhập ngược lại null rồi làm hiện lỗi tại hàm btnLoginActionPerformed()
+	// ! WARNING: KHÔNG CHỈNH SỬA FILE NÀY, ĐANG LÀM VIỆC SOCKET
 
 	private UserAccount loginAccount(){
 		String username,password;

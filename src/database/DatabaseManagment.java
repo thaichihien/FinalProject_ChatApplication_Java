@@ -45,6 +45,9 @@ public class DatabaseManagment {
     }
 
 
+
+
+
     // Gọi database bằng cách dùng hàm getInstance()
     // Ex: DatabaseManagement database = DatabaseManagment.getInstance()
     public static DatabaseManagment getInstance(){
@@ -58,6 +61,8 @@ public class DatabaseManagment {
         return instance;
     }
 
+
+    // ! WARINING : KHÔNG CHỈNH SỬA FILE NÀY
 
     // Sử dụng các hàm bên dưới để lấy dữ liệu:------------------------------
 

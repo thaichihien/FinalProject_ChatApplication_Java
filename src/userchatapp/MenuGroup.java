@@ -52,7 +52,7 @@ public class MenuGroup extends JPanel{
     	}
     }
 
-    //TODO 2: tạo nhóm chat
+    
     public void createNewGroupChat(){
         
     }

@@ -18,6 +18,9 @@ public class MainFormUser extends javax.swing.JFrame {
     private final Color unactiveTabColor = new Color(217,217,217);
     private UserAccount user;
 
+    	// ! WARNING: KHÔNG CHỈNH SỬA FILE NÀY, ĐANG LÀM VIỆC SOCKET
+
+
 
     
     public MainFormUser(UserAccount user) {
