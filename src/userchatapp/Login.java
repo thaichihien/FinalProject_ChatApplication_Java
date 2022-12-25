@@ -49,18 +49,10 @@ public class Login extends JFrame {
 		password=new String(txtPass.getPassword());
 		if(username.isBlank()||password.isBlank())
 			return null;
-		else {
-			DatabaseManagment db=DatabaseManagment.getInstance();
-			if (db.checkAccount(username, password))
-			{
-				UserAccount account=new UserAccount();
-				account.setUsername(username);
-				account.setPassword(password);	
-				return account;
-			}
-		}
-
-		return null;
+		
+		DatabaseManagment db=DatabaseManagment.getInstance();
+		UserAccount account = db.getDetailAccount(username,password);
+		return account;
 	}
 
 	private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
@@ -72,10 +64,10 @@ public class Login extends JFrame {
 			account.setBr(socketTemp.getBr());
 
 			// TODO send ID to server
-			socketTemp.pw.println(String.valueOf(account.getID()));
+			socketTemp.sendPacket(String.valueOf(account.getID()));
 			while (true) {
 				try {
-					String validateRespone = socketTemp.br.readLine();
+					String validateRespone = socketTemp.receivePacket();
 					if(validateRespone.equals("IDEXIST")){
 						JOptionPane.showMessageDialog(null, 
 						"This account is online on the system", "Login failed", 
@@ -88,8 +80,6 @@ public class Login extends JFrame {
 						break;
 					}
 				} catch (HeadlessException e) {
-					e.printStackTrace();
-				} catch (IOException e) {
 					e.printStackTrace();
 				}
 			}

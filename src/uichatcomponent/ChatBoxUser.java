@@ -6,14 +6,16 @@ import java.awt.event.ActionListener;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.StringTokenizer;
 
+import chatservice.ChatService;
 import datastructure.UserAccount;
 
 /**
  *
  * @author HIEN
  */
-public class ChatBoxUser extends ChatBoxLayout{
+public class ChatBoxUser extends ChatBoxLayout implements Runnable{
 
     UserAccount other;
 
@@ -24,7 +26,20 @@ public class ChatBoxUser extends ChatBoxLayout{
         String formattedsendTime = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(sendTime);
         addMessage(new ChatMessageBlock(user.getUsername(), formattedsendTime, ChatMessageBlock.MINE, message));
         inputChatTextArea.setText("");
-        // TODO send to server to a friend
+        
+        String packetSend = ChatService.createPacket(ChatService.CHAT, other.getID(), message,formattedsendTime);
+        user.sendPacket(packetSend);
+    }
+
+    @Override
+    public void run() {
+       while (true) {
+            String receiveMessage = user.receivePacket();
+            System.out.println(receiveMessage);
+            String[] allMessage = ChatService.packetAnalysis(receiveMessage);
+            // ID#time#message
+            addMessage(new ChatMessageBlock(other.getUsername(), allMessage[2], ChatMessageBlock.OTHER, allMessage[3]));
+       }
     }
 
     public ChatBoxUser(UserAccount me,UserAccount other) {
@@ -69,49 +84,8 @@ public class ChatBoxUser extends ChatBoxLayout{
             }
        });
         
-//        inputChatTextArea.setColumns(20);
-//        inputChatTextArea.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-//        inputChatTextArea.setLineWrap(true);
-//        inputChatTextArea.setRows(5);
-//        inputChatTextArea.setWrapStyleWord(true);
-//        JScrollPane inputChatScollPane = new JScrollPane();
-//        inputChatScollPane.setViewportView(inputChatTextArea);
-//
-//        sendButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-//        sendButton.setText("Gửi");
-//        
-//        javax.swing.GroupLayout chatBoxUserLayout = new javax.swing.GroupLayout(this);
-//        this.setLayout(chatBoxUserLayout);
-//        chatBoxUserLayout.setHorizontalGroup(
-//            chatBoxUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addComponent(headerJPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-//            .addGroup(chatBoxUserLayout.createSequentialGroup()
-//                .addGap(19, 19, 19)
-//                .addGroup(chatBoxUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-//                    .addComponent(displayChat, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-//                    .addGroup(chatBoxUserLayout.createSequentialGroup()
-//                        .addComponent(inputChatScollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 618, javax.swing.GroupLayout.PREFERRED_SIZE)
-//                        .addGap(36, 36, 36)
-//                        .addComponent(sendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-//                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-//        );
-//        chatBoxUserLayout.setVerticalGroup(
-//            chatBoxUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//            .addGroup(chatBoxUserLayout.createSequentialGroup()
-//                .addComponent(headerJPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-//                .addGap(35, 35, 35)
-//                .addComponent(displayChat, javax.swing.GroupLayout.PREFERRED_SIZE, 437, javax.swing.GroupLayout.PREFERRED_SIZE)
-//                .addGap(38, 38, 38)
-//                .addGroup(chatBoxUserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-//                    .addGroup(chatBoxUserLayout.createSequentialGroup()
-//                        .addComponent(sendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE)
-//                        .addGap(0, 156, Short.MAX_VALUE))
-//                    .addGroup(chatBoxUserLayout.createSequentialGroup()
-//                        .addComponent(inputChatScollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
-//                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-//        );
-
-        
+       Thread receiveMessageProcess = new Thread(this);
+       receiveMessageProcess.start();
     }
 
     public static String createChatBoxUserID(int firstID,int secondID){
@@ -126,6 +100,8 @@ public class ChatBoxUser extends ChatBoxLayout{
 
         return ID1 + "-" + ID2;
     }
+
+   
     
    
     

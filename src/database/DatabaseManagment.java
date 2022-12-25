@@ -266,6 +266,46 @@ public class DatabaseManagment {
         return null;
     }
 
+
+    /**
+     * Lấy thông tin chi tiết của một account với username và password
+     * @return UserAccount
+     */
+    public UserAccount getDetailAccount(String username, String password){
+        String SELECT_QUERY = "SELECT * FROM USER_ACCOUNT WHERE USERNAME = ? AND PASSWORD = ?";
+        ResultSet data = null;
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+
+            statment.setString(1, username);
+            statment.setString(2, password);
+            data = statment.executeQuery();
+
+            if(!data.next()){
+                return null;
+            }
+            else{
+                UserAccount account = new UserAccount();
+                account.setID(data.getInt("ID"));
+                account.setUsername(data.getString("USERNAME"));
+                account.setFullname(data.getString("FULLNAME"));
+                account.setOnline(data.getBoolean("ONLINE"));
+                return account;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
+
     /** Kiểm tra xem tài khoản có tồn tại trong database
      * @param ID
      * @return true nếu có và false nếu không

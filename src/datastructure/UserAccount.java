@@ -1,6 +1,7 @@
 package datastructure;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.text.DateFormat;
@@ -154,6 +155,22 @@ public class UserAccount {
         return result;
     }
 
+
+
+    public void sendPacket(String packet){
+        pw.println(packet);
+    }
+
+    public String receivePacket(){
+        try {
+            String packet = br.readLine();
+            return packet;
+        } catch (IOException e) {
+            
+            e.printStackTrace();
+        }
+        return "";
+    }
 
 
     public Socket getClienSocket() {
