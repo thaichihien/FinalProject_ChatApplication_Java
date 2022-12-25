@@ -83,6 +83,47 @@ for(UserAccount acc : allAccount){
     tableModel.addRow(row);
 }
 ```
+- **Không chỉnh sửa file DatabaseManagement**, nếu DatabaseManage lỗi hoặc thiếu thì báo cáo và tự viết hàm truy vấn lấy dữ liệu :
+```
+public ArrayList<UserAccount> getData(){
+        DatabaseManagment database = DatabaseManagment.getInstance();   // Lấy database, KHÔNG DÙNG KHỞI TẠO
+        Connection connection = database.getConnection();               // Lấy kết nối để thực hiện sql
+
+        String QUERY ="SELECT * FROM USER_ACCOUNT";
+        ResultSet data=null;
+        ArrayList<UserAccount> myList = new ArrayList<>();
+        try (PreparedStatement statement = connection.prepareStatement(QUERY)){
+            data = statement.executeQuery();
+            
+            if(!data.next()){   // Dữ liệu rỗng trả về mảng rỗng
+                return myList;
+            }
+            else{
+                do {                    
+                    UserAccount account = new UserAccount();
+                    account.setID(data.getInt("ID"));
+                    account.setUsername(data.getString("USERNAME"));
+                    account.setFullname(data.getString("FULLNAME"));
+                    account.setOnline(data.getBoolean("ONLINE"));
+                    myList.add(account);
+                    
+                } while (data.next());
+                return myList;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return myList;
+    }
+```
 ## Công việc:
 ### Bên người dùng
 - [X] Đăng ký tài khoản + (cải tiến mã hóa mật khẩu, UI che mật khẩu)
@@ -152,7 +193,7 @@ for(UserAccount acc : allAccount){
 <details>
     <summary> <b>3. Hiển thị danh sách bạn bè ở MenuAddFriend &#9733</b> </summary>
     <ul>
-        <li>Người làm: </li>
+        <li>Người làm: Niên ? </li>
         <li>Mô tả:
             <ul>
                 <li>Hiển thị danh sách tài khoản chưa kết bạn</li>
@@ -188,7 +229,7 @@ for(UserAccount acc : allAccount){
             </ul>
         </li>
         <li>File làm việc: /userchatapp/MenuGroup.java</li>
-        <li>Deadline: 22/12/2022</li>
+        <li>Deadline: 26/12/2022</li>
     </ul>
     </details>
     
@@ -287,7 +328,7 @@ for(UserAccount acc : allAccount){
             </ul>
         </li>
         <li>File làm việc: /adminchatapp/MenuAccountManager.java</li>
-        <li>Deadline: 25/12/2022</li>
+        <li>Deadline: 26/12/2022</li>
     </ul>
     </details>
     
@@ -343,6 +384,6 @@ for(UserAccount acc : allAccount){
             </ul>
         </li>
         <li>File làm việc: /adminchatapp/MenuGroupManager.java và MenuLoginHistory.java</li>
-        <li>Deadline: 25/12/2022</li>
+        <li>Deadline: 26/12/2022</li>
     </ul>
     </details>
