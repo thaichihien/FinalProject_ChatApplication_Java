@@ -132,7 +132,7 @@ public ArrayList<UserAccount> getData(){
 - [X] Hiển thị danh sách bạn bè
 - [ ] Thêm bạn bè bằng tên đăng nhập
 - [ ] Hủy kết bạn
-- [ ] Tạo nhóm chat
+- [X] Tạo nhóm chat
 - [ ] Đổi tên nhóm chat
 - [ ] Thêm thành viên
 - [ ] Gán quyền admin
@@ -206,7 +206,7 @@ public ArrayList<UserAccount> getData(){
     </details>
 
 <details>
-    <summary> <b>4. Thực hiện kết bạn và xóa kết bạn</b> </summary>
+    <summary> <b>4. Thực hiện kết bạn</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
@@ -220,7 +220,7 @@ public ArrayList<UserAccount> getData(){
     </details>
     
 <details>
-    <summary> <b>5. Thực hiện search bạn bè để thêm vào nhóm ở MenuGroup &#9733</b> </summary>
+    <summary> <b>5. Thực hiện search bạn bè để thêm vào nhóm ở MenuGroup &#x2713</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
@@ -234,7 +234,7 @@ public ArrayList<UserAccount> getData(){
     </details>
     
 <details>
-    <summary> <b>6. Thực hiện tạo nhóm</b> </summary>
+    <summary> <b>6. Thực hiện tạo nhóm &#x2713</b> </summary>
     <ul>
         <li>Người làm: Hiện</li>
         <li>Mô tả:
@@ -319,7 +319,7 @@ public ArrayList<UserAccount> getData(){
     </details>
     
 <details>
-    <summary> <b>2. Lọc danh sách tài khoản theo tên, sắp xếp ở MenuAccountManager &#9733</b> </summary>
+    <summary> <b>2. Lọc danh sách tài khoản theo tên, sắp xếp ở MenuAccountManager &#x2713</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
@@ -375,7 +375,7 @@ public ArrayList<UserAccount> getData(){
     </details>
     
 <details>
-    <summary> <b>6. Thực hiện lọc dữ liệu ở MenuGroupManager, MenuLoginHistory &#9733</b> </summary>
+    <summary> <b>6. Thực hiện lọc dữ liệu ở MenuGroupManager, MenuLoginHistory &#x2713</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
