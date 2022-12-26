@@ -126,6 +126,7 @@ public class MenuChat extends JPanel implements Runnable{
         user = account;
         database = DatabaseManagment.getInstance();
         chatUser = new HashMap<>();
+        chatGroup = new HashMap<>();
         fillFriendList();
 
         Thread receiveMessageProcess = new Thread(this);

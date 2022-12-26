@@ -50,6 +50,10 @@ public class ListItemChatAccount<E extends Object> extends JList<E>{
         model.addElement(item);
     }
     
+
+    public void clearList(){
+        model.removeAllElements();
+    }
     
     
 }
