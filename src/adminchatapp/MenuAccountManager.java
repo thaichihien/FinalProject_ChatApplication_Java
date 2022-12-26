@@ -59,6 +59,26 @@ public class MenuAccountManager extends MenuAdminLayout{
     	}
     }
 
+    public void filltableUserAccount(ArrayList<UserAccount> list){
+        Utils.clearTable(tableUserAccount);
+
+    	// tableFindFriend is JTable
+    	DefaultTableModel tableModel = (DefaultTableModel) tableUserAccount.getModel();
+    	for(UserAccount user : list){
+    		String ID = String.valueOf(user.getID());
+    	    String username = user.getUsername();
+    	    String fullname = user.getFullname();
+            String address = user.getAddress();
+            String birthDay = user.getBirthDay();
+            String gender = user.getGender();
+            String email = user.getEmail();
+    	    //String online = String.valueOf(user.getOnline());
+    	    
+    	    String row[] = {ID, username, fullname, address,birthDay,gender,email};
+    	    tableModel.addRow(row);
+    	}
+    }
+
 
     //TODO 2: Tương tự nạp dữ liệu vào bảng nhưng lần này thực hiện search và 
     // lọc theo tiêu chí họ và tên, tên đăng nhập, ngày sinh theo tăng dần hay
@@ -71,11 +91,32 @@ public class MenuAccountManager extends MenuAdminLayout{
     //      + sort: chi chấp nhận các tham số : "USERNAME","FULLNAME","CREATED_AT",null
     //      + by: chỉ chấp nhận các tham số: "ASC","DESC"
     private void fillTableBySort(){
+        String Criteria, Filter, input;
+        Criteria=new String((String)sortCriteria.getSelectedItem());
+        Filter=new String((String)sortFilter.getSelectedItem());
+        input=new String(searchBarFindUser.getText());
         
+        String sort=new String("null"),by=new String("ASC"), name=new String("null");
 
+        if(Filter.equals("Mặc định")&&Criteria.equals("Tăng dần")&&input.isBlank())
+            filltableUserAccount();
 
+        if(Filter.equals("Họ và tên"))
+            sort=new String("FULLNAME");
+        else if(Filter.equals("Tên đăng nhập"))
+            sort=new String("USERNAME");
+        else if(Filter.equals("Ngày tạo"))
+            sort=new String("CREATED_AT");
 
+        if(!input.isBlank())
+            name=input;
 
+        if(Criteria.equals("Giảm dần"))
+            by=new String("DESC");
+
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        ArrayList<UserAccount> list=database.getAllAccounts(name, sort, by);
+        filltableUserAccount(list);
 
     }
 
