@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.Properties;
 
+import datastructure.FriendRequest;
 import datastructure.GroupChat;
 import datastructure.LoginHistory;
 import datastructure.Message;
@@ -624,6 +625,7 @@ public class DatabaseManagment {
         String SELECT_QUERY = "SELECT LH.*,UA.USERNAME FROM LOGIN_HISTORY LH INNER JOIN USER_ACCOUNT UA ON LH.USER_ID = UA.ID";
         ResultSet data = null;
         ArrayList<LoginHistory> loginList = new ArrayList<>();
+        Connection conn = DatabaseManagment.getInstance().getConnection();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
             //statment.setString(1, name);
@@ -633,15 +635,13 @@ public class DatabaseManagment {
                 return loginList;
             }
             else{
-                
-                
                 do {                    
                     LoginHistory login = new LoginHistory();
                     login.setID(data.getInt("LOGIN_ID"));
                     login.setUserID(data.getInt("USER_ID"));
                     login.setUserName(data.getString("username"));
-                    Timestamp date = data.getTimestamp("LOGIN_TIME");
-                    String formattedDate = new SimpleDateFormat("yyyyMMdd").format(date);
+                    java.sql.Timestamp date = data.getTimestamp("LOGIN_TIME");
+                    String formattedDate = new SimpleDateFormat("dd-MM-yyyy HH:mm").format(date);
                     login.setLoginTime(formattedDate);
                     loginList.add(login);
                     
@@ -665,7 +665,7 @@ public class DatabaseManagment {
     }
 
     public ArrayList<LoginHistory> getAllLoginHistory(String sort,String by){
-        String SELECT_QUERY = "SELECT LH.*,UA.USERNAME FROM LOGIN_HISTORY LH INNER JOIN USER_ACCOUNT UA ON LH.USER_ID = UA.ID ORDER BY " + sort + " " + by ;
+        String SELECT_QUERY = "SELECT GC.ID,GC.GROUP_NAME,COUNT(MB.MEMBER_ID) AS SOLUONG,GC.CREATED_AT,GC.ONLINE FROM GROUPCHAT GC LEFT OUTER JOIN GROUPCHAT_MEMBER MB ON GC.ID = MB.GROUPCHAT_ID GROUP BY GC.ID ORDER BY " + sort + " " + by;
         ResultSet data = null;
         ArrayList<LoginHistory> loginList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
@@ -685,7 +685,7 @@ public class DatabaseManagment {
                     login.setUserID(data.getInt("USER_ID"));
                     login.setUserName(data.getString("username"));
                     Timestamp date = data.getTimestamp("LOGIN_TIME");
-                    String formattedDate = new SimpleDateFormat("yyyyMMdd").format(date);
+                    String formattedDate = new SimpleDateFormat("dd-MM-yyyy HH:mm").format(date);
                     login.setLoginTime(formattedDate);
                     loginList.add(login);
                     
@@ -857,7 +857,7 @@ public class DatabaseManagment {
      * @return
      */
     public ArrayList<GroupChat> getAllGroupChat(){
-        String SELECT_QUERY = "SELECT GC.ID,GC.GROUP_NAME,COUNT(MB.MEMBER_ID) AS SOLUONG,GC.CREATED_AT,GC.ONLINE FROM GROUPCHAT GC INNER JOIN GROUPCHAT_MEMBER MB ON GC.ID = MB.GROUPCHAT_ID GROUP BY GC.ID";
+        String SELECT_QUERY = "SELECT GC.ID,GC.GROUP_NAME,COUNT(MB.MEMBER_ID) AS SOLUONG,GC.CREATED_AT,GC.ONLINE FROM GROUPCHAT GC LEFT OUTER JOIN GROUPCHAT_MEMBER MB ON GC.ID = MB.GROUPCHAT_ID GROUP BY GC.ID";
         ResultSet data = null;
         ArrayList<GroupChat> groupList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
@@ -945,6 +945,44 @@ public class DatabaseManagment {
     }
     
 
+    public ArrayList<GroupChat> getAllGroupChatOnline(int ID){
+        String SELECT_QUERY = "SELECT GC.* FROM GROUPCHAT_MEMBER GM LEFT OUTER JOIN GROUPCHAT GC ON GM.GROUPCHAT_ID = GC.ID WHERE GM.MEMBER_ID = ? ORDER BY GC.ONLINE DESC";
+        ResultSet data = null;
+        ArrayList<GroupChat> groupList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            statment.setInt(1, ID);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return groupList;
+            }
+            else{
+                
+                do {                    
+                    GroupChat group = new GroupChat();
+                    group.setID(data.getInt("ID"));
+                    group.setGroupname(data.getString("GROUP_NAME"));
+                    group.setOnline(data.getBoolean("ONLINE"));
+                    groupList.add(group);
+                    
+                } while (data.next());
+                return groupList;
+            } 
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return groupList;
+    }
+
 
 
     public ArrayList<Message> getAllMessageFromUser(int ID){
@@ -998,11 +1036,67 @@ public class DatabaseManagment {
             }
         }
         return messageList;
-
-
-
     }
 
+    public ArrayList<FriendRequest> getAllFriendRequest(int ID){
+        String SELECT_QUERY = "SELECT FR.*,UA.USERNAME FROM FRIEND_REQUEST FR LEFT OUTER JOIN USER_ACCOUNT UA ON FR.FROM_ID = UA.ID WHERE TO_ID = ?";
+        ResultSet data = null;
+        ArrayList<FriendRequest> requestList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+           statment.setInt(1, ID);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return requestList;
+            }
+            else{
+                do {                    
+                    FriendRequest request = new FriendRequest();
+                    request.setFromName(data.getString("USERNAME"));
+                    request.setStatus(data.getString("STATUS"));
+                    request.setTryTime(data.getInt("TRY"));
+                   
+                    requestList.add(request);                
+                } while (data.next());
+                return requestList;
+            }  
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return requestList;
+    }
+
+    public void addFriendToUser(int ID,int FriendID){
+        String INSERT_QUERY = "INSERT INTO USER_FRIEND(ID,FRIEND_ID) "
+        + "VALUES(?,?)";
+       try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY);) {
+           
+            statement.setInt(1, ID);
+            statement.setInt(2, FriendID);
+
+            statement.addBatch();
+            
+            statement.setInt(1, FriendID);
+            statement.setInt(2, ID);
+
+            statement.addBatch();
+           
+            statement.executeBatch();
+           
+       } catch (Exception e) {
+           System.out.println(e);
+       }
+       
+    }
 
 
 }

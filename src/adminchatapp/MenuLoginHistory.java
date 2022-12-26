@@ -61,8 +61,6 @@ public class MenuLoginHistory extends  MenuAdminLayout{
                 return loginList;
             }
             else{
-                
-                
                 do {                    
                     LoginHistory login = new LoginHistory();
                     login.setID(data.getInt("LOGIN_ID"));
@@ -139,8 +137,8 @@ public class MenuLoginHistory extends  MenuAdminLayout{
 
     public void filltableLoginHistory(){
         Utils.clearTable(tableLoginHistory);
-        // DatabaseManagment database = DatabaseManagment.getInstance();
-        ArrayList<LoginHistory> allLogin = getAllLoginHistory();
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        ArrayList<LoginHistory> allLogin = database.getAllLoginHistory();
         // tableFindFriend is JTable
         DefaultTableModel tableModel = (DefaultTableModel) tableLoginHistory.getModel();
         for(LoginHistory login : allLogin){
@@ -155,8 +153,8 @@ public class MenuLoginHistory extends  MenuAdminLayout{
 
     public void filltableLoginHistory(String sort,String by){
         Utils.clearTable(tableLoginHistory);
-        // DatabaseManagment database = DatabaseManagment.getInstance();
-        ArrayList<LoginHistory> allLogin = getAllLoginHistory(sort, by);
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        ArrayList<LoginHistory> allLogin = database.getAllLoginHistory(sort, by);
         // tableFindFriend is JTable
         DefaultTableModel tableModel = (DefaultTableModel) tableLoginHistory.getModel();
         for(LoginHistory login : allLogin){
@@ -206,15 +204,14 @@ public class MenuLoginHistory extends  MenuAdminLayout{
         initComponents();
 
 
-        sortFilter.addItemListener(new ItemListener(){
-
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-               filltableLoginHistory();
+        // sortFilter.addItemListener(new ItemListener(){
+        //     @Override
+        //     public void itemStateChanged(ItemEvent e) {
+        //        filltableLoginHistory();
                 
-            }
+        //     }
             
-        });
+        // });
 
 
         filltableLoginHistory();

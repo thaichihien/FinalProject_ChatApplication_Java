@@ -11,8 +11,10 @@ import javax.swing.event.ListSelectionEvent;
 
 import chatservice.ChatService;
 import database.DatabaseManagment;
+import datastructure.GroupChat;
 import datastructure.Message;
 import datastructure.UserAccount;
+import uichatcomponent.ChatBoxGroup;
 import uichatcomponent.ChatBoxUser;
 import uichatcomponent.ChatMessageBlock;
 import uichatcomponent.ItemChatAccount;
@@ -27,7 +29,8 @@ public class MenuChat extends JPanel implements Runnable{
     public JTabbedPane chatLayout;
     private DatabaseManagment database;
     private UserAccount user;
-    private HashMap<String,ChatBoxUser> chatAndBox;
+    private HashMap<String,ChatBoxUser> chatUser;
+    private HashMap<Integer,ChatBoxGroup> chatGroup;
 
 
     // TODO cải tiến search bạn bè, hiển thị nhóm chat
@@ -35,15 +38,46 @@ public class MenuChat extends JPanel implements Runnable{
         
         ArrayList<UserAccount> onlineUser = database.getFriendArrayListByOnline(user.getID());
         ArrayList<Message> allChat = database.getAllMessageFromUser(user.getID());
-        for(UserAccount account : onlineUser){
-            ItemChatAccount chatAccount = new ItemChatAccount(account.getID(),account.getUsername(),account.getOnline());
-            ChatBoxUser chatBoxUser = new ChatBoxUser(user,account);
+        ArrayList<GroupChat> onlineGroup = database.getAllGroupChatOnline(user.getID());
+
+
+        // put user online first
+        int index = 0;
+        for(;index < onlineUser.size();index++){
+            if(!onlineUser.get(index).getOnline()) break;
+            ItemChatAccount chatAccount = new ItemChatAccount(onlineUser.get(index).getID(),onlineUser.get(index).getUsername(),onlineUser.get(index).getOnline());
+            ChatBoxUser chatBoxUser = new ChatBoxUser(user,onlineUser.get(index));
             listFriendJlist.addItem(chatAccount);
             chatLayout.addTab(chatAccount.getName(), chatBoxUser);
-            String chatBoxID = ChatBoxUser.createChatBoxUserID(user.getID(), account.getID());
-            chatAndBox.put(chatBoxID, chatBoxUser);
+            String chatBoxID = ChatBoxUser.createChatBoxUserID(user.getID(), onlineUser.get(index).getID());
+            chatUser.put(chatBoxID, chatBoxUser);
         }
 
+        // put group online first
+        int indexGroup = 0;
+        for(;indexGroup < onlineGroup.size();indexGroup++){
+            if(!onlineGroup.get(indexGroup).getOnline()) break;
+            ItemChatAccount chatGroupItem = new ItemChatAccount(onlineGroup.get(indexGroup).getID(),onlineGroup.get(indexGroup).getGroupname(),onlineGroup.get(indexGroup).getOnline());
+            ChatBoxGroup chatBoxGroup = new ChatBoxGroup(user,onlineGroup.get(indexGroup).getGroupname(),onlineGroup.get(indexGroup).getOnline());
+            listFriendJlist.addItem(chatGroupItem);
+            chatLayout.addTab(chatGroupItem.getName(), chatBoxGroup);
+            chatGroup.put(onlineGroup.get(indexGroup).getID(), chatBoxGroup);
+        }
+
+        //put all friend and group remain
+        for(;index < onlineUser.size();index++){
+            
+            ItemChatAccount chatAccount = new ItemChatAccount(onlineUser.get(index).getID(),onlineUser.get(index).getUsername(),onlineUser.get(index).getOnline());
+            ChatBoxUser chatBoxUser = new ChatBoxUser(user,onlineUser.get(index));
+            listFriendJlist.addItem(chatAccount);
+            chatLayout.addTab(chatAccount.getName(), chatBoxUser);
+            String chatBoxID = ChatBoxUser.createChatBoxUserID(user.getID(), onlineUser.get(index).getID());
+            chatUser.put(chatBoxID, chatBoxUser);
+        }
+
+
+
+        // message for user
         for(Message message: allChat){
             ChatMessageBlock messageBlock;
             if(message.getUserName().equals(user.getUsername())){
@@ -52,8 +86,8 @@ public class MenuChat extends JPanel implements Runnable{
             else{
                 messageBlock = new ChatMessageBlock(message.getUserName(), message.getDateSend(), ChatMessageBlock.OTHER, message.getContent());
             }
-            if(chatAndBox.containsKey(message.getChatboxID())){
-                chatAndBox.get(message.getChatboxID()).addMessage(messageBlock);
+            if(chatUser.containsKey(message.getChatboxID())){
+                chatUser.get(message.getChatboxID()).addMessage(messageBlock);
             }
             
         }
@@ -70,7 +104,7 @@ public class MenuChat extends JPanel implements Runnable{
             // chat#ID#time#message
             // TODO handle messgae from mutiple source => display to right chatbox
             String chatBoxID = ChatBoxUser.createChatBoxUserID(user.getID(), Integer.parseInt(allMessage[1]));
-            ChatBoxUser chatBoxToDisplay = chatAndBox.get(chatBoxID);
+            ChatBoxUser chatBoxToDisplay = chatUser.get(chatBoxID);
             Message newMessage = new Message();
             newMessage.setDateSend(allMessage[2]);
             newMessage.setContent(allMessage[3]);
@@ -83,7 +117,7 @@ public class MenuChat extends JPanel implements Runnable{
         initComponents();
         user = account;
         database = DatabaseManagment.getInstance();
-        chatAndBox = new HashMap<>();
+        chatUser = new HashMap<>();
         fillFriendList();
 
         Thread receiveMessageProcess = new Thread(this);

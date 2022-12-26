@@ -137,8 +137,8 @@ public class MenuGroupManager extends MenuAdminLayout{
     public void filltableGroup(){
         Utils.clearTable(tableGroup);
 
-        // DatabaseManagment database = DatabaseManagment.getInstance();
-        ArrayList<GroupChat> allGroupChat = getAllGroupChat();
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        ArrayList<GroupChat> allGroupChat = database.getAllGroupChat();
         // tableFindFriend is JTable
         DefaultTableModel tableModel = (DefaultTableModel) tableGroup.getModel();
         for(GroupChat group : allGroupChat){
@@ -157,8 +157,8 @@ public class MenuGroupManager extends MenuAdminLayout{
     public void filltableGroup(String sort, String by) {
         Utils.clearTable(tableGroup);
 
-        // DatabaseManagment database = DatabaseManagment.getInstance();
-        ArrayList<GroupChat> allGroupChat = getAllGroupChat(sort, by);
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        ArrayList<GroupChat> allGroupChat = database.getAllGroupChat(sort, by);
         // tableFindFriend is JTable
         DefaultTableModel tableModel = (DefaultTableModel) tableGroup.getModel();
         for(GroupChat group : allGroupChat){
@@ -207,15 +207,15 @@ public class MenuGroupManager extends MenuAdminLayout{
         super(parentFrame);
         initComponents();
 
-        sortFilter.addItemListener(new ItemListener(){
+        // sortFilter.addItemListener(new ItemListener(){
 
-            @Override
-            public void itemStateChanged(ItemEvent e) {
-               filltableGroup();
+        //     @Override
+        //     public void itemStateChanged(ItemEvent e) {
+        //        filltableGroup();
                 
-            }
+        //     }
             
-        });
+        // });
 
         filltableGroup();
         handleSortCb();
