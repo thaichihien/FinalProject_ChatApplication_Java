@@ -100,6 +100,9 @@ public class ClientRoom extends Thread {
         String[] allMessage = ChatService.packetAnalysis(message);
 
         // chat#ID#time#message
+
+        //TODO save message into database
+
         System.out.println("messafe[0] : " + allMessage[0]);
         try {
             if(allMessage[0].equals(ChatService.CHAT)){

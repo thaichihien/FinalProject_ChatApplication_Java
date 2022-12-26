@@ -3,10 +3,14 @@ package uichatcomponent;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.util.ArrayList;
+
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+
+import datastructure.UserAccount;
 
 
 public class ListItemChatAccount<E extends Object> extends JList<E>{
@@ -53,6 +57,19 @@ public class ListItemChatAccount<E extends Object> extends JList<E>{
 
     public void clearList(){
         model.removeAllElements();
+    }
+
+    public ArrayList<UserAccount> getAllItem(){
+        ArrayList<UserAccount> itemList = new ArrayList<>();
+        for (int i = 0; i < model.getSize(); i++) {
+            ItemChatAccount item =(ItemChatAccount) model.getElementAt(i);
+            UserAccount account = new UserAccount();
+            account.setUsername(item.getName());
+            account.setID(item.getID());
+            account.setOnline(item.getStatus());
+            itemList.add(account);
+        }
+        return itemList;
     }
     
     
