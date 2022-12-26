@@ -124,6 +124,16 @@ public class ClientRoom extends Thread {
                 String packetSend = ChatService.createPacket(ChatService.CHANGES, ID, messageSend, timeSend);
                 System.out.println(packetSend);
                 pw.println(packetSend);
+
+
+                int IDtoSend = Integer.parseInt(allMessage[1]);
+                if(Server.clientList.containsKey(IDtoSend) && IDtoSend != this.ID){
+                    ClientRoom friendRoom = Server.clientList.get(IDtoSend);
+                    OutputStream otherStream = friendRoom.clientSocket.getOutputStream();
+                    PrintWriter otherPw = new PrintWriter(new OutputStreamWriter(otherStream, "UTF-8"), true);
+                    otherPw.println(packetSend);
+                }
+                
             }
             else{
                 System.out.println("diff");

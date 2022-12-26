@@ -1,6 +1,7 @@
 package database;
 
 import java.sql.Timestamp;
+import java.security.Identity;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -1176,6 +1177,106 @@ public class DatabaseManagment {
        }
        
     }
+
+    public void unfriendUsers(int ID, int friendID){
+        String DELETE_QUERY = "DELETE FROM USER_FRIEND WHERE ID = ? AND FRIEND_ID = ?";
+        try (PreparedStatement statement = conn.prepareStatement(DELETE_QUERY);) {
+           
+            statement.setInt(1, ID);
+            statement.setInt(2, friendID);
+            statement.addBatch();
+            
+            statement.setInt(1, friendID);
+            statement.setInt(2, ID);
+            statement.addBatch();
+           
+            statement.executeBatch();
+           
+       } catch (Exception e) {
+           System.out.println(e);
+       }
+    }
+
+    public ArrayList<UserAccount> getAllGroupMembers(int groupID){
+        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE,GM.POSITION FROM GROUPCHAT_MEMBER GM LEFT OUTER JOIN USER_ACCOUNT UA ON UA.ID = GM.MEMBER_ID WHERE GM.GROUPCHAT_ID = ?";
+        ResultSet data = null;
+        ArrayList<UserAccount> memberList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+           statment.setInt(1, groupID);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return memberList;
+            }
+            else{
+                do {                    
+                    UserAccount account = new UserAccount();
+                    account.setID(data.getInt("ID"));
+                    account.setUsername(data.getString("USERNAME"));
+                    account.setFullname(data.getString("FULLNAME"));
+                    account.setOnline(data.getBoolean("ONLINE"));
+                    account.setPosition(data.getString("POSITION"));
+                   
+                    memberList.add(account);                
+                } while (data.next());
+                return memberList;
+            }  
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return memberList;
+
+
+    }
+
+
+    public void assignAdminToUser(int ID,int groupID){
+        String UPDATE_QUERY = "UPDATE GROUPCHAT_MEMBER SET POSITION = 'admin' WHERE GROUPCHAT_ID = ? AND MEMBER_ID = ?";
+        try (PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY);) {
+           
+            statement.setInt(1, groupID);
+            statement.setInt(2, ID);
+            statement.executeUpdate();
+           
+       } catch (Exception e) {
+           System.out.println(e);
+       }
+    }
+
+    public void assignMemberToUser(int ID,int groupID){
+        String UPDATE_QUERY = "UPDATE GROUPCHAT_MEMBER SET POSITION = 'member' WHERE GROUPCHAT_ID = ? AND MEMBER_ID = ?";
+        try (PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY);) {
+           
+            statement.setInt(1, groupID);
+            statement.setInt(2, ID);
+            statement.executeUpdate();
+           
+       } catch (Exception e) {
+           System.out.println(e);
+       }
+    }
+
+    public void setNewGroupName(String name,int groupID){
+        String UPDATE_QUERY = "UPDATE GROUPCHAT SET GROUP_NAME = ? WHERE ID = ?";
+        try (PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY);) {
+           
+            statement.setString(1, name);
+            statement.setInt(2, groupID);
+            statement.executeUpdate();
+           
+       } catch (Exception e) {
+           System.out.println(e);
+       }
+    }
+
 
 
 }

@@ -6,6 +6,7 @@ package uichatcomponent;
 
 import javax.swing.JButton;
 
+import datastructure.GroupChat;
 import datastructure.UserAccount;
 
 /**
@@ -15,11 +16,13 @@ import datastructure.UserAccount;
 public class ChatBoxGroup extends ChatBoxLayout{
 
     private JButton viewGroupInforButton;
+    private GroupChat groupChat;
     
-    public ChatBoxGroup(UserAccount me,String groupName,boolean isOnline) {
+    public ChatBoxGroup(UserAccount me,GroupChat groupChat) {
         super(me);
-        nameJLabel.setText(groupName);
-        setStatusHeader(isOnline);
+        this.groupChat = groupChat;
+        nameJLabel.setText(groupChat.getGroupname());
+        setStatusHeader(groupChat.getOnline());
         viewGroupInforButton = new JButton();
         viewGroupInforButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         viewGroupInforButton.setText("Thông tin nhóm");
