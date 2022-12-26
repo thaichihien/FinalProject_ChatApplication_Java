@@ -3,6 +3,8 @@ package userchatapp;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 
 import javax.swing.JButton;
@@ -43,14 +45,16 @@ public class MenuGroup extends JPanel{
     	// tableFindFriend is JTable
     	DefaultTableModel tableModel = (DefaultTableModel) tableListFriend.getModel();
     	for(UserAccount friend : allFriend){
+    		String id = String.valueOf(friend.getID());
     		String username = String.valueOf(friend.getUsername());
-    	    String email = friend.getEmail();
+    		String fullname = String.valueOf(friend.getFullname());
     	    String online = String.valueOf(friend.getOnline());  
-    	    String row[] = {username,email, online};
+    	    String row[] = {id,username,fullname,online};
     	    tableModel.addRow(row);
 
     	}
     }
+   
 
     
     public void createNewGroupChat(){
@@ -63,15 +67,15 @@ public class MenuGroup extends JPanel{
        initComponent();
        this.user = account;
 
-       searchBarFriend.addActionListener(new ActionListener(){
-
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            filltableListFriend();
-            
-        }
-
-       });
+//       searchBarFriend.addActionListener(new ActionListener(){
+//
+//        @Override
+//        public void actionPerformed(ActionEvent e) {
+//            filltableListFriend();
+//            
+//        }
+//
+//       });
 
        filltableListFriend();
 
@@ -146,6 +150,35 @@ public class MenuGroup extends JPanel{
         searchBarFriend.setForeground(new java.awt.Color(51, 51, 51));
         searchBarFriend.setBackgroundColor(new java.awt.Color(204, 204, 204));
         searchBarFriend.setPlaceHolder("Tìm kiếm bằng tên...");
+        searchBarFriend.addKeyListener(new KeyAdapter() {
+			public void keyPressed(KeyEvent e) {
+				if(e.getKeyCode() == KeyEvent.VK_ENTER) {
+					String name = searchBarFriend.getText();
+					if(!name.isEmpty()) {
+						DatabaseManagment database = DatabaseManagment.getInstance();
+						ArrayList<UserAccount> allFriend = database.searchFriendList(user.getID(), name);
+						// tableFindFriend is JTable
+						DefaultTableModel tableModel = (DefaultTableModel) tableListFriend.getModel();
+						tableModel.getDataVector().removeAllElements();
+						for(UserAccount friend : allFriend){
+							String id = String.valueOf(friend.getID());
+							String username = String.valueOf(friend.getUsername());
+							String fullname = String.valueOf(friend.getFullname());
+							String online = String.valueOf(friend.getOnline());  
+							String row[] = {id,username,fullname,online};
+							tableModel.addRow(row);
+						}
+						searchBarFriend.setText("");
+					}
+					else {
+						DefaultTableModel tableModel = (DefaultTableModel) tableListFriend.getModel();
+						tableModel.getDataVector().removeAllElements();
+						filltableListFriend();
+					}
+					
+		    	}
+			}
+		});
 
         createGroupButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         createGroupButton.setText("Tạo nhóm");
