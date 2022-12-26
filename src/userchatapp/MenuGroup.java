@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -14,6 +15,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseManagment;
+import datastructure.GroupChat;
 import datastructure.UserAccount;
 import uichatcomponent.ItemChatAccount;
 import uichatcomponent.ListItemChatAccount;
@@ -67,11 +69,25 @@ public class MenuGroup extends JPanel {
     }
 
     public void createNewGroupChat() {
-
-            // TODO get data from listFriendChoosen
-            // create group chat
-            //this.user is admin
+        String groupName = inputGroupName.getText();
+        if(groupName.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Group name is empty", "Input a group name", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        ArrayList<UserAccount> member = listFriendChoosen.getAllItem();
+        ArrayList<UserAccount> admin = new ArrayList<>();
+        admin.add(this.user);
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        GroupChat groupChat = new GroupChat();
+        groupChat.setMembers(member);
+        groupChat.setGroupname(groupName);
+        groupChat.setAdmins(admin);
+        database.addNewGroup(groupChat);
+        JOptionPane.showMessageDialog(null, "Created chat group successfully", "Created chat group", JOptionPane.INFORMATION_MESSAGE);
     }
+
+
+
 
     public MenuGroup(UserAccount account) {
         initComponent();
