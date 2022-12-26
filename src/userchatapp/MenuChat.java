@@ -59,7 +59,7 @@ public class MenuChat extends JPanel{
         for(;indexGroup < onlineGroup.size();indexGroup++){
             if(!onlineGroup.get(indexGroup).getOnline()) break;
             ItemChatAccount chatGroupItem = new ItemChatAccount(onlineGroup.get(indexGroup).getID(),onlineGroup.get(indexGroup).getGroupname(),onlineGroup.get(indexGroup).getOnline());
-            ChatBoxGroup chatBoxGroup = new ChatBoxGroup(user,onlineGroup.get(indexGroup).getGroupname(),onlineGroup.get(indexGroup).getOnline());
+            ChatBoxGroup chatBoxGroup = new ChatBoxGroup(user,onlineGroup.get(indexGroup),onlineGroup.get(indexGroup).getGroupname(),onlineGroup.get(indexGroup).getOnline());
             listFriendJlist.addItem(chatGroupItem);
             chatLayout.addTab(chatGroupItem.getName(), chatBoxGroup);
             chatGroup.put(onlineGroup.get(indexGroup).getID(), chatBoxGroup);

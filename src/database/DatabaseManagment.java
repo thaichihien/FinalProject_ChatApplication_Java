@@ -1177,5 +1177,28 @@ public class DatabaseManagment {
        
     }
 
+    public void unfriendUsers(int ID, int friendID){
+        String DELETE_QUERY = "DELETE FROM USER_FRIEND WHERE ID = ? AND FRIEND_ID = ?";
+        try (PreparedStatement statement = conn.prepareStatement(DELETE_QUERY);) {
+           
+            statement.setInt(1, ID);
+            statement.setInt(2, friendID);
+            statement.addBatch();
+            
+            statement.setInt(1, friendID);
+            statement.setInt(2, ID);
+            statement.addBatch();
+           
+            statement.executeBatch();
+           
+       } catch (Exception e) {
+           System.out.println(e);
+       }
+
+
+
+    }
+
+
 
 }

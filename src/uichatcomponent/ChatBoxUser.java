@@ -9,8 +9,10 @@ import java.util.Date;
 import java.util.StringTokenizer;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import chatservice.ChatService;
+import database.DatabaseManagment;
 import datastructure.Message;
 import datastructure.UserAccount;
 
@@ -35,6 +37,15 @@ public class ChatBoxUser extends ChatBoxLayout{
         user.sendPacket(packetSend);
     }
 
+    private void unfriend(){
+        String waringMessage = "Are you sure you want to unfriend " + other.getUsername();
+        if(JOptionPane.showConfirmDialog(null, waringMessage,"Confirm unfriend",JOptionPane.OK_CANCEL_OPTION) == JOptionPane.OK_OPTION){
+            DatabaseManagment database = DatabaseManagment.getInstance();
+            database.unfriendUsers(user.getID(), other.getID());
+            String packet = ChatService.createPacket(ChatService.CHANGES, other.getID(), ChatService.MENUCHAT, "0");
+            user.sendPacket(packet);
+        }
+    }
     
 
     public ChatBoxUser(UserAccount me,UserAccount other) {
@@ -86,6 +97,16 @@ public class ChatBoxUser extends ChatBoxLayout{
                 sendButtonActionPerformed(e);
                 
             }
+       });
+
+       unfriendButton.addActionListener(new ActionListener(){
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            unfriend();
+            
+        }
+
        });
         
       
