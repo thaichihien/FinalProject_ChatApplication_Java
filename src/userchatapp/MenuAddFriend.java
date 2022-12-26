@@ -19,20 +19,23 @@ import uichatcomponent.SearchBar;
 
 public class MenuAddFriend extends JPanel{
 
-    SearchBar searchBarFindFriendinList;
-    SearchBar searchBarFindFriend;
-    JButton unfriendButton;
+    SearchBar searchBarFindFriendRequest;
+    SearchBar searchBarFindNewFriend;
+    JButton responeRequestButton;
     JButton addfriendButton;
     JTable tableFindFriend;
-    JTable tableListFriend;
+    JTable tableListFriendRequest;
     UserAccount user;
     
 
-    // TODO 1: lấy dữ liệu từ searchBarFindFriend, thực hiện truy vấn tài khoản theo tên tìm kiếm
+    // TODO 1: lấy dữ liệu từ searchBarFindNewFriend, thực hiện truy vấn tài khoản theo tên tìm kiếm
     // nạp vào bảng tableFindFriend nếu thanh tìm kiếm rỗng thì nạp tất cả vào
     // Hiển thị danh sách tài khoản chưa kết bạn
+    // Sử dụng searchAccountsNotFriend(int ID,String name)
+    // trong đó ID là user.getID(), name là lấy từ thanh search bar là tên người dùng muốn tìm
     public void filltableFindFriend(){
         
+
 
     }
 
@@ -41,19 +44,19 @@ public class MenuAddFriend extends JPanel{
 
     }
 
-    //TODO 3: lấy dữ liệu từ searchBarFindFriend, thực hiện truy vấn tài khoản theo tên tìm kiếm
-    // nạp vào bảng tableFindFriend nếu thanh tìm kiếm rỗng thì nạp tất cả vào
-    // Hiển thị danh sách tài khoản đã kết bạn
-    public void filltableListFriend(){
+    //TODO 2: Lấy dữ liệu tên tìm kiếm từ searchBarFindNewFriend,
+    // nếu chuỗi rỗng thì trả về tất cả friend request sử dụng getAllFriendRequest(int ID)
+    // trong đó ID là user.getID()  (ID của người dùng hiện tại)
+    // nếu có nhập thì tìm request có tên người đó sử dụng getAllFriendRequest(int ID,String name)
+    // trong đó ID là user.getID() , name lấy từ thanh search bar là tên tìm trong các request
+    public void filltableListFriendRequest(){
 
 
 
     }
 
     
-    public void unfriend(int id){
-        
-    }
+    
 
    
 
@@ -62,7 +65,21 @@ public class MenuAddFriend extends JPanel{
         this.user = account;
         initComponent();
 
-        //filltableFindFriend();
+        searchBarFindNewFriend.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                filltableFindFriend();
+                
+            }
+        });
+        searchBarFindFriendRequest.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+              filltableListFriendRequest();
+            }
+        });
+
+        filltableFindFriend();
     }
 
 
@@ -74,26 +91,14 @@ public class MenuAddFriend extends JPanel{
         this.setBackground(new java.awt.Color(255, 255, 255));
         JLabel jLabel_danhsachbanbe = new JLabel();
         JLabel jLabel_thembanbe = new JLabel();
-        searchBarFindFriendinList = new SearchBar();
-        searchBarFindFriend = new SearchBar();
-        unfriendButton = new JButton();
+        searchBarFindFriendRequest = new SearchBar();
+        searchBarFindNewFriend = new SearchBar();
+        responeRequestButton = new JButton();
         addfriendButton = new JButton();
         tableFindFriend = new JTable();
-        tableListFriend = new JTable();
+        tableListFriendRequest = new JTable();
 
-        searchBarFindFriend.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                filltableFindFriend();
-                
-            }
-        });
-        searchBarFindFriendinList.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-              filltableListFriend();
-            }
-        });
+        
 
 
         
@@ -107,7 +112,7 @@ public class MenuAddFriend extends JPanel{
             }
         ));
         
-        tableListFriend.setModel(new javax.swing.table.DefaultTableModel(
+        tableListFriendRequest.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
               
             },
@@ -118,18 +123,18 @@ public class MenuAddFriend extends JPanel{
         
         jLabel_danhsachbanbe.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel_danhsachbanbe.setForeground(new java.awt.Color(51, 51, 51));
-        jLabel_danhsachbanbe.setText("Danh sách bạn bè");
+        jLabel_danhsachbanbe.setText("Lời mời kết bạn");
         jLabel_thembanbe.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         jLabel_thembanbe.setForeground(new java.awt.Color(51, 51, 51));
         jLabel_thembanbe.setText("Thêm bạn bè");
-        searchBarFindFriendinList.setForeground(new java.awt.Color(51, 51, 51));
-        searchBarFindFriendinList.setBackgroundColor(new java.awt.Color(204, 204, 204));
-        searchBarFindFriendinList.setPlaceHolder("Tìm bạn bè bằng tên đăng nhập");
-        searchBarFindFriend.setForeground(new java.awt.Color(51, 51, 51));
-        searchBarFindFriend.setBackgroundColor(new java.awt.Color(204, 204, 204));
-        searchBarFindFriend.setPlaceHolder("Thêm bạn bè bằng tên đăng nhập");
-        unfriendButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        unfriendButton.setText("Hủy kết bạn");
+        searchBarFindFriendRequest.setForeground(new java.awt.Color(51, 51, 51));
+        searchBarFindFriendRequest.setBackgroundColor(new java.awt.Color(204, 204, 204));
+        searchBarFindFriendRequest.setPlaceHolder("Tìm lời mời bằng tên đăng nhập");
+        searchBarFindNewFriend.setForeground(new java.awt.Color(51, 51, 51));
+        searchBarFindNewFriend.setBackgroundColor(new java.awt.Color(204, 204, 204));
+        searchBarFindNewFriend.setPlaceHolder("Thêm bạn bè bằng tên đăng nhập");
+        responeRequestButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        responeRequestButton.setText("Trả lời lời mời");
         addfriendButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         addfriendButton.setText("Kết bạn");
         
@@ -138,7 +143,7 @@ public class MenuAddFriend extends JPanel{
         JScrollPane jScrollPane_tableFindFriend = new JScrollPane();
         JScrollPane jScrollPane_tableListFriend = new JScrollPane();
         jScrollPane_tableFindFriend.setViewportView(tableFindFriend);
-        jScrollPane_tableListFriend.setViewportView(tableListFriend);
+        jScrollPane_tableListFriend.setViewportView(tableListFriendRequest);
         
         javax.swing.GroupLayout menuAddfriendsLayout = new javax.swing.GroupLayout(this);
         this.setLayout(menuAddfriendsLayout);
@@ -151,13 +156,13 @@ public class MenuAddFriend extends JPanel{
                         .addGroup(menuAddfriendsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel_danhsachbanbe, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel_thembanbe, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(searchBarFindFriendinList, javax.swing.GroupLayout.PREFERRED_SIZE, 831, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(searchBarFindFriendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 831, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                        .addComponent(unfriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(responeRequestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane_tableFindFriend)
                     .addComponent(jScrollPane_tableListFriend)
                     .addGroup(menuAddfriendsLayout.createSequentialGroup()
-                        .addComponent(searchBarFindFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 823, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(searchBarFindNewFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 823, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(addfriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(76, Short.MAX_VALUE))
@@ -169,7 +174,7 @@ public class MenuAddFriend extends JPanel{
                 .addComponent(jLabel_thembanbe, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(menuAddfriendsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchBarFindFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(searchBarFindNewFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(addfriendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane_tableFindFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -177,8 +182,8 @@ public class MenuAddFriend extends JPanel{
                 .addComponent(jLabel_danhsachbanbe, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(menuAddfriendsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(searchBarFindFriendinList, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(unfriendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(searchBarFindFriendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(responeRequestButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane_tableListFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(61, Short.MAX_VALUE))
@@ -194,10 +199,10 @@ public class MenuAddFriend extends JPanel{
         //                 .addGroup(menuAddfriendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
         //                     .addComponent(jLabel_danhsachbanbe, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
         //                     .addComponent(jLabel_thembanbe, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //                     .addComponent(searchBarFindFriendinList, javax.swing.GroupLayout.PREFERRED_SIZE, 831, javax.swing.GroupLayout.PREFERRED_SIZE))
+        //                     .addComponent(searchBarFindFriendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 831, javax.swing.GroupLayout.PREFERRED_SIZE))
         //                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-        //                 .addComponent(unfriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
-        //             .addComponent(searchBarFindFriend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        //                 .addComponent(responeRequestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
+        //             .addComponent(searchBarFindNewFriend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         //             .addComponent(jScrollPane_tableFindFriend)
         //             .addComponent(jScrollPane_tableListFriend))
         //         .addContainerGap(76, Short.MAX_VALUE))
@@ -208,15 +213,15 @@ public class MenuAddFriend extends JPanel{
         //         .addGap(36, 36, 36)
         //         .addComponent(jLabel_thembanbe, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
         //         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        //         .addComponent(searchBarFindFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+        //         .addComponent(searchBarFindNewFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
         //         .addGap(18, 18, 18)
         //         .addComponent(jScrollPane_tableFindFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
         //         .addGap(18, 18, 18)
         //         .addComponent(jLabel_danhsachbanbe, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
         //         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
         //         .addGroup(menuAddfriendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-        //             .addComponent(searchBarFindFriendinList, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //             .addComponent(unfriendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        //             .addComponent(searchBarFindFriendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
+        //             .addComponent(responeRequestButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         //         .addGap(18, 18, 18)
         //         .addComponent(jScrollPane_tableListFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
         //         .addContainerGap(61, Short.MAX_VALUE))

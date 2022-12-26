@@ -470,12 +470,13 @@ public class DatabaseManagment {
      * @return
      */
     public ArrayList<UserAccount> searchAccountsNotFriend(int ID,String name){
-        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE NOT UF.ID = ? AND UA.USERNAME LIKE '?%'";
+        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE NOT UF.ID = ? AND UA.USERNAME LIKE ? OR UA.FULLNAME LIKE ?";
         ResultSet data = null;
         ArrayList<UserAccount> accountList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             statment.setInt(1, ID);
-            statment.setString(2, name);
+            statment.setString(2, "%" + name + "%");
+            statment.setString(3, "%" + name + "%");
             data = statment.executeQuery();
             
             if(!data.next()){
@@ -1038,7 +1039,7 @@ public class DatabaseManagment {
         return messageList;
     }
 
-    public ArrayList<FriendRequest> getAllFriendRequest(int ID){
+    public ArrayList<FriendRequest> getAllFriendRequestRaw(int ID){
         String SELECT_QUERY = "SELECT FR.*,UA.USERNAME FROM FRIEND_REQUEST FR LEFT OUTER JOIN USER_ACCOUNT UA ON FR.FROM_ID = UA.ID WHERE TO_ID = ?";
         ResultSet data = null;
         ArrayList<FriendRequest> requestList = new ArrayList<>();
@@ -1058,6 +1059,83 @@ public class DatabaseManagment {
                     request.setTryTime(data.getInt("TRY"));
                    
                     requestList.add(request);                
+                } while (data.next());
+                return requestList;
+            }  
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return requestList;
+    }
+
+    public ArrayList<UserAccount> getAllFriendRequest(int ID){
+        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.EMAIL,UA.ONLINE FROM FRIEND_REQUEST FR LEFT OUTER JOIN USER_ACCOUNT UA ON FR.FROM_ID = UA.ID WHERE TO_ID = ?";
+        ResultSet data = null;
+        ArrayList<UserAccount> requestList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+           statment.setInt(1, ID);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return requestList;
+            }
+            else{
+                do {                    
+                    UserAccount account = new UserAccount();
+                    account.setID(data.getInt("ID"));
+                    account.setUsername(data.getString("USERNAME"));
+                    account.setFullname(data.getString("FULLNAME"));
+                    account.setOnline(data.getBoolean("ONLINE"));
+                   
+                    requestList.add(account);                
+                } while (data.next());
+                return requestList;
+            }  
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return requestList;
+    }
+
+    public ArrayList<UserAccount> getAllFriendRequest(int ID,String name){
+        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.EMAIL,UA.ONLINE FROM FRIEND_REQUEST FR LEFT OUTER JOIN USER_ACCOUNT UA ON FR.FROM_ID = UA.ID WHERE TO_ID = ? AND UA.USERNAME LIKE ? OR UA.FULLNAME LIKE ?";
+        ResultSet data = null;
+        ArrayList<UserAccount> requestList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+           statment.setInt(1, ID);
+           statment.setString(2, name);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return requestList;
+            }
+            else{
+                do {                    
+                    UserAccount account = new UserAccount();
+                    account.setID(data.getInt("ID"));
+                    account.setUsername(data.getString("USERNAME"));
+                    account.setFullname(data.getString("FULLNAME"));
+                    account.setOnline(data.getBoolean("ONLINE"));
+                   
+                    requestList.add(account);                
                 } while (data.next());
                 return requestList;
             }  

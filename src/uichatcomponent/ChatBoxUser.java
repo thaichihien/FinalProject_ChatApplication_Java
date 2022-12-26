@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.StringTokenizer;
 
+import javax.swing.JButton;
+
 import chatservice.ChatService;
 import datastructure.Message;
 import datastructure.UserAccount;
@@ -18,6 +20,7 @@ import datastructure.UserAccount;
  */
 public class ChatBoxUser extends ChatBoxLayout{
 
+    private JButton unfriendButton;
     UserAccount other;
 
     private void sendButtonActionPerformed(ActionEvent e){
@@ -40,32 +43,66 @@ public class ChatBoxUser extends ChatBoxLayout{
         nameJLabel.setText(other.getUsername());
         setStatusHeader(other.isOnline());
         
-        javax.swing.GroupLayout headerChatLayoutLayout = new javax.swing.GroupLayout(headerJPanel);
-        headerJPanel.setLayout(headerChatLayoutLayout);
-        headerChatLayoutLayout.setHorizontalGroup(
-            headerChatLayoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(headerChatLayoutLayout.createSequentialGroup()
+        unfriendButton = new JButton();
+        unfriendButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        unfriendButton.setText("Hủy kết bạn");
+        
+        javax.swing.GroupLayout headerGroupLayout = new javax.swing.GroupLayout(headerJPanel);
+        headerJPanel.setLayout(headerGroupLayout);
+        headerGroupLayout.setHorizontalGroup(
+            headerGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(headerGroupLayout.createSequentialGroup()
                 .addGap(31, 31, 31)
-                .addComponent(nameJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(headerGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(unfriendButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(nameJLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(statusJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(93, 93, 93)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(deleteHistoryJLabel)
-                .addGap(32, 32, 32)
+                .addGap(41, 41, 41)
                 .addComponent(searchBarChat, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addGap(67, 67, 67))
         );
-        headerChatLayoutLayout.setVerticalGroup(
-            headerChatLayoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(headerChatLayoutLayout.createSequentialGroup()
-                .addGap(36, 36, 36)
-                .addGroup(headerChatLayoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        headerGroupLayout.setVerticalGroup(
+            headerGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(headerGroupLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(headerGroupLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(nameJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(statusJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(deleteHistoryJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(searchBarChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(39, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(unfriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(18, Short.MAX_VALUE))
         );
+        // javax.swing.GroupLayout headerChatLayoutLayout = new javax.swing.GroupLayout(headerJPanel);
+        // headerJPanel.setLayout(headerChatLayoutLayout);
+        // headerChatLayoutLayout.setHorizontalGroup(
+        //     headerChatLayoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        //     .addGroup(headerChatLayoutLayout.createSequentialGroup()
+        //         .addGap(31, 31, 31)
+        //         .addComponent(nameJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
+        //         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+        //         .addComponent(statusJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+        //         .addGap(93, 93, 93)
+        //         .addComponent(deleteHistoryJLabel)
+        //         .addGap(32, 32, 32)
+        //         .addComponent(searchBarChat, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
+        //         .addContainerGap(57, Short.MAX_VALUE))
+        // );
+        // headerChatLayoutLayout.setVerticalGroup(
+        //     headerChatLayoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        //     .addGroup(headerChatLayoutLayout.createSequentialGroup()
+        //         .addGap(36, 36, 36)
+        //         .addGroup(headerChatLayoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+        //             .addComponent(nameJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+        //             .addComponent(statusJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+        //             .addComponent(deleteHistoryJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
+        //             .addComponent(searchBarChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        //         .addContainerGap(39, Short.MAX_VALUE))
+        // );
         
         createInput(this);
         sendButton.addActionListener(new ActionListener() {
