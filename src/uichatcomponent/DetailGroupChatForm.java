@@ -1,15 +1,93 @@
 
 package uichatcomponent;
 
+import java.util.ArrayList;
+
 import javax.swing.JFrame;
+import javax.swing.GroupLayout.Group;
+import javax.swing.table.DefaultTableModel;
+
+import database.DatabaseManagment;
+import datastructure.GroupChat;
+import datastructure.UserAccount;
+import utils.Utils;
 
 
 public class DetailGroupChatForm extends javax.swing.JFrame {
 
+    private javax.swing.JButton addMemberButton;
+    private javax.swing.JButton changeGroupNameButton;
+    private javax.swing.JButton enableAdminButton;
+    private javax.swing.JLabel jLabelGroupName;
+
+    private javax.swing.JButton removeMemberButton;
+    private uichatcomponent.SearchBar searchBarFriendGroup;
+    private javax.swing.JTable tableMemberGroup;
+
     private JFrame parentFrame;
-    public DetailGroupChatForm(JFrame parentFrame) {
+    private GroupChat groupChat;
+    private boolean isAdmin;
+
+
+    public void fillTableMember(){
+        Utils.clearTable(tableMemberGroup);
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        ArrayList<UserAccount> members = database.getAllGroupMembers(groupChat.getID());
+        DefaultTableModel tableModel = (DefaultTableModel) tableMemberGroup.getModel();
+        for (UserAccount member : members) {
+            String id = String.valueOf(member.getID());
+            String username = member.getUsername();
+            String fullname = member.getFullname();
+            String online = String.valueOf(member.getOnline());
+            String position = member.getPosition();
+            String row[] = { id, username, fullname, position,online };
+            tableModel.addRow(row);
+        }
+    }
+
+    // TODO 1: Gán quyền admin
+    // - Kiểm tra xem có account đang xem có phải admin (kiểm tra biến isAdmin)
+    // - lấy ID của row đang được chọn trong tableMemberGroup (Gợi ý tìm hiểu getValueAt của Jtable model 
+    //         hoặc xem ví dụ hàm addToGroup của MenuGroup)
+    // - Dùng JOptionPane để hỏi người dùng có chắc chắn k, không thì return
+    // Chia 2 TH : + Nếu account chọn đang là member thì gán quyền admin:
+    //             + Sử dụng  database.assignAdminToUser(int ID,int groupID)
+    //              + Trong đó ID là ID vừa lấy của row selected, groupId là groupChat.getID()
+    //             + Nếu account chọn đang là admin thì gán quyền member:
+    //              + Sử dụng assignMemberToUser(int ID,int groupID) tham số tương tự trên
+    // - Gọi hàm fillTableMember()
+    public void enableAdmin(){
+
+    }
+
+    public void addMemberToGroup(){
+
+    }
+
+    // TODO 2: Thay đổi tên nhóm
+    // Thiết kế một Jpanel nhỏ gồm Jlabel là "Nhập tên nhóm" và Jtextfield cho
+    // người dùng nhập tên nhóm mới
+    // dùng JOptionPane truyền Jpanel để hiện lên cho người dùng
+    // JOption này có 2 nút OK và cancel
+    // Ok : + kiểm tra Jtextfield, nếu trống thì hiện JOptionPane cảnh báo
+    //      +Thay đổi tên nhóm theo Jtextfield sử dụng setNewGroupName(String name,int groupID)
+    //      + Với name là tên nhóm mới, groupID là groupChat.getID()
+    //      +Thay đổi tên nhóm ở jLabelGroupName
+    // canncel: return
+    public void changeGroupName(){
+
+    }
+
+
+
+    public DetailGroupChatForm(JFrame parentFrame,GroupChat groupChat,boolean isAdmin) {
         initComponents();
         this.parentFrame = parentFrame;
+        this.groupChat = groupChat;
+        this.isAdmin = isAdmin;
+
+        jLabelGroupName.setText(groupChat.getGroupname());
+        fillTableMember();
     }
 
                             
@@ -40,7 +118,7 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
             new Object [][] {
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "username", "fullname", "position","online"
             }
         ));
         jScrollPane1.setViewportView(tableMemberGroup);
@@ -177,15 +255,8 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify                     
-    private javax.swing.JButton addMemberButton;
-    private javax.swing.JButton changeGroupNameButton;
-    private javax.swing.JButton enableAdminButton;
-    private javax.swing.JLabel jLabelGroupName;
-    private javax.swing.JLabel jLabel_danhsachthanhvien;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JButton removeMemberButton;
-    private uichatcomponent.SearchBar searchBarFriendGroup;
-    private javax.swing.JTable tableMemberGroup;
+    private javax.swing.JLabel jLabel_danhsachthanhvien;
     // End of variables declaration                   
 }

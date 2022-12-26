@@ -18,6 +18,7 @@ public class UserAccount {
     private String email;
     private boolean online;
     private String createdAt;
+    private String position;
 
     // Socket
     public Socket clienSocket;
@@ -149,6 +150,16 @@ public class UserAccount {
     public void setOnline(boolean online) {
         this.online = online;
     }
+
+
+    public String getPosition() {
+        return this.position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
 
     public String toString(){
         String result = String.format("{%d, %s, %s, %s, %b}", this.ID,this.username,this.fullname,this.email,this.online);

@@ -61,7 +61,7 @@ public class MenuGroup extends JPanel {
     public void addToGroup() {
         int row = tableListFriend.getSelectedRow();
         String isChoosen = tableListFriend.getModel().getValueAt(row, 4).toString();
-        if(isChoosen.equals("✓")){
+        if(isChoosen.equals("Đã chọn")){
             JOptionPane.showMessageDialog(null, "This account has been selected to the group", "Already selected", JOptionPane.WARNING_MESSAGE);
             return;
         }
@@ -73,7 +73,7 @@ public class MenuGroup extends JPanel {
         if (status.equals("true"))
             isonline = true;
         listFriendChoosen.addItem(new ItemChatAccount(friendID, username, isonline));
-        tableListFriend.getModel().setValueAt("✓", row, 4);
+        tableListFriend.getModel().setValueAt("Đã chọn", row, 4);
     }
 
     public void createNewGroupChat() {
