@@ -116,6 +116,15 @@ public class ClientRoom extends Thread {
                 System.out.println(packetSend);
                 pw.println(packetSend);
             }
+            else if(allMessage[0].equals(ChatService.CHANGES)){
+                OutputStream clientOut = this.clientSocket.getOutputStream();
+                PrintWriter pw = new PrintWriter(new OutputStreamWriter(clientOut, "UTF-8"), true);
+                String timeSend = allMessage[2];
+                String messageSend = allMessage[3];
+                String packetSend = ChatService.createPacket(ChatService.CHANGES, ID, messageSend, timeSend);
+                System.out.println(packetSend);
+                pw.println(packetSend);
+            }
             else{
                 System.out.println("diff");
             }

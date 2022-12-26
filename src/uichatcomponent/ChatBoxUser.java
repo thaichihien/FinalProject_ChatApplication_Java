@@ -77,32 +77,7 @@ public class ChatBoxUser extends ChatBoxLayout{
                 .addComponent(unfriendButton, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
-        // javax.swing.GroupLayout headerChatLayoutLayout = new javax.swing.GroupLayout(headerJPanel);
-        // headerJPanel.setLayout(headerChatLayoutLayout);
-        // headerChatLayoutLayout.setHorizontalGroup(
-        //     headerChatLayoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        //     .addGroup(headerChatLayoutLayout.createSequentialGroup()
-        //         .addGap(31, 31, 31)
-        //         .addComponent(nameJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 214, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-        //         .addComponent(statusJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //         .addGap(93, 93, 93)
-        //         .addComponent(deleteHistoryJLabel)
-        //         .addGap(32, 32, 32)
-        //         .addComponent(searchBarChat, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //         .addContainerGap(57, Short.MAX_VALUE))
-        // );
-        // headerChatLayoutLayout.setVerticalGroup(
-        //     headerChatLayoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        //     .addGroup(headerChatLayoutLayout.createSequentialGroup()
-        //         .addGap(36, 36, 36)
-        //         .addGroup(headerChatLayoutLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-        //             .addComponent(nameJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //             .addComponent(statusJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //             .addComponent(deleteHistoryJLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //             .addComponent(searchBarChat, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-        //         .addContainerGap(39, Short.MAX_VALUE))
-        // );
+        
         
         createInput(this);
         sendButton.addActionListener(new ActionListener() {

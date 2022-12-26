@@ -14,6 +14,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import chatservice.ChatService;
 import database.DatabaseManagment;
 import datastructure.GroupChat;
 import datastructure.UserAccount;
@@ -50,7 +51,7 @@ public class MenuGroup extends JPanel {
             String username = String.valueOf(friend.getUsername());
             String fullname = String.valueOf(friend.getFullname());
             String online = String.valueOf(friend.getOnline());
-            String row[] = { id, username, fullname, online };
+            String row[] = { id, username, fullname, online,"" };
             tableModel.addRow(row);
         }
         searchBarFriend.setText("");
@@ -59,19 +60,27 @@ public class MenuGroup extends JPanel {
 
     public void addToGroup() {
         int row = tableListFriend.getSelectedRow();
-        int friendID = (Integer) tableListFriend.getModel().getValueAt(row, 0);
+        String isChoosen = tableListFriend.getModel().getValueAt(row, 4).toString();
+        if(isChoosen.equals("✓")){
+            JOptionPane.showMessageDialog(null, "This account has been selected to the group", "Already selected", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        String friendIDString = tableListFriend.getModel().getValueAt(row, 0).toString();
         String username = tableListFriend.getModel().getValueAt(row, 1).toString();
         String status = tableListFriend.getModel().getValueAt(row, 3).toString();
         boolean isonline = false;
+        int friendID = Integer.parseInt(friendIDString);
         if (status.equals("true"))
             isonline = true;
         listFriendChoosen.addItem(new ItemChatAccount(friendID, username, isonline));
+        tableListFriend.getModel().setValueAt("✓", row, 4);
     }
 
     public void createNewGroupChat() {
         String groupName = inputGroupName.getText();
-        if(groupName.isEmpty()){
-            JOptionPane.showMessageDialog(null, "Group name is empty", "Input a group name", JOptionPane.WARNING_MESSAGE);
+        if (groupName.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Group name is empty", "Input a group name",
+                    JOptionPane.WARNING_MESSAGE);
             return;
         }
         ArrayList<UserAccount> member = listFriendChoosen.getAllItem();
@@ -83,11 +92,11 @@ public class MenuGroup extends JPanel {
         groupChat.setGroupname(groupName);
         groupChat.setAdmins(admin);
         database.addNewGroup(groupChat);
-        JOptionPane.showMessageDialog(null, "Created chat group successfully", "Created chat group", JOptionPane.INFORMATION_MESSAGE);
+        String packet = ChatService.createPacket(ChatService.CHANGES, 0, ChatService.MENUCHAT, "0");
+        user.sendPacket(packet);
+        JOptionPane.showMessageDialog(null, "Created chat group successfully", "Created chat group",
+                JOptionPane.INFORMATION_MESSAGE);
     }
-
-
-
 
     public MenuGroup(UserAccount account) {
         initComponent();
@@ -105,9 +114,15 @@ public class MenuGroup extends JPanel {
         addToGroupButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                addToGroup();
             }
 
+        });
+
+        createGroupButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createNewGroupChat();
+            }
         });
 
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
@@ -163,7 +178,7 @@ public class MenuGroup extends JPanel {
 
                 },
                 new String[] {
-                        "id", "Username", "Email", "Online"
+                        "id", "Username", "Email", "Online","Đã chọn"
                 }));
         JScrollPane jScrollPane_tableListFriend = new JScrollPane();
         jScrollPane_tableListFriend.setViewportView(tableListFriend);
@@ -186,11 +201,6 @@ public class MenuGroup extends JPanel {
         createGroupButton.setText("Tạo nhóm");
         addToGroupButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         addToGroupButton.setText("Thêm vào nhóm");
-        // createGroupButton.addActionListener(new java.awt.event.ActionListener() {
-        // public void actionPerformed(java.awt.event.ActionEvent evt) {
-        // createGroupButtonActionPerformed(evt);
-        // }
-        // });
 
         javax.swing.GroupLayout menuGroupLayout = new javax.swing.GroupLayout(this);
         this.setLayout(menuGroupLayout);

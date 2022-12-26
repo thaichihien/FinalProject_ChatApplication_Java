@@ -2,6 +2,7 @@
 package userchatapp;
 import java.awt.Color;
 
+import chatservice.ChatService;
 import datastructure.UserAccount;
 import uichatcomponent.ChatBoxGroup;
 import uichatcomponent.ChatBoxUser;
@@ -12,15 +13,37 @@ import uichatcomponent.ItemChatAccount;
  *
  * @author HIEN
  */
-public class MainFormUser extends javax.swing.JFrame {
+public class MainFormUser extends javax.swing.JFrame implements Runnable {
 
     private final Color activeTabColor = new Color(239,239,239);
     private final Color unactiveTabColor = new Color(217,217,217);
     private UserAccount user;
+    MenuChat menuChatLayout;
 
     	// ! WARNING: KHÔNG CHỈNH SỬA FILE NÀY, ĐANG LÀM VIỆC SOCKET
 
+    @Override
+    public void run() {
+       while(true){
+            String receiveMessage = user.receivePacket();
+            handleMessage(receiveMessage);
+       }
+    }
 
+    public void handleMessage(String packet){
+        System.out.println(packet);
+        String[] allMessage = ChatService.packetAnalysis(packet);
+
+       
+        if(allMessage[0].equals(ChatService.CHAT)){ // chat#id#time#content
+            menuChatLayout.addMessageToChatbox(allMessage);
+        }else if(allMessage[0].equals(ChatService.CHANGES)){ // change#id#time#menuchat
+           if(allMessage[3].equals(ChatService.MENUCHAT)){
+            menuChatLayout.resetData();
+           }
+        }
+
+    }
 
     
     public MainFormUser(UserAccount user) {
@@ -44,7 +67,7 @@ public class MainFormUser extends javax.swing.JFrame {
         this.user = user;
         userNameLabel.setText(this.user.getUsername());
 
-        MenuChat menuChatLayout = new MenuChat(this.user);
+        menuChatLayout = new MenuChat(this.user);
         jTabbedPaneLayput.addTab("ss", menuChatLayout);
         //menuChatLayout.addToListFriendJlist(new ItemChatAccount("Người dùng 1",true));
         //menuChatLayout.addToListFriendJlist(new ItemChatAccount("Nhóm 2",true));
@@ -63,6 +86,9 @@ public class MainFormUser extends javax.swing.JFrame {
         MenuGroup menuGroupLayout = new MenuGroup(this.user);
         jTabbedPaneLayput.addTab("asaa", menuGroupLayout);
         
+        Thread receiveMessageProcess = new Thread(this);
+        receiveMessageProcess.start();
+
 //        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
 //        listItemChatAccountGroup.addItem(new ItemChatAccount("ss",true));
 //        listItemChatAccountGroup.addItem(new ItemChatAccount("Tessst",true));
@@ -268,26 +294,27 @@ public class MainFormUser extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTabButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabButton1MouseClicked
+    private void jTabButton1MouseClicked(java.awt.event.MouseEvent evt) {
         jTabbedPaneLayput.setSelectedIndex(0);
         jTabButton1.setBackground(activeTabColor);
         jTabButton2.setBackground(unactiveTabColor);
         jTabButton3.setBackground(unactiveTabColor);
-    }//GEN-LAST:event_jTabButton1MouseClicked
 
-    private void jTabButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabButton2MouseClicked
+    }
+
+    private void jTabButton2MouseClicked(java.awt.event.MouseEvent evt) {
          jTabbedPaneLayput.setSelectedIndex(1);
         jTabButton1.setBackground(unactiveTabColor);
         jTabButton2.setBackground(activeTabColor);
         jTabButton3.setBackground(unactiveTabColor);
-    }//GEN-LAST:event_jTabButton2MouseClicked
+    }
 
-    private void jTabButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTabButton3MouseClicked
+    private void jTabButton3MouseClicked(java.awt.event.MouseEvent evt) {
          jTabbedPaneLayput.setSelectedIndex(2);
         jTabButton1.setBackground(unactiveTabColor);
         jTabButton2.setBackground(unactiveTabColor);
         jTabButton3.setBackground(activeTabColor);
-    }//GEN-LAST:event_jTabButton3MouseClicked
+    }
 
     //MAIN
     public static void main(String args[]) {
@@ -315,4 +342,6 @@ public class MainFormUser extends javax.swing.JFrame {
     private javax.swing.JPanel navbar;
     private javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables
+
+   
 }

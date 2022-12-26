@@ -9,7 +9,9 @@ import java.util.StringTokenizer;
 
 public class ChatService {
     public static final String CHAT = "chat";
+    public static final String CHANGES = "change";
     public static final String DELIMITER = "#";
+    public static final String MENUCHAT = "menuchat";
 
     public static String createPacket(String signal,int to,String content,String time){
         String toWho = String.valueOf(to);
