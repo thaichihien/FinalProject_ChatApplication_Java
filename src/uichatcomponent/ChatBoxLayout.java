@@ -3,12 +3,18 @@ package uichatcomponent;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+
+import datastructure.UserAccount;
 
 /**
  *
@@ -23,10 +29,10 @@ public class ChatBoxLayout extends JPanel{
     public ChatMessageDisplay displayChat;
     protected JTextArea inputChatTextArea;
     protected JButton sendButton;
+    protected UserAccount user;
 
-    private void sendButtonActionPerformed(ActionEvent e){
-
-    }
+    
+    
 
     public void addMessage(ChatMessageBlock messageBlock){
 
@@ -36,7 +42,8 @@ public class ChatBoxLayout extends JPanel{
 
 
 
-    public ChatBoxLayout() {
+    public ChatBoxLayout(UserAccount account) {
+        this.user = account;
         this.setBackground(new java.awt.Color(255, 255, 255));
         nameJLabel = new JLabel();
         statusJLabel = new JLabel();
@@ -72,13 +79,7 @@ public class ChatBoxLayout extends JPanel{
 
         sendButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         sendButton.setText("Gửi");
-        sendButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                sendButtonActionPerformed(e);
-                
-            }
-       });
+       
         
         javax.swing.GroupLayout chatBoxUserLayout = new javax.swing.GroupLayout(layout);
         layout.setLayout(chatBoxUserLayout);

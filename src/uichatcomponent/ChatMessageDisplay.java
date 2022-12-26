@@ -50,7 +50,7 @@ public class ChatMessageDisplay extends JScrollPane{
     
     public ChatMessageDisplay() {
         marginTopBottom = 10;
-        marginLeftRight = 100;
+        marginLeftRight = 60;
         initComponent();
         
     }

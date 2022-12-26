@@ -243,9 +243,9 @@ public class Register extends JFrame {
         
         
         private void lblHavingAccMouseClicked(java.awt.event.MouseEvent evt) {                                     
-             Login registerForm = new Login();
-             registerForm.setVisible(true);
-             this.dispose(); 
+            //  Login registerForm = new Login();
+            //  registerForm.setVisible(true);
+            //  this.dispose(); 
         }                                    
 
        

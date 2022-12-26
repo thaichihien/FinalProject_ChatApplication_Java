@@ -17,6 +17,7 @@ import database.DatabaseManagment;
 import datastructure.UserAccount;
 import uichatcomponent.ListItemChatAccount;
 import uichatcomponent.SearchBar;
+import utils.Utils;
 
 
 public class MenuGroup extends JPanel{
@@ -30,29 +31,34 @@ public class MenuGroup extends JPanel{
     SearchBar searchBarFriend;  // khi đang nhập nhấn enter để tìm
     UserAccount user;
 
-    
-    // TODO 2: cải tiến hàm dựa vào searchBarFriend
-    // searchBarFriend trả về chuỗi rỗng thì nạp hết như bình thường
-    // sử dụng database.searchFriendList(int ID,String name)
-    // trong đó: + ID là user.getID() (ID của người dùng hiện tại)
-    //             + name là tên người bạn muôn tìm để thêm vào nhóm
+
 
     public void filltableListFriend(){
+        Utils.clearTable(tableListFriend);
     	DatabaseManagment database = DatabaseManagment.getInstance();
-    	ArrayList<UserAccount> allFriend = database.getFriendArrayList(user.getID());
-    	// tableFindFriend is JTable
+        ArrayList<UserAccount> allFriend;
+        String name = searchBarFriend.getText();
+        if(!name.isEmpty()) {
+            allFriend = database.searchFriendList(user.getID(), name);
+        }else{
+            allFriend = database.getFriendArrayList(user.getID());
+        }
+        
     	DefaultTableModel tableModel = (DefaultTableModel) tableListFriend.getModel();
     	for(UserAccount friend : allFriend){
+    		String id = String.valueOf(friend.getID());
     		String username = String.valueOf(friend.getUsername());
-    	    String email = friend.getEmail();
+    		String fullname = String.valueOf(friend.getFullname());
     	    String online = String.valueOf(friend.getOnline());  
-    	    String row[] = {username,email, online};
+    	    String row[] = {id,username,fullname,online};
     	    tableModel.addRow(row);
-
     	}
+        searchBarFriend.setText("");
+       
     }
+   
 
-    //TODO 2: tạo nhóm chat
+    
     public void createNewGroupChat(){
         
     }
@@ -63,16 +69,14 @@ public class MenuGroup extends JPanel{
        initComponent();
        this.user = account;
 
-       searchBarFriend.addActionListener(new ActionListener(){
+      searchBarFriend.addActionListener(new ActionListener(){
+       @Override
+       public void actionPerformed(ActionEvent e) {
+           filltableListFriend();
+           
+       }
 
-        @Override
-        public void actionPerformed(ActionEvent e) {
-            filltableListFriend();
-            
-        }
-
-       });
-
+      });
        filltableListFriend();
 
         
@@ -146,6 +150,7 @@ public class MenuGroup extends JPanel{
         searchBarFriend.setForeground(new java.awt.Color(51, 51, 51));
         searchBarFriend.setBackgroundColor(new java.awt.Color(204, 204, 204));
         searchBarFriend.setPlaceHolder("Tìm kiếm bằng tên...");
+        
 
         createGroupButton.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         createGroupButton.setText("Tạo nhóm");

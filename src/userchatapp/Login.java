@@ -1,9 +1,10 @@
 package userchatapp;
 
-import java.awt.EventQueue;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
 
 import database.DatabaseManagment;
@@ -13,7 +14,12 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Insets;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JTextField;
@@ -24,58 +30,71 @@ public class Login extends JFrame {
 
 	private JPanel contentPane;
 	private JTextField txtUser;		// chứa tên đăng nhập
-	private JTextField txtPass;		// chứa mật khẩu
+	private JPasswordField txtPass;		// chứa mật khẩu
 	private JButton btnLogin;		// nút đăng nhập
 
 	private JLabel lblCreateAcc;	// nút tạo acc
 	private JLabel lblForgetPass;	// nút quên mật khẩu
 
 	private JLabel lblUser;
-	private JLabel lblPass;
+	// private JLabel lblPass;
+	private UserAccount socketTemp;
 
 
-	// TODO 1: Viết hàm đăng nhập, kiểm tra các field, so sánh database
-	// Ok thì trả về account đăng nhập ngược lại null rồi làm hiện lỗi tại hàm btnLoginActionPerformed()
+	// ! WARNING: KHÔNG CHỈNH SỬA FILE NÀY, ĐANG LÀM VIỆC SOCKET
 
 	private UserAccount loginAccount(){
 		String username,password;
 		username=new String(txtUser.getText());
-		password=new String(txtPass.getText());
+		password=new String(txtPass.getPassword());
 		if(username.isBlank()||password.isBlank())
 			return null;
-		else {
-			DatabaseManagment db=DatabaseManagment.getInstance();
-			if (db.checkAccount(username, password))
-			{
-				UserAccount account=new UserAccount();
-				account.setUsername(username);
-				account.setPassword(password);	
-				return account;
-			}
-		}
-
-		return null;
+		
+		DatabaseManagment db=DatabaseManagment.getInstance();
+		UserAccount account = db.getDetailAccount(username,password);
+		return account;
 	}
 
 	private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
 
 		UserAccount account = loginAccount();
 		if(account != null){
+			account.setClienSocket(socketTemp.getClienSocket());
+			account.setPw(socketTemp.getPw());
+			account.setBr(socketTemp.getBr());
+
+			// TODO send ID to server
+			socketTemp.sendPacket(String.valueOf(account.getID()));
+			while (true) {
+				try {
+					String validateRespone = socketTemp.receivePacket();
+					if(validateRespone.equals("IDEXIST")){
+						JOptionPane.showMessageDialog(null, 
+						"This account is online on the system", "Login failed", 
+						JOptionPane.WARNING_MESSAGE);
+						txtUser.setText("");
+						txtPass.setText("");
+						return;
+					}
+					else{
+						break;
+					}
+				} catch (HeadlessException e) {
+					e.printStackTrace();
+				}
+			}
+
+
 			MainFormUser menuForm = new MainFormUser(account);
 			menuForm.setVisible(true);
 			this.dispose();
 		}
 		else{
-			//TODO 2: Hiện lỗi tại đây cho người, recommend dùng JOptionPane;
-			// Xử lý lỗi : in lỗi người dùng nhập sai ở đâu ...
-			// JFrame frame = new JFrame("Error");
-			// frame.setSize(200, 200);
-			// frame.setLocationRelativeTo(null);
-			// frame.setVisible(true);
+			
 
 			String username,password;
 			username=new String(txtUser.getText());
-			password=new String(txtPass.getText());
+			password=new String(txtPass.getPassword());
 			if(username.isBlank()||password.isBlank())
 				JOptionPane.showMessageDialog(null,"Please enter all required fields!");
 			else {
@@ -90,24 +109,28 @@ public class Login extends JFrame {
 	/**
 	 * Launch the application.
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Login frame = new Login();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	// public static void main(String[] args) {
+	// 	EventQueue.invokeLater(new Runnable() {
+	// 		public void run() {
+	// 			try {
+	// 				Login frame = new Login();
+	// 				frame.setVisible(true);
+	// 			} catch (Exception e) {
+	// 				e.printStackTrace();
+	// 			}
+	// 		}
+	// 	});
+	// }
 
 	/**
 	 * Create the frame.
 	 */
-	public Login() {
+	public Login(Socket clienSocket,PrintWriter pw,BufferedReader br) {
 		initComponent();
+		socketTemp = new UserAccount();
+		socketTemp.setClienSocket(clienSocket);
+		socketTemp.setPw(pw);
+		socketTemp.setBr(br);
 
 		lblCreateAcc.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -188,7 +211,7 @@ public class Login extends JFrame {
 		lblUser.setBounds(270, 265, 226, 28);
 		contentPane.add(lblUser);
 
-		txtPass = new JTextField();
+		txtPass = new JPasswordField();
 		txtPass.setMargin(new Insets(10, 15, 10, 10));
 		txtPass.setHorizontalAlignment(SwingConstants.LEFT);
 		txtPass.setForeground(Color.GRAY);

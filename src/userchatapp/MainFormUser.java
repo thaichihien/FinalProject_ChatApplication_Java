@@ -18,6 +18,9 @@ public class MainFormUser extends javax.swing.JFrame {
     private final Color unactiveTabColor = new Color(217,217,217);
     private UserAccount user;
 
+    	// ! WARNING: KHÔNG CHỈNH SỬA FILE NÀY, ĐANG LÀM VIỆC SOCKET
+
+
 
     
     public MainFormUser(UserAccount user) {
@@ -45,10 +48,12 @@ public class MainFormUser extends javax.swing.JFrame {
         jTabbedPaneLayput.addTab("ss", menuChatLayout);
         //menuChatLayout.addToListFriendJlist(new ItemChatAccount("Người dùng 1",true));
         //menuChatLayout.addToListFriendJlist(new ItemChatAccount("Nhóm 2",true));
-        ChatBoxUser testChatBox1 = new ChatBoxUser("Chí Hiện",true);
-        ChatBoxGroup testChatGroup1 = new ChatBoxGroup("Lương Sơn Bạc", false);
-        menuChatLayout.chatLayout.addTab("", testChatBox1);
-        menuChatLayout.chatLayout.addTab("", testChatGroup1);
+        
+
+        //ChatBoxUser testChatBox1 = new ChatBoxUser("Chí Hiện",true);
+        //ChatBoxGroup testChatGroup1 = new ChatBoxGroup("Lương Sơn Bạc", false);
+        //menuChatLayout.chatLayout.addTab("", testChatBox1);
+        //menuChatLayout.chatLayout.addTab("", testChatGroup1);
         //jTabbedPane.setSelectedIndex();
         
         MenuAddFriend menuFriendLayout = new MenuAddFriend(this.user);

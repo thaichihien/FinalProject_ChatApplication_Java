@@ -1,0 +1,108 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Launch Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Launch MainFormAdmin",
+            "request": "launch",
+            "mainClass": "adminchatapp.MainFormAdmin",
+            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Client",
+            "request": "launch",
+            "mainClass": "chatservice.Client",
+            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Server",
+            "request": "launch",
+            "mainClass": "chatservice.Server",
+            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
+        },
+        {
+            "type": "java",
+            "name": "Launch MainFrameTest",
+            "request": "launch",
+            "mainClass": "test.MainFrameTest",
+            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
+        },
+        {
+            "type": "java",
+            "name": "Launch AddFriendToGroup",
+            "request": "launch",
+            "mainClass": "uichatcomponent.AddFriendToGroup",
+            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
+        },
+        {
+            "type": "java",
+            "name": "Launch CreateAccountForm",
+            "request": "launch",
+            "mainClass": "uichatcomponent.CreateAccountForm",
+            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
+        },
+        {
+            "type": "java",
+            "name": "Launch DetailAccountForm",
+            "request": "launch",
+            "mainClass": "uichatcomponent.DetailAccountForm",
+            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
+        },
+        {
+            "type": "java",
+            "name": "Launch DetailGroupChatForm",
+            "request": "launch",
+            "mainClass": "uichatcomponent.DetailGroupChatForm",
+            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
+        },
+        {
+            "type": "java",
+            "name": "Launch DetailGroupForm",
+            "request": "launch",
+            "mainClass": "uichatcomponent.DetailGroupForm",
+            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
+        },
+        {
+            "type": "java",
+            "name": "Launch ForgetPassword",
+            "request": "launch",
+            "mainClass": "userchatapp.ForgetPassword",
+            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
+        },
+        {
+            "type": "java",
+            "name": "Launch MainFormUser",
+            "request": "launch",
+            "mainClass": "userchatapp.MainFormUser",
+            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
+        },
+        {
+            "type": "java",
+            "name": "Launch Register",
+            "request": "launch",
+            "mainClass": "userchatapp.Register",
+            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Server/Client",
+            "configurations": ["Launch Server","Launch Client"]
+        },
+        {
+            "name": "Server/2 Client",
+            "configurations": ["Launch Server", "Launch Client","Launch Client"]
+        }
+    ]
+}

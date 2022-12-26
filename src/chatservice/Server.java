@@ -9,7 +9,7 @@ public class Server {
     ServerSocket server;
     final int PORT = 500;
 
-    public static HashMap<String,ClientRoom> clientList = new HashMap<>();
+    public static HashMap<Integer,ClientRoom> clientList = new HashMap<>();
 
     public Server(){
         try {
@@ -31,9 +31,9 @@ public class Server {
                 System.out.println("Waiting for connect request...");
                 Socket client = server.accept();
                 
-                // ClientRoom newClient = new ClientRoom(client);
-                // clientList.add(newClient);
-                //newClient.start();
+                ClientRoom newClient = new ClientRoom(client);
+                //clientList.add(newClient);
+                newClient.start();
 
                
             } catch (IOException ie) {

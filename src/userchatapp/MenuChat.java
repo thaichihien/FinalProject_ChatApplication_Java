@@ -9,9 +9,12 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ListSelectionEvent;
 
+import chatservice.ChatService;
 import database.DatabaseManagment;
+import datastructure.GroupChat;
 import datastructure.Message;
 import datastructure.UserAccount;
+import uichatcomponent.ChatBoxGroup;
 import uichatcomponent.ChatBoxUser;
 import uichatcomponent.ChatMessageBlock;
 import uichatcomponent.ItemChatAccount;
@@ -19,31 +22,70 @@ import uichatcomponent.ListItemChatAccount;
 import uichatcomponent.SearchBar;
 
 
-public class MenuChat extends JPanel{
+public class MenuChat extends JPanel implements Runnable{
     
     public SearchBar searchBarFriendList;
     public ListItemChatAccount<String> listFriendJlist;
     public JTabbedPane chatLayout;
     private DatabaseManagment database;
     private UserAccount user;
+    private HashMap<String,ChatBoxUser> chatUser;
+    private HashMap<Integer,ChatBoxGroup> chatGroup;
 
 
-    // TODO : Viết hàm lấy dữ liệu từ database ==> nạp vào listFriendJlist
-    // ứng với ItemChatAccountUI là một chatbox
-    // HIỆN làm
+    // TODO cải tiến search bạn bè, hiển thị nhóm chat
     public void fillFriendList(){
-        HashMap<String,ChatBoxUser> chatAndBox = new HashMap<>();
+        
         ArrayList<UserAccount> onlineUser = database.getFriendArrayListByOnline(user.getID());
         ArrayList<Message> allChat = database.getAllMessageFromUser(user.getID());
-        for(UserAccount account : onlineUser){
-            ItemChatAccount chatAccount = new ItemChatAccount(account.getID(),account.getUsername(),account.getOnline());
-            ChatBoxUser chatBoxUser = new ChatBoxUser(chatAccount.getName(),chatAccount.getStatus());
+        ArrayList<GroupChat> onlineGroup = database.getAllGroupChatOnline(user.getID());
+
+
+        // put user online first
+        int index = 0;
+        for(;index < onlineUser.size();index++){
+            if(!onlineUser.get(index).getOnline()) break;
+            ItemChatAccount chatAccount = new ItemChatAccount(onlineUser.get(index).getID(),onlineUser.get(index).getUsername(),onlineUser.get(index).getOnline());
+            ChatBoxUser chatBoxUser = new ChatBoxUser(user,onlineUser.get(index));
             listFriendJlist.addItem(chatAccount);
             chatLayout.addTab(chatAccount.getName(), chatBoxUser);
-            String chatBoxID = ChatBoxUser.createChatBoxUserID(user.getID(), account.getID());
-            chatAndBox.put(chatBoxID, chatBoxUser);
+            String chatBoxID = ChatBoxUser.createChatBoxUserID(user.getID(), onlineUser.get(index).getID());
+            chatUser.put(chatBoxID, chatBoxUser);
         }
 
+        // put group online first
+        int indexGroup = 0;
+        for(;indexGroup < onlineGroup.size();indexGroup++){
+            if(!onlineGroup.get(indexGroup).getOnline()) break;
+            ItemChatAccount chatGroupItem = new ItemChatAccount(onlineGroup.get(indexGroup).getID(),onlineGroup.get(indexGroup).getGroupname(),onlineGroup.get(indexGroup).getOnline());
+            ChatBoxGroup chatBoxGroup = new ChatBoxGroup(user,onlineGroup.get(indexGroup).getGroupname(),onlineGroup.get(indexGroup).getOnline());
+            listFriendJlist.addItem(chatGroupItem);
+            chatLayout.addTab(chatGroupItem.getName(), chatBoxGroup);
+            chatGroup.put(onlineGroup.get(indexGroup).getID(), chatBoxGroup);
+        }
+
+        //put all friend and group remain
+        for(;index < onlineUser.size();index++){
+            
+            ItemChatAccount chatAccount = new ItemChatAccount(onlineUser.get(index).getID(),onlineUser.get(index).getUsername(),onlineUser.get(index).getOnline());
+            ChatBoxUser chatBoxUser = new ChatBoxUser(user,onlineUser.get(index));
+            listFriendJlist.addItem(chatAccount);
+            chatLayout.addTab(chatAccount.getName(), chatBoxUser);
+            String chatBoxID = ChatBoxUser.createChatBoxUserID(user.getID(), onlineUser.get(index).getID());
+            chatUser.put(chatBoxID, chatBoxUser);
+        }
+
+        for(;indexGroup < onlineGroup.size();indexGroup++){
+            if(!onlineGroup.get(indexGroup).getOnline()) break;
+            ItemChatAccount chatGroupItem = new ItemChatAccount(onlineGroup.get(indexGroup).getID(),onlineGroup.get(indexGroup).getGroupname(),onlineGroup.get(indexGroup).getOnline());
+            ChatBoxGroup chatBoxGroup = new ChatBoxGroup(user,onlineGroup.get(indexGroup).getGroupname(),onlineGroup.get(indexGroup).getOnline());
+            listFriendJlist.addItem(chatGroupItem);
+            chatLayout.addTab(chatGroupItem.getName(), chatBoxGroup);
+            chatGroup.put(onlineGroup.get(indexGroup).getID(), chatBoxGroup);
+        }
+
+
+        // message for user
         for(Message message: allChat){
             ChatMessageBlock messageBlock;
             if(message.getUserName().equals(user.getUsername())){
@@ -52,8 +94,8 @@ public class MenuChat extends JPanel{
             else{
                 messageBlock = new ChatMessageBlock(message.getUserName(), message.getDateSend(), ChatMessageBlock.OTHER, message.getContent());
             }
-            if(chatAndBox.containsKey(message.getChatboxID())){
-                chatAndBox.get(message.getChatboxID()).addMessage(messageBlock);
+            if(chatUser.containsKey(message.getChatboxID())){
+                chatUser.get(message.getChatboxID()).addMessage(messageBlock);
             }
             
         }
@@ -61,22 +103,42 @@ public class MenuChat extends JPanel{
         
     }
 
+    @Override
+    public void run() {
+       while (true) {
+            String receiveMessage = user.receivePacket();
+            System.out.println(receiveMessage);
+            String[] allMessage = ChatService.packetAnalysis(receiveMessage);
+            // chat#ID#time#message
+            // TODO handle messgae from mutiple source => display to right chatbox
+            String chatBoxID = ChatBoxUser.createChatBoxUserID(user.getID(), Integer.parseInt(allMessage[1]));
+            ChatBoxUser chatBoxToDisplay = chatUser.get(chatBoxID);
+            Message newMessage = new Message();
+            newMessage.setDateSend(allMessage[2]);
+            newMessage.setContent(allMessage[3]);
+            chatBoxToDisplay.addMessage(newMessage);
+       }
+    }
 
     
     public MenuChat(UserAccount account) {
         initComponents();
         user = account;
         database = DatabaseManagment.getInstance();
-
+        chatUser = new HashMap<>();
         fillFriendList();
+
+        Thread receiveMessageProcess = new Thread(this);
+        receiveMessageProcess.start();
     }
 
     private void initComponents(){
+        
         this.setBackground(new java.awt.Color(255, 255, 255));
         this.setLayout(null);
         searchBarFriendList = new SearchBar();
         chatLayout = new JTabbedPane();
-        chatLayout.setBounds(410, -30, 880, 880);
+        chatLayout.setBounds(410, -30, 880, 880);   
         
         JPanel sidePanel = new JPanel();
         sidePanel.setBackground(new java.awt.Color(235, 235, 235));
