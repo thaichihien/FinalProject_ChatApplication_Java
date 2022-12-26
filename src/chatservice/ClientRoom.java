@@ -100,6 +100,9 @@ public class ClientRoom extends Thread {
         String[] allMessage = ChatService.packetAnalysis(message);
 
         // chat#ID#time#message
+
+        //TODO save message into database
+
         System.out.println("messafe[0] : " + allMessage[0]);
         try {
             if(allMessage[0].equals(ChatService.CHAT)){
@@ -110,6 +113,15 @@ public class ClientRoom extends Thread {
                 String timeSend = allMessage[2];
                 String messageSend = allMessage[3];
                 String packetSend = ChatService.createPacket(ChatService.CHAT, ID, messageSend, timeSend);
+                System.out.println(packetSend);
+                pw.println(packetSend);
+            }
+            else if(allMessage[0].equals(ChatService.CHANGES)){
+                OutputStream clientOut = this.clientSocket.getOutputStream();
+                PrintWriter pw = new PrintWriter(new OutputStreamWriter(clientOut, "UTF-8"), true);
+                String timeSend = allMessage[2];
+                String messageSend = allMessage[3];
+                String packetSend = ChatService.createPacket(ChatService.CHANGES, ID, messageSend, timeSend);
                 System.out.println(packetSend);
                 pw.println(packetSend);
             }

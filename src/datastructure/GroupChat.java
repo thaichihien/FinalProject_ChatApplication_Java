@@ -95,9 +95,9 @@ public class GroupChat {
 
     public boolean isEmpty(){
         if(this.groupname.isEmpty() || this.admins.isEmpty()){
-            return false;
+            return true;
         }
-        else return true;
+        else return false;
     }
 
 

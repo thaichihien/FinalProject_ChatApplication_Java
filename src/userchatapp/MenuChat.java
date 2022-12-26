@@ -22,8 +22,9 @@ import uichatcomponent.ListItemChatAccount;
 import uichatcomponent.SearchBar;
 
 
-public class MenuChat extends JPanel implements Runnable{
+public class MenuChat extends JPanel{
     
+
     public SearchBar searchBarFriendList;
     public ListItemChatAccount<String> listFriendJlist;
     public JTabbedPane chatLayout;
@@ -39,7 +40,7 @@ public class MenuChat extends JPanel implements Runnable{
         ArrayList<UserAccount> onlineUser = database.getFriendArrayListByOnline(user.getID());
         ArrayList<Message> allChat = database.getAllMessageFromUser(user.getID());
         ArrayList<GroupChat> onlineGroup = database.getAllGroupChatOnline(user.getID());
-
+        listFriendJlist.clearList();
 
         // put user online first
         int index = 0;
@@ -76,7 +77,7 @@ public class MenuChat extends JPanel implements Runnable{
         }
 
         for(;indexGroup < onlineGroup.size();indexGroup++){
-            if(!onlineGroup.get(indexGroup).getOnline()) break;
+          
             ItemChatAccount chatGroupItem = new ItemChatAccount(onlineGroup.get(indexGroup).getID(),onlineGroup.get(indexGroup).getGroupname(),onlineGroup.get(indexGroup).getOnline());
             ChatBoxGroup chatBoxGroup = new ChatBoxGroup(user,onlineGroup.get(indexGroup).getGroupname(),onlineGroup.get(indexGroup).getOnline());
             listFriendJlist.addItem(chatGroupItem);
@@ -103,21 +104,23 @@ public class MenuChat extends JPanel implements Runnable{
         
     }
 
-    @Override
-    public void run() {
-       while (true) {
-            String receiveMessage = user.receivePacket();
-            System.out.println(receiveMessage);
-            String[] allMessage = ChatService.packetAnalysis(receiveMessage);
-            // chat#ID#time#message
-            // TODO handle messgae from mutiple source => display to right chatbox
-            String chatBoxID = ChatBoxUser.createChatBoxUserID(user.getID(), Integer.parseInt(allMessage[1]));
-            ChatBoxUser chatBoxToDisplay = chatUser.get(chatBoxID);
-            Message newMessage = new Message();
-            newMessage.setDateSend(allMessage[2]);
-            newMessage.setContent(allMessage[3]);
-            chatBoxToDisplay.addMessage(newMessage);
-       }
+   
+
+    public void addMessageToChatbox(String[] allMessage){
+        String chatBoxID = ChatBoxUser.createChatBoxUserID(user.getID(), Integer.parseInt(allMessage[1]));
+        ChatBoxUser chatBoxToDisplay = chatUser.get(chatBoxID);
+        Message newMessage = new Message();
+        newMessage.setDateSend(allMessage[2]);
+        newMessage.setContent(allMessage[3]);
+        chatBoxToDisplay.addMessage(newMessage);
+    }
+
+
+    public void resetData(){
+        System.out.println("reset");
+        chatUser.clear();
+        chatGroup.clear();
+        fillFriendList();
     }
 
     
@@ -126,14 +129,13 @@ public class MenuChat extends JPanel implements Runnable{
         user = account;
         database = DatabaseManagment.getInstance();
         chatUser = new HashMap<>();
+        chatGroup = new HashMap<>();
         fillFriendList();
 
-        Thread receiveMessageProcess = new Thread(this);
-        receiveMessageProcess.start();
+        
     }
 
     private void initComponents(){
-        
         this.setBackground(new java.awt.Color(255, 255, 255));
         this.setLayout(null);
         searchBarFriendList = new SearchBar();

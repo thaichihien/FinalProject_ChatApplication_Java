@@ -570,9 +570,9 @@ public class DatabaseManagment {
     }
 
     private int addToGroupTable(GroupChat group){
-        String INSERT_QUERY = "INSERT INTO GROUPCHAT(GROUPNAME,CREATED_AT,ONLINE)"
+        String INSERT_QUERY = "INSERT INTO GROUPCHAT(GROUP_NAME,CREATED_AT,ONLINE)"
          + "VALUES(?,?,?)";
-        try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY);) {
+        try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY,PreparedStatement.RETURN_GENERATED_KEYS);) {
             statement.setString(1, group.getGroupname());
             Date date = new Date();
             //ZonedDateTime  myDateObj = ZonedDateTime.now( ZoneId.of("Asia/Ho_Chi_Minh")); 
@@ -594,7 +594,7 @@ public class DatabaseManagment {
     }
 
     private void addMemberToGroup(GroupChat group){
-        String INSERT_QUERY = "INSERT INTO GROUPCHAT_MEMBER(GROUPNAME_ID,MEMBER_ID,POSITION)"
+        String INSERT_QUERY = "INSERT INTO GROUPCHAT_MEMBER(GROUPCHAT_ID,MEMBER_ID,POSITION)"
          + "VALUES(?,?,?)";
         try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY);) {
             
