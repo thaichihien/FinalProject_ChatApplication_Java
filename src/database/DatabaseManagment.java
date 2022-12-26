@@ -422,7 +422,7 @@ public class DatabaseManagment {
      * @return ArrayList
      */
     public ArrayList<UserAccount> searchFriendList(int ID,String name){
-        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE UF.ID = ? AND UA.USERNAME LIKE ? OR UA.FULLNAME LIKE ?";
+        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE UF.ID = ? AND (UA.USERNAME LIKE ? OR UA.FULLNAME LIKE ?)";
         ResultSet data = null;
         ArrayList<UserAccount> accountList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
@@ -470,13 +470,14 @@ public class DatabaseManagment {
      * @return
      */
     public ArrayList<UserAccount> searchAccountsNotFriend(int ID,String name){
-        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE NOT UF.ID = ? AND UA.USERNAME LIKE ? OR UA.FULLNAME LIKE ?";
+        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA WHERE UA.ID NOT IN(SELECT FRIEND_ID FROM USER_FRIEND WHERE ID = ?) AND  (UA.USERNAME LIKE ? OR UA.FULLNAME LIKE ?) AND NOT UA.ID = ?";
         ResultSet data = null;
         ArrayList<UserAccount> accountList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             statment.setInt(1, ID);
             statment.setString(2, "%" + name + "%");
             statment.setString(3, "%" + name + "%");
+            statment.setInt(4, ID);
             data = statment.executeQuery();
             
             if(!data.next()){
@@ -786,7 +787,7 @@ public class DatabaseManagment {
     // ! FIX COLUMN VARIABLE
     public ArrayList<UserAccount> getAllAccounts(String name,String sort,String by){
         
-        String SELECT_QUERY = "SELECT * FROM USER_ACCOUNT WHERE USERNAME LIKE ? OR FULLNAME LIKE ?  ORDER BY " + sort + " " + by;
+        String SELECT_QUERY = "SELECT * FROM USER_ACCOUNT WHERE (USERNAME LIKE ? OR FULLNAME LIKE ?)  ORDER BY " + sort + " " + by;
         if(sort == null && name == null){
             SELECT_QUERY = "SELECT * FROM USER_ACCOUNT";
         }
@@ -794,7 +795,7 @@ public class DatabaseManagment {
             SELECT_QUERY = "SELECT * FROM USER_ACCOUNT ORDER BY " + sort + " " + by;
         }
         else if(name != null && sort == null){
-            SELECT_QUERY = "SELECT * FROM USER_ACCOUNT WHERE USERNAME LIKE ? OR FULLNAME LIKE ?";
+            SELECT_QUERY = "SELECT * FROM USER_ACCOUNT WHERE (USERNAME LIKE ? OR FULLNAME LIKE ?)";
         }
 
 
@@ -1077,7 +1078,7 @@ public class DatabaseManagment {
     }
 
     public ArrayList<UserAccount> getAllFriendRequest(int ID){
-        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.EMAIL,UA.ONLINE FROM FRIEND_REQUEST FR LEFT OUTER JOIN USER_ACCOUNT UA ON FR.FROM_ID = UA.ID WHERE TO_ID = ?";
+        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.EMAIL,UA.ONLINE FROM FRIEND_REQUEST FR LEFT OUTER JOIN USER_ACCOUNT UA ON FR.FROM_ID = UA.ID WHERE TO_ID = 1 AND FR.STATUS = 'WAIT'";
         ResultSet data = null;
         ArrayList<UserAccount> requestList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
@@ -1115,7 +1116,7 @@ public class DatabaseManagment {
     }
 
     public ArrayList<UserAccount> getAllFriendRequest(int ID,String name){
-        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.EMAIL,UA.ONLINE FROM FRIEND_REQUEST FR LEFT OUTER JOIN USER_ACCOUNT UA ON FR.FROM_ID = UA.ID WHERE TO_ID = ? AND UA.USERNAME LIKE ? OR UA.FULLNAME LIKE ?";
+        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.EMAIL,UA.ONLINE FROM FRIEND_REQUEST FR LEFT OUTER JOIN USER_ACCOUNT UA ON FR.FROM_ID = UA.ID WHERE TO_ID = 1 AND FR.STATUS = 'WAIT' AND (UA.USERNAME LIKE ? OR UA.FULLNAME LIKE ?)";
         ResultSet data = null;
         ArrayList<UserAccount> requestList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
