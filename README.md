@@ -147,9 +147,9 @@ public ArrayList<UserAccount> getData(){
 - [ ] Cập nhật mật khẩu
 - [X] Xem lịch sử đăng nhập
 - [ ] Danh sách bạn bè.
-- [ ] Xem danh sách đăng nhập theo thứ tự thời gian. Thông tin gồm: thời gian, tên đăng nhập, họ tên.
+- [x] Xem danh sách đăng nhập theo thứ tự thời gian. Thông tin gồm: thời gian, tên đăng nhập, họ tên.
 - [X] Xem danh sách các nhóm chat
-- [ ] Sắp xếp theo tên/thời gian tạo
+- [x] Sắp xếp theo tên/thời gian tạo
 - [ ] Xem danh sách thành viên 1 nhóm
 - [ ] Xem danh sách admin 1 nhóm.
 ## Lưu ý:
