@@ -319,7 +319,7 @@ public ArrayList<UserAccount> getData(){
     </details>
     
 <details>
-    <summary> <b>2. Lọc danh sách tài khoản theo tên, sắp xếp ở MenuAccountManager &#x2713</b> </summary>
+    <summary> <b>2. Lọc danh sách tài khoản theo tên, sắp xếp ở MenuAccountManager &#9733</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
