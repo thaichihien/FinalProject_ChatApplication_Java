@@ -1134,8 +1134,8 @@ public class DatabaseManagment {
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
            statment.setInt(1, ID);
-           statment.setString(2, name);
-           statment.setString(3, name);
+           statment.setString(2,"%" + name + "%");
+           statment.setString(3, "%" + name + "%");
             data = statment.executeQuery();
             
             if(!data.next()){
