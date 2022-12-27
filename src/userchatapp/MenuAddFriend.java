@@ -95,6 +95,8 @@ public class MenuAddFriend extends JPanel{
                 ArrayList<UserAccount> listFriendRequests = database.getAllFriendRequest(user.getID(), searchName);
 
                 DefaultTableModel tableModel = (DefaultTableModel) tableListFriendRequest.getModel();
+
+                System.out.println(listFriendRequests.size());
     
                 for (UserAccount account : listFriendRequests){
                     String username = account.getUsername();
