@@ -191,9 +191,9 @@ public ArrayList<UserAccount> getData(){
     
     
 <details>
-    <summary> <b>3. Hiển thị danh sách bạn bè ở MenuAddFriend &#9733</b> </summary>
+    <summary> <b>3. Hiển thị danh sách bạn bè ở MenuAddFriend &#x2713</b> </summary>
     <ul>
-        <li>Người làm: Niên ? </li>
+        <li>Người làm: Dũng </li>
         <li>Mô tả:
             <ul>
                 <li>Hiển thị danh sách tài khoản chưa kết bạn</li>
