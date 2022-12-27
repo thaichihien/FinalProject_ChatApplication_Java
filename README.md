@@ -141,7 +141,7 @@ public ArrayList<UserAccount> getData(){
 - [ ] Tìm kiếm lịch sử chat
 - [ ] Xóa lịch sử chat
 ### Bên quản trị
-- [ ] Xem danh sách cho phép lọc theo tên/tên đăng nhập, sắp xếp theo tên/ngày tạo
+- [X] Xem danh sách cho phép lọc theo tên/tên đăng nhập, sắp xếp theo tên/ngày tạo
 - [ ] Thêm/cập nhật/xoá
 - [ ] Khoá tài khoản
 - [ ] Cập nhật mật khẩu
@@ -319,7 +319,7 @@ public ArrayList<UserAccount> getData(){
     </details>
     
 <details>
-    <summary> <b>2. Lọc danh sách tài khoản theo tên, sắp xếp ở MenuAccountManager &#9733</b> </summary>
+    <summary> <b>2. Lọc danh sách tài khoản theo tên, sắp xếp ở MenuAccountManager &#x2713</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
