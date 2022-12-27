@@ -36,6 +36,7 @@ public class UserAccount {
         this.gender = "";
         this.email = "";
         this.online = false;
+        this.position = "";
     }
 
     public boolean isEmpty(){

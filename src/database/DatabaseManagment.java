@@ -668,7 +668,7 @@ public class DatabaseManagment {
     }
 
     public ArrayList<LoginHistory> getAllLoginHistory(String sort,String by){
-        String SELECT_QUERY = "SELECT GC.ID,GC.GROUP_NAME,COUNT(MB.MEMBER_ID) AS SOLUONG,GC.CREATED_AT,GC.ONLINE FROM GROUPCHAT GC LEFT OUTER JOIN GROUPCHAT_MEMBER MB ON GC.ID = MB.GROUPCHAT_ID GROUP BY GC.ID ORDER BY " + sort + " " + by;
+        String SELECT_QUERY = "SELECT LH.*,UA.USERNAME FROM LOGIN_HISTORY LH INNER JOIN USER_ACCOUNT UA ON LH.USER_ID = UA.ID ORDER BY " + sort + " " + by;
         ResultSet data = null;
         ArrayList<LoginHistory> loginList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
@@ -756,12 +756,18 @@ public class DatabaseManagment {
                     account.setFullname(data.getString("FULLNAME"));
                     account.setAddress(data.getString("address"));
                     Date birthDay = data.getDate("date_of_birth");
-                    account.setBirthDay(birthDay.toString());
+                    if(!data.wasNull()){
+                        account.setBirthDay(birthDay.toString());
+                    }
+                    
                     account.setGender(data.getString("Gender"));
                     account.setEmail(data.getString("email"));
                     Timestamp createdAt = data.getTimestamp("created_at");
-                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(createdAt);
-                    account.setCreatedAt(formattedDate);
+                    if(!data.wasNull()){
+                        String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(createdAt);
+                        account.setCreatedAt(formattedDate);
+                    }
+                    
                     account.setOnline(data.getBoolean("ONLINE"));
                     accountList.add(account);
                     
@@ -826,12 +832,17 @@ public class DatabaseManagment {
                     account.setFullname(data.getString("FULLNAME"));
                     account.setAddress(data.getString("address"));
                     Date birthDay = data.getDate("date_of_birth");
-                    account.setBirthDay(birthDay.toString());
+                    if(!data.wasNull()){
+                        account.setBirthDay(birthDay.toString());
+                    }
+                    
                     account.setGender(data.getString("Gender"));
                     account.setEmail(data.getString("email"));
                     Timestamp createdAt = data.getTimestamp("created_at");
-                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(createdAt);
-                    account.setCreatedAt(formattedDate);
+                    if(!data.wasNull()){
+                        String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(createdAt);
+                        account.setCreatedAt(formattedDate);
+                    }
                     account.setOnline(data.getBoolean("ONLINE"));
                     accountList.add(account);
                     
@@ -1123,8 +1134,8 @@ public class DatabaseManagment {
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
            statment.setInt(1, ID);
-           statment.setString(2, name);
-           statment.setString(3, name);
+           statment.setString(2,"%" + name + "%");
+           statment.setString(3, "%" + name + "%");
             data = statment.executeQuery();
             
             if(!data.next()){
@@ -1278,6 +1289,57 @@ public class DatabaseManagment {
        }
     }
 
+    public ArrayList<UserAccount> getAllMemberGroup(int groupID,String where){
+        String SELECT_QUERY = "SELECT UA.*,GM.POSITION FROM GROUPCHAT_MEMBER GM LEFT OUTER JOIN USER_ACCOUNT UA ON GM.MEMBER_ID = UA.ID WHERE GM.GROUPCHAT_ID = ? AND GM.POSITION = ?";
+        if(where == null){
+            SELECT_QUERY = "SELECT UA.*,GM.POSITION FROM GROUPCHAT_MEMBER GM LEFT OUTER JOIN USER_ACCOUNT UA ON GM.MEMBER_ID = UA.ID WHERE GM.GROUPCHAT_ID = ?";
+        }
+        ResultSet data = null;
+        ArrayList<UserAccount> accountList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            statment.setInt(1, groupID);
+            if(where != null){
+                statment.setString(2,where);
+            }
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return accountList;
+            }
+            else{
+                
+                
+                do {                    
+                    UserAccount account = new UserAccount();
+                    account.setID(data.getInt("ID"));
+                    account.setUsername(data.getString("USERNAME"));
+                    account.setFullname(data.getString("FULLNAME"));
+                  
+                    
+                    account.setOnline(data.getBoolean("ONLINE"));
+                    account.setPosition(data.getString("POSITION"));
+
+                    accountList.add(account);
+                    
+                } while (data.next());
+                return accountList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return accountList;
+    }
 
 
 }
