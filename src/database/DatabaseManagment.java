@@ -1117,13 +1117,14 @@ public class DatabaseManagment {
     }
 
     public ArrayList<UserAccount> getAllFriendRequest(int ID,String name){
-        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.EMAIL,UA.ONLINE FROM FRIEND_REQUEST FR LEFT OUTER JOIN USER_ACCOUNT UA ON FR.FROM_ID = UA.ID WHERE TO_ID = 1 AND FR.STATUS = 'WAIT' AND (UA.USERNAME LIKE ? OR UA.FULLNAME LIKE ?)";
+        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.EMAIL,UA.ONLINE FROM FRIEND_REQUEST FR LEFT OUTER JOIN USER_ACCOUNT UA ON FR.FROM_ID = UA.ID WHERE TO_ID = ? AND FR.STATUS = 'WAIT' AND (UA.USERNAME LIKE ? OR UA.FULLNAME LIKE ?)";
         ResultSet data = null;
         ArrayList<UserAccount> requestList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
            statment.setInt(1, ID);
            statment.setString(2, name);
+           statment.setString(3, name);
             data = statment.executeQuery();
             
             if(!data.next()){
