@@ -19,6 +19,7 @@ import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseManagment;
 import datastructure.UserAccount;
+import uichatcomponent.DetailAccountForm;
 import uichatcomponent.SearchBar;
 import utils.Utils;
 
@@ -96,7 +97,9 @@ public class MenuAccountManager extends MenuAdminLayout{
         Filter=new String((String)sortFilter.getSelectedItem());
         input=new String(searchBarFindUser.getText());
         
-        String sort=new String("null"),by=new String("ASC"), name=new String("null");
+        String sort= null;
+        String by=new String("ASC");
+        String name = null;
 
         if(Filter.equals("Mặc định")&&Criteria.equals("Tăng dần")&&input.isBlank())
             filltableUserAccount();
@@ -138,10 +141,10 @@ public class MenuAccountManager extends MenuAdminLayout{
     }                                               
 
     private void viewDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-    //   DetailAccountForm detailAccountForm = new DetailAccountForm(this);
+      DetailAccountForm detailAccountForm = new DetailAccountForm();
       
-    //   detailAccountForm.setVisible(true);
-    //   this.setEnabled(false);
+      detailAccountForm.setVisible(true);
+      //this.setEnabled(false);
     }                     
     
     private void deleteAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                    

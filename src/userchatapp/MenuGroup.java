@@ -60,6 +60,11 @@ public class MenuGroup extends JPanel {
 
     public void addToGroup() {
         int row = tableListFriend.getSelectedRow();
+        if(row < 0){    // Cảnh báo chưa chọn dòng nào trong bảng
+             JOptionPane.showMessageDialog(null, "Please select an account", "Not selected", JOptionPane.WARNING_MESSAGE);
+             return;
+        }
+
         String isChoosen = tableListFriend.getModel().getValueAt(row, 4).toString();
         if(isChoosen.equals("Đã chọn")){
             JOptionPane.showMessageDialog(null, "This account has been selected to the group", "Already selected", JOptionPane.WARNING_MESSAGE);

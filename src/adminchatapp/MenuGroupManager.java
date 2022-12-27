@@ -23,6 +23,7 @@ import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseManagment;
 import datastructure.GroupChat;
+import uichatcomponent.DetailGroupForm;
 import utils.Utils;
 
 
@@ -32,107 +33,27 @@ public class MenuGroupManager extends MenuAdminLayout{
     JComboBox<String> sortFilter;
     JButton viewDetailGroupButton;
 
+    // TODO 1: xem chi tiết của một nhóm
+    // Lấy thông tin từ row được đang chọn trong tableGroup
+    // Trường hợp chưa chọn thì Joptionpane cảnh báo chưa chọn 
+    // (Gợi ý tìm hiểu getValueAt của Jtable model hoặc xem ví dụ hàm addToGroup của MenuGroup)
+    // Cần 2 thông tin là ID và tên nhóm đang được chọn
+    // setID và setName cho groupChatSelected
 
-    //TODO 2: cải tiến lần này kiểm tra sortFilter có 3 giá trị:
-    //- Mặc định: nạp tất cả bình thường
-    // - Tên nhóm: sort theo tên nhóm tăng dần 
-    //- Thời gian tạo: sort thêm thời gian lâu nhất
-    // Sử dụng database.getAllGroupChat(String sort,String by):
-    // + sort: chỉ chấp nhận giá trị "GROUP_NAME","CREATED_AT"
-    //+ by: chỉ chấp nhận giá trị "ASC","DESC"
+    private void viewDetailGroupButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                      
+        GroupChat groupChatSelected = new GroupChat();
+        
+        
 
-    // Phần Nhật làm start
 
-    // Sửa inner join -> left outer join
-    public ArrayList<GroupChat> getAllGroupChat(){
-        String SELECT_QUERY = "SELECT GC.ID,GC.GROUP_NAME,COUNT(MB.MEMBER_ID) AS SOLUONG,GC.CREATED_AT,GC.ONLINE FROM GROUPCHAT GC LEFT OUTER JOIN GROUPCHAT_MEMBER MB ON GC.ID = MB.GROUPCHAT_ID GROUP BY GC.ID";
-        ResultSet data = null;
-        ArrayList<GroupChat> groupList = new ArrayList<>();
-        Connection conn = DatabaseManagment.getInstance().getConnection();
-        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
-            
-            //statment.setString(1, name);
-            data = statment.executeQuery();
-            
-            if(!data.next()){
-                return groupList;
-            }
-            else{
-                
-                do {                    
-                    GroupChat group = new GroupChat();
-                    group.setID(data.getInt("ID"));
-                    group.setGroupname(data.getString("GROUP_NAME"));
-                    group.setNumberOfMember(data.getInt("soluong"));
-                    java.sql.Timestamp date = data.getTimestamp("CREATED_AT");
-                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(date);
-                    group.setCreatedAt(formattedDate);
-                    group.setOnline(data.getBoolean("ONLINE"));
-                    groupList.add(group);
-                    
-                } while (data.next());
-                return groupList;
-            }
-            
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }finally{
-            if(data != null){
-                try {
-                    data.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
-        return groupList;
-    }
 
-    public ArrayList<GroupChat> getAllGroupChat(String sort,String by){
-        String SELECT_QUERY = "SELECT GC.ID,GC.GROUP_NAME,COUNT(MB.MEMBER_ID) AS SOLUONG,GC.CREATED_AT,GC.ONLINE FROM GROUPCHAT GC LEFT OUTER JOIN GROUPCHAT_MEMBER MB ON GC.ID = MB.GROUPCHAT_ID GROUP BY GC.ID ORDER BY " + sort + " " + by;
-        ResultSet data = null;
-        ArrayList<GroupChat> groupList = new ArrayList<>();
-        Connection conn = DatabaseManagment.getInstance().getConnection();
-        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
-            
-            //statment.setString(1, name);
-            data = statment.executeQuery();
-            
-            if(!data.next()){
-                return groupList;
-            }
-            else{
-                
-                do {                    
-                    GroupChat group = new GroupChat();
-                    group.setID(data.getInt("ID"));
-                    group.setGroupname(data.getString("GROUP_NAME"));
-                    group.setNumberOfMember(data.getInt("soluong"));
-                    java.sql.Timestamp date = data.getTimestamp("CREATED_AT");
-                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(date);
-                    group.setCreatedAt(formattedDate);
-                    group.setOnline(data.getBoolean("ONLINE"));
-                    groupList.add(group);
-                    
-                } while (data.next());
-                return groupList;
-            }
-            
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }finally{
-            if(data != null){
-                try {
-                    data.close();
-                } catch (SQLException ex) {
-                    ex.printStackTrace();
-                }
-            }
-        }
-        return groupList;
-    }
+
+        DetailGroupForm detailGroupForm = new DetailGroupForm(groupChatSelected);
+        detailGroupForm.setVisible(true);
+        //this.setEnabled(false);
+      }    
+
+
 
     public void filltableGroup(){
         Utils.clearTable(tableGroup);
@@ -272,11 +193,6 @@ public class MenuGroupManager extends MenuAdminLayout{
         viewDetailGroupButton.setBounds(1040, 30, 180, 40);
     }
     
-    private void viewDetailGroupButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                      
-//       DetailGroupForm detailGroupForm = new DetailGroupForm(this);
-//       
-//       detailGroupForm.setVisible(true);
-//       this.setEnabled(false);
-    }    
+   
     
 }
