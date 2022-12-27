@@ -179,7 +179,7 @@ public class DatabaseManagment {
                     data.close();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
-                }
+                }   
             }
         }
         return friendList;
@@ -1084,7 +1084,7 @@ public class DatabaseManagment {
         ArrayList<UserAccount> requestList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
-           statment.setInt(1, ID);
+            statment.setInt(1, ID);
             data = statment.executeQuery();
             
             if(!data.next()){
