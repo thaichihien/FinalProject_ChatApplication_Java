@@ -389,9 +389,9 @@ public ArrayList<UserAccount> getData(){
     </details>
     
 <details>
-    <summary> <b>7. Tạo một tài khoản từ admin &#9733</b> </summary>
+    <summary> <b>7. Tạo một tài khoản từ admin &#x2713</b> </summary>
     <ul>
-        <li>Người làm: </li>
+        <li>Người làm: Dũng</li>
         <li>Mô tả:
             <ul>
                 <li>Thực hiện 2 TODO</li>
