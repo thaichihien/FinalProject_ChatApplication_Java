@@ -150,8 +150,8 @@ public ArrayList<UserAccount> getData(){
 - [x] Xem danh sách đăng nhập theo thứ tự thời gian. Thông tin gồm: thời gian, tên đăng nhập, họ tên.
 - [X] Xem danh sách các nhóm chat
 - [x] Sắp xếp theo tên/thời gian tạo
-- [ ] Xem danh sách thành viên 1 nhóm
-- [ ] Xem danh sách admin 1 nhóm.
+- [X] Xem danh sách thành viên 1 nhóm
+- [X] Xem danh sách admin 1 nhóm.
 ## Lưu ý:
 - Mở VScode ra làm thì trước tiên &rarr; **FETCH**: để kiếm tra trên github có thay đổi gì không (bước này để chuẩn bị backup trước khi pull nếu confilct), nếu có thì **PULL**: lấy code trên github về máy
 - Làm xong một chức năng, một hàm rồi (***Không bị lỗi compile***) &rarr; **COMMIT** và **PUSH**
