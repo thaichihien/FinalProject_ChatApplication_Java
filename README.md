@@ -403,9 +403,9 @@ public ArrayList<UserAccount> getData(){
     </details>
 
 <details>
-    <summary> <b>8. Xem thông tin chi tiết của một nhóm &#9733</b> </summary>
+    <summary> <b>8. Xem thông tin chi tiết của một nhóm &#x2713</b> </summary>
     <ul>
-        <li>Người làm: </li>
+        <li>Người làm: Dũng</li>
         <li>Mô tả:
             <ul>
                 <li>Thực hiện 1 TODO ở MenuGroupManager và 1 TODO ở DetailGroupForm</li>
