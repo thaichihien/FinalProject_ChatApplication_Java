@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch DetailGroupForm",
+            "request": "launch",
+            "mainClass": "uichatcomponent.DetailGroupForm",
+            "projectName": "FinalProject_ChatApplication_Java_b662f5d"
+        },
+        {
+            "type": "java",
             "name": "Launch CreateAccountForm",
             "request": "launch",
             "mainClass": "uichatcomponent.CreateAccountForm",

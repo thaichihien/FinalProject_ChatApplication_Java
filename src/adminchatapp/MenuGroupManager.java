@@ -46,7 +46,7 @@ public class MenuGroupManager extends MenuAdminLayout{
         
         int row = tableGroup.getSelectedRow();
         if(row < 0){    // Cảnh báo chưa chọn dòng nào trong bảng
-             JOptionPane.showMessageDialog(null, "Please select an user", "Not selected", JOptionPane.WARNING_MESSAGE);
+             JOptionPane.showMessageDialog(null, "Please select an group", "Not selected", JOptionPane.WARNING_MESSAGE);
              return;
         }
 

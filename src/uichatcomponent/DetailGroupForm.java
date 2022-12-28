@@ -4,6 +4,9 @@
  */
 package uichatcomponent;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import database.DatabaseManagment;
@@ -12,6 +15,8 @@ import javax.swing.table.DefaultTableModel;
 
 import datastructure.UserAccount;
 import datastructure.GroupChat;
+
+import utils.Utils;
 
 /**
  *
@@ -30,10 +35,11 @@ public class DetailGroupForm extends javax.swing.JFrame {
     // + where chỉ chấp nhận các tham số "admin","member",null (giá trị null không phải chuỗi "null")
     // giá trị của where thì kiểm tra từ filterCombobox
     // Tất cả thành viên thì where = null
-    private void filltableListAccount(){
+    private void filltableListAccount(String selected){
+        Utils.clearTable(tableListAccount);
         DatabaseManagment database = DatabaseManagment.getInstance();
 
-        ArrayList<UserAccount> listAccounts = database.getAllMemberGroup(groupChat.getID(), String.valueOf(filterCombobox.getSelectedItem()));
+        ArrayList<UserAccount> listAccounts = database.getAllMemberGroup(groupChat.getID(), selected);
 
         DefaultTableModel tableModel = (DefaultTableModel) tableListAccount.getModel();
 
@@ -57,7 +63,24 @@ public class DetailGroupForm extends javax.swing.JFrame {
 
         tennhomLabel.setText(groupChat.getGroupname());
 
-        // filltableListAccount();
+        filterCombobox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e){
+                String selected = (String) filterCombobox.getSelectedItem();
+                switch (selected) {//check for a match
+                    case "Thành viên":
+                        filltableListAccount(selected);
+                        break;
+                    case "Admin":
+                        filltableListAccount(selected);
+                        break;
+                    default:
+                        selected = null;
+                        filltableListAccount(selected);
+                        break;
+                }
+            }
+        });
     }
 
     
@@ -133,6 +156,7 @@ public class DetailGroupForm extends javax.swing.JFrame {
 
         pack();
         setLocationRelativeTo(null);
+        // filltableListAccount();
     }// </editor-fold>//GEN-END:initComponents
 
     // private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
