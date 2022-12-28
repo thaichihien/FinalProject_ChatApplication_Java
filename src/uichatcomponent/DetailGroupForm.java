@@ -4,8 +4,13 @@
  */
 package uichatcomponent;
 
+import java.util.ArrayList;
 import javax.swing.JFrame;
+import database.DatabaseManagment;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
+import datastructure.UserAccount;
 import datastructure.GroupChat;
 
 /**
@@ -26,19 +31,33 @@ public class DetailGroupForm extends javax.swing.JFrame {
     // giá trị của where thì kiểm tra từ filterCombobox
     // Tất cả thành viên thì where = null
     private void filltableListAccount(){
+        DatabaseManagment database = DatabaseManagment.getInstance();
 
+        ArrayList<UserAccount> listAccounts = database.getAllMemberGroup(groupChat.getID(), String.valueOf(filterCombobox.getSelectedItem()));
 
+        DefaultTableModel tableModel = (DefaultTableModel) tableListAccount.getModel();
+
+        for (UserAccount account : listAccounts){
+            String username = account.getUsername();
+            String fullname = account.getFullname();
+            String chucvu = account.getPosition();
+            String online = "";
+            if(account.isOnline()) online = "online";
+            else online = "offline";
+            String row[] = {username,fullname,chucvu,online};
+            tableModel.addRow(row);
+        }
     }
 
 
 
     public DetailGroupForm(GroupChat groupChat) {
         initComponents();
-       this.groupChat = groupChat;
+        this.groupChat = groupChat;
 
         tennhomLabel.setText(groupChat.getGroupname());
 
-
+        // filltableListAccount();
     }
 
     

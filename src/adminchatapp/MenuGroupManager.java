@@ -18,6 +18,7 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
@@ -43,9 +44,17 @@ public class MenuGroupManager extends MenuAdminLayout{
     private void viewDetailGroupButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                      
         GroupChat groupChatSelected = new GroupChat();
         
-        
+        int row = tableGroup.getSelectedRow();
+        if(row < 0){    // Cảnh báo chưa chọn dòng nào trong bảng
+             JOptionPane.showMessageDialog(null, "Please select an user", "Not selected", JOptionPane.WARNING_MESSAGE);
+             return;
+        }
 
+        String id = tableGroup.getModel().getValueAt(row, 0).toString();
+        String groupname = tableGroup.getModel().getValueAt(row, 1).toString();
 
+        groupChatSelected.setID(Integer.parseInt(id));
+        groupChatSelected.setGroupname(groupname);
 
 
         DetailGroupForm detailGroupForm = new DetailGroupForm(groupChatSelected);
