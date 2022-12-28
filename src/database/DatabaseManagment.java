@@ -1449,5 +1449,71 @@ public class DatabaseManagment {
         return accountList;
     }
 
+    public void createFriendRequest(int ID,int otherID){
+        String SELECT_QUERY = "SELECT * FROM FRIEND_REQUEST WHERE FROM_ID = ? AND TO_ID = ?";
+        ResultSet data = null;
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            statment.setInt(1, ID);
+            statment.setInt(2, otherID);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                String INSERT_QUERY = "INSERT INTO FRIEND_REQUEST(FROM_ID,TO_ID,STATUS,TRY) VALUES(?,?,?,?)";
+                try (PreparedStatement newStatement = conn.prepareStatement(INSERT_QUERY);) {
+                
+                    newStatement.setInt(1, ID);
+                    newStatement.setInt(2, otherID);
+                    newStatement.setString(3, "WAIT");
+                    newStatement.setInt(4, 0);
+                    newStatement.executeUpdate();
+                
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+            }
+            else{
+                String status = data.getString("STATUS");
+                if(!status.equals("WAIT")){
+                    String UPDATE_QUERY = "UPDATE FRIEND_REQUEST SET STATUS = 'WAIT' WHERE FROM_ID = ? AND TO_ID = ?";
+                    try (PreparedStatement updateStatement = conn.prepareStatement(UPDATE_QUERY);) {
+                    
+                        updateStatement.setInt(1, ID);
+                        updateStatement.setInt(2, otherID);
+                        updateStatement.executeUpdate();
+                        
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+                }
+            }          
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+    }
+
+
+    public void setAcceptedRequest(int fromID,int toID){
+        String UPDATE_QUERY = "UPDATE FRIEND_REQUEST SET STATUS = 'ACCEPTED' WHERE FROM_ID = ? AND TO_ID = ?";
+        try (PreparedStatement updateStatement = conn.prepareStatement(UPDATE_QUERY);) {
+        
+            updateStatement.setInt(1, fromID);
+            updateStatement.setInt(2, toID);
+            updateStatement.executeUpdate();
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    
 
 }
