@@ -1385,7 +1385,7 @@ public class DatabaseManagment {
     }
 
     public void removeMemberFromGroup(int groupID,int ID){
-        String DELETE_QUERY = "DELETE GROUPCHAT_MEMBER WHERE GROUPCHAT_ID = ? AND MEMBER_ID = ?";
+        String DELETE_QUERY = "DELETE FROM GROUPCHAT_MEMBER WHERE GROUPCHAT_ID = ? AND MEMBER_ID = ?";
         try (PreparedStatement statement = conn.prepareStatement(DELETE_QUERY);) {
            
             statement.setInt(1, groupID);

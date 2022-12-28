@@ -69,7 +69,32 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
     //              + Sử dụng assignMemberToUser(int ID,int groupID) tham số tương tự trên
     // - Gọi hàm fillTableMember()
     public void enableAdmin(){
-
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        if (!isAdmin){return;}
+        int row = tableMemberGroup.getSelectedRow();
+        if(row < 0){    // Cảnh báo chưa chọn dòng nào trong bảng
+             JOptionPane.showMessageDialog(null, "Please select an member", "Not selected", JOptionPane.WARNING_MESSAGE);
+             return;
+        }
+        else{
+            // String[] options = new String[] {"Yes", "No"};
+            String isChoosen_ID = tableMemberGroup.getModel().getValueAt(row, 0).toString().trim();
+            String position = tableMemberGroup.getModel().getValueAt(row, 3).toString().trim();
+            
+            int response = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn không?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            if(response == 0){
+                if(position.equals("member")){
+                    database.assignAdminToUser(Integer.parseInt(isChoosen_ID), groupChat.getID());
+                }
+                else{
+                    database.assignMemberToUser(Integer.parseInt(isChoosen_ID), groupChat.getID());
+                }
+                fillTableMember();
+            }
+            else{
+                return;
+            }
+        }
     }
 
     public void addMemberToGroup(){
@@ -103,13 +128,23 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
         if(JOptionPane.showConfirmDialog(null,changeGroupPanel,"Change group name",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION){
 
             // Code here
+            if(!isAdmin){return;}
 
+            if(newGroupNameField.getText().toString().trim().equals("")){
+                JOptionPane.showMessageDialog(null, "Please enter name", "Not name", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            String newName = newGroupNameField.getText().toString().trim();
+            DatabaseManagment database = DatabaseManagment.getInstance();
+            database.setNewGroupName(newName, groupChat.getID());
+            jLabelGroupName.setText(newName);
         }
 
     }
 
 
-    // TODO 3: // TODO 1: Gán quyền admin
+    // TODO 3: Xóa member
     // - Kiểm tra xem có account đang xem có phải admin (kiểm tra biến isAdmin)
     // - lấy ID của row đang được chọn trong tableMemberGroup (Gợi ý tìm hiểu getValueAt của Jtable model 
     //         hoặc xem ví dụ hàm addToGroup của MenuGroup)
@@ -117,7 +152,24 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
     // Nếu có thì thực hiện xóa account được chọn sử dụng removeMemberFromGroup(int groupID,int ID)
     // - Gọi hàm fillTableMember()
     public void removeMember(){
+        DatabaseManagment database = DatabaseManagment.getInstance();
 
+        if(!isAdmin){return;}
+        int row = tableMemberGroup.getSelectedRow();
+        if(row < 0){    // Cảnh báo chưa chọn dòng nào trong bảng
+             JOptionPane.showMessageDialog(null, "Please select an member", "Not selected", JOptionPane.WARNING_MESSAGE);
+             return;
+        }
+
+        String isChoosen_ID = tableMemberGroup.getModel().getValueAt(row, 0).toString().trim();
+        // String position = tableMemberGroup.getModel().getValueAt(row, 3).toString().trim();
+        
+        int response = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn xóa người này không?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if(response == 0){
+            database.removeMemberFromGroup(groupChat.getID(), Integer.parseInt(isChoosen_ID));
+
+            fillTableMember();
+        }
     }
 
 
@@ -139,6 +191,12 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
         removeMemberButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 removeMember();
+            }
+        });
+
+        enableAdminButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                enableAdmin();
             }
         });
 
@@ -288,7 +346,7 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
     public static void main(String args[]) {
        
        java.awt.EventQueue.invokeLater(new Runnable() {
-           public void run() {
+            public void run() {
             DatabaseManagment database = DatabaseManagment.getInstance();
             GroupChat testGroup = database.getDetailGroupChat(1);
 
