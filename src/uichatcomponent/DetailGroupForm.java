@@ -63,15 +63,18 @@ public class DetailGroupForm extends javax.swing.JFrame {
 
         tennhomLabel.setText(groupChat.getGroupname());
 
+        filltableListAccount(null);
         filterCombobox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e){
                 String selected = (String) filterCombobox.getSelectedItem();
                 switch (selected) {//check for a match
                     case "Thành viên":
+                        selected = "member";
                         filltableListAccount(selected);
                         break;
                     case "Admin":
+                        selected = "admin";
                         filltableListAccount(selected);
                         break;
                     default:

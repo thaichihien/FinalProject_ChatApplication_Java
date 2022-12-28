@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseManagment;
 import datastructure.UserAccount;
+import uichatcomponent.CreateAccountForm;
 import uichatcomponent.DetailAccountForm;
 import uichatcomponent.SearchBar;
 import utils.Utils;
@@ -117,13 +118,6 @@ public class MenuAccountManager extends MenuAdminLayout{
 
 
     
-    // TODO 1: xem chi tiết của một tài khoản
-    // Lấy thông tin từ row được đang chọn trong tableUserAccount
-    // Trường hợp chưa chọn thì Joptionpane cảnh báo chưa chọn 
-    // (Gợi ý tìm hiểu getValueAt của Jtable model hoặc xem ví dụ hàm addToGroup của MenuGroup)
-    // Cần 2 thông tin là ID và username của tài khoản được chọn
-    // setText() cho selectedAccountField là username
-    // setID cho userSelected
     private void viewDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
       UserAccount userSelected = new UserAccount();
       
@@ -151,10 +145,9 @@ public class MenuAccountManager extends MenuAdminLayout{
     }                                                 
 
     private void addAcountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                
-//        CreateAccountForm createAccountForm = new CreateAccountForm(this);
-//        
-//        createAccountForm.setVisible(true);
-//        this.setEnabled(false);
+       CreateAccountForm createAccountForm = new CreateAccountForm();
+       
+       createAccountForm.setVisible(true);
     }                                              
     
     
