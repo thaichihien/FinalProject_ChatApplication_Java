@@ -417,9 +417,9 @@ public ArrayList<UserAccount> getData(){
     </details>
     
 <details>
-    <summary> <b>9. Gán quyền admin,thay đổi tên nhóm, xóa thành viên &#9733</b> </summary>
+    <summary> <b>9. Gán quyền admin,thay đổi tên nhóm, xóa thành viên &#x2713</b> </summary>
     <ul>
-        <li>Người làm: </li>
+        <li>Người làm: Dũng</li>
         <li>Mô tả:
             <ul>
                 <li>Thực hiện 3 TODO</li>
