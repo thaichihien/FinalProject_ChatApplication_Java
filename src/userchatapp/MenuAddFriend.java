@@ -16,6 +16,8 @@ import database.DatabaseManagment;
 import datastructure.UserAccount;
 import uichatcomponent.SearchBar;
 
+import utils.Utils;
+
 
 public class MenuAddFriend extends JPanel{
 
@@ -25,6 +27,7 @@ public class MenuAddFriend extends JPanel{
     JButton addfriendButton;
     JTable tableFindFriend;
     JTable tableListFriendRequest;
+    
     UserAccount user;
     
 
@@ -34,11 +37,40 @@ public class MenuAddFriend extends JPanel{
     // Sử dụng searchAccountsNotFriend(int ID,String name)
     // trong đó ID là user.getID(), name là lấy từ thanh search bar là tên người dùng muốn tìm
     public void filltableFindFriend(){
+        String searchName;
+
+        Utils.clearTable(tableFindFriend);
+
+        DatabaseManagment database = DatabaseManagment.getInstance();
+
+        if(searchBarFindNewFriend.getText().toString().trim().length() > 0){
+            searchName = searchBarFindNewFriend.getText().toString().trim();
+        }
+        else{
+            searchName = "";
+        }
         
+        try {
+            ArrayList<UserAccount> listAccounts = database.searchAccountsNotFriend(user.getID(), searchName);
+            DefaultTableModel tableModel = (DefaultTableModel) tableFindFriend.getModel();
 
+            // tableModel.setRowCount(0);
 
+            for (UserAccount account : listAccounts){
+                String username = account.getUsername();
+                String fullname = account.getFullname();
+                String email = account.getEmail();
+                String online = "";
+                if(account.isOnline()) online = "online";
+                else online = "offline";
+                String row[] = {username,fullname,email,online};
+                tableModel.addRow(row);
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
-
     
     public void addNewFriend(int id){
 
@@ -51,12 +83,61 @@ public class MenuAddFriend extends JPanel{
     // trong đó ID là user.getID() , name lấy từ thanh search bar là tên tìm trong các request
     public void filltableListFriendRequest(){
 
+        String searchName;
 
+        Utils.clearTable(tableListFriendRequest);
 
+        DatabaseManagment database = DatabaseManagment.getInstance();
+
+        if(searchBarFindFriendRequest.getText().toString().trim().length() > 0){
+            searchName = searchBarFindFriendRequest.getText().toString().trim();
+            try {
+                ArrayList<UserAccount> listFriendRequests = database.getAllFriendRequest(user.getID(), searchName);
+
+                DefaultTableModel tableModel = (DefaultTableModel) tableListFriendRequest.getModel();
+
+                System.out.println(listFriendRequests.size());
+    
+                for (UserAccount account : listFriendRequests){
+                    String username = account.getUsername();
+                    String fullname = account.getFullname();
+                    String email = account.getEmail();
+                    String online = "";
+                    if(account.isOnline()) online = "online";
+                    else online = "offline";
+                    String row[] = {username,fullname,email,online};
+                    tableModel.addRow(row);
+                }
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
+        else{
+            try {
+                ArrayList<UserAccount> listFriendRequests;
+                listFriendRequests = database.getAllFriendRequest(user.getID());
+                DefaultTableModel tableModel = (DefaultTableModel) tableListFriendRequest.getModel();
+
+                System.out.println(listFriendRequests.size());
+    
+                for (UserAccount account : listFriendRequests){
+                    String username = account.getUsername();
+                    String fullname = account.getFullname();
+                    String email = account.getEmail();
+                    String online = "";
+                    if(account.isOnline()) online = "online";
+                    else online = "offline";
+                    String row[] = {username,fullname,email,online};
+                    tableModel.addRow(row);
+                }
+            }
+            catch(Exception e){
+                System.out.println(e.getMessage());
+            }
+        }
+        
     }
-
-    
-    
 
    
 
@@ -69,7 +150,6 @@ public class MenuAddFriend extends JPanel{
             @Override
             public void actionPerformed(ActionEvent e) {
                 filltableFindFriend();
-                
             }
         });
         searchBarFindFriendRequest.addActionListener(new ActionListener() {
@@ -80,6 +160,7 @@ public class MenuAddFriend extends JPanel{
         });
 
         filltableFindFriend();
+        filltableListFriendRequest();
     }
 
 
@@ -97,9 +178,6 @@ public class MenuAddFriend extends JPanel{
         addfriendButton = new JButton();
         tableFindFriend = new JTable();
         tableListFriendRequest = new JTable();
-
-        
-
 
         
         //for view only

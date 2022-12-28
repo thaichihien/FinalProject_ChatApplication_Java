@@ -6,6 +6,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch Register",
+            "request": "launch",
+            "mainClass": "userchatapp.Register",
+            "projectName": "FinalProject_ChatApplication_Java_b662f5d"
+        },
+        {
+            "type": "java",
+            "name": "Launch MainFrameTest",
+            "request": "launch",
+            "mainClass": "test.MainFrameTest",
+            "projectName": "FinalProject_ChatApplication_Java_b662f5d"
+        },
+        {
+            "type": "java",
+            "name": "Launch MainFormUser",
+            "request": "launch",
+            "mainClass": "userchatapp.MainFormUser",
+            "projectName": "FinalProject_ChatApplication_Java_b662f5d"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"

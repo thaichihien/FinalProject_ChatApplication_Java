@@ -104,11 +104,6 @@ public class Register extends JFrame {
 		txtPass.setText("");
 		txtRePass.setText("");
 	 }  
-
-
-
-
-
 	
 	/**
 	 * Launch the application.
