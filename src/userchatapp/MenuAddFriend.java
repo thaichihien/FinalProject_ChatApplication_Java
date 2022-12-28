@@ -31,11 +31,7 @@ public class MenuAddFriend extends JPanel{
     UserAccount user;
     
 
-    // TODO 1: lấy dữ liệu từ searchBarFindNewFriend, thực hiện truy vấn tài khoản theo tên tìm kiếm
-    // nạp vào bảng tableFindFriend nếu thanh tìm kiếm rỗng thì nạp tất cả vào
-    // Hiển thị danh sách tài khoản chưa kết bạn
-    // Sử dụng searchAccountsNotFriend(int ID,String name)
-    // trong đó ID là user.getID(), name là lấy từ thanh search bar là tên người dùng muốn tìm
+    
     public void filltableFindFriend(){
         String searchName;
 
@@ -76,11 +72,7 @@ public class MenuAddFriend extends JPanel{
 
     }
 
-    //TODO 2: Lấy dữ liệu tên tìm kiếm từ searchBarFindNewFriend,
-    // nếu chuỗi rỗng thì trả về tất cả friend request sử dụng getAllFriendRequest(int ID)
-    // trong đó ID là user.getID()  (ID của người dùng hiện tại)
-    // nếu có nhập thì tìm request có tên người đó sử dụng getAllFriendRequest(int ID,String name)
-    // trong đó ID là user.getID() , name lấy từ thanh search bar là tên tìm trong các request
+   
     public void filltableListFriendRequest(){
 
         String searchName;
@@ -139,6 +131,34 @@ public class MenuAddFriend extends JPanel{
         
     }
 
+
+    //TODO 1: Thực hiện gửi lời mời kết bạn
+    // Lấy thông tin từ row được đang chọn trong tableGroup
+    // Trường hợp chưa chọn thì Joptionpane cảnh báo chưa chọn 
+    // (Gợi ý tìm hiểu getValueAt của Jtable model hoặc xem ví dụ hàm addToGroup của MenuGroup)
+    // Cần 1 thông tin là ID của người bạn muốn gửi lời mời
+    // sử dụng hàm createFriendRequest(int ID,int otherID)
+    // trong đó ID là user.getID(), otherID là ID của người bạn muốn gửi
+    private void sendFriendRequest(){
+
+    }
+
+
+    // TODO 2: xử lý lời mời kết bạn
+    // Lấy thông tin từ row được đang chọn trong tableGroup
+    // Trường hợp chưa chọn thì Joptionpane cảnh báo chưa chọn 
+    // (Gợi ý tìm hiểu getValueAt của Jtable model hoặc xem ví dụ hàm addToGroup của MenuGroup)
+    // Cần 1 thông tin là ID của người bạn gửi lời mời đến
+    // sử dụng hàm setAcceptedRequest(int fromID,int toID)
+    // trong đó fromID là ID lấy từ người bạn, toID là user.getID()
+    // sử dụng addFriendToUser(int ID,int FriendID)
+    // trong đó ID là user.getID(),FriendID là ID từ người bạn
+    private void handleFriendRequest(){
+
+    }
+
+
+
    
 
 
@@ -157,6 +177,26 @@ public class MenuAddFriend extends JPanel{
             public void actionPerformed(ActionEvent e) {
               filltableListFriendRequest();
             }
+        });
+
+        addfriendButton.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handleFriendRequest();
+                
+            }
+
+        });
+
+        responeRequestButton.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendFriendRequest();
+                
+            }
+
         });
 
         filltableFindFriend();

@@ -206,7 +206,7 @@ public ArrayList<UserAccount> getData(){
     </details>
 
 <details>
-    <summary> <b>4. Thực hiện kết bạn</b> </summary>
+    <summary> <b>4. Thực hiện kết bạn và chấp nhận lời mời &#9733</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
@@ -215,7 +215,7 @@ public ArrayList<UserAccount> getData(){
             </ul>
         </li>
         <li>File làm việc: /userchatapp/MenuAddFriend.java</li>
-        <li>Deadline: 23/12/2022</li>
+        <li>Deadline: 29/12/2022</li>
     </ul>
     </details>
     
@@ -429,3 +429,5 @@ public ArrayList<UserAccount> getData(){
         <li>Deadline: 29/12/2022</li>
     </ul>
     </details>
+    
+
