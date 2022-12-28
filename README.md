@@ -338,7 +338,7 @@ public ArrayList<UserAccount> getData(){
         <li>Người làm: </li>
         <li>Mô tả:
             <ul>
-                <li>Xem thông tin tiết của account được chọn</li>
+                <li>Thực hiện 1 TODO ở MenuAccountManager và 3 TODO ở DetailAccountForm</li>
             </ul>
         </li>
         <li>File làm việc: /adminchatapp/MenuAccountManager.java và uichatcomponent/DetailAccountForm.java</li>
@@ -394,7 +394,7 @@ public ArrayList<UserAccount> getData(){
         <li>Người làm: </li>
         <li>Mô tả:
             <ul>
-                <li>Tạo một tài khoản từ admin</li>
+                <li>Thực hiện 2 TODO</li>
             </ul>
         </li>
         <li>File làm việc: /uichatcomponent/CreateAccountForm.java</li>
@@ -408,7 +408,7 @@ public ArrayList<UserAccount> getData(){
         <li>Người làm: </li>
         <li>Mô tả:
             <ul>
-                <li>Xem thông tin chi tiết của một nhóm</li>
+                <li>Thực hiện 1 TODO ở MenuGroupManager và 1 TODO ở DetailGroupForm</li>
             </ul>
         </li>
         <li>File làm việc: /adminchatapp/MenuGroupManager.java và uichatcomponent/DetailGroupForm.java</li>
