@@ -13,6 +13,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
@@ -126,9 +127,19 @@ public class MenuAccountManager extends MenuAdminLayout{
     private void viewDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
       UserAccount userSelected = new UserAccount();
       
+      int row = tableUserAccount.getSelectedRow();
+      if(row < 0){    // Cảnh báo chưa chọn dòng nào trong bảng
+           JOptionPane.showMessageDialog(null, "Please select an account", "Not selected", JOptionPane.WARNING_MESSAGE);
+           return;
+      }
+
+      String id = tableUserAccount.getModel().getValueAt(row, 0).toString();
+      String username = tableUserAccount.getModel().getValueAt(row, 1).toString();
+
+      selectedAccountField.setText(username);
+      userSelected.setID(Integer.parseInt(id));
       
-      
-        DetailAccountForm detailAccountForm = new DetailAccountForm(userSelected);
+    DetailAccountForm detailAccountForm = new DetailAccountForm(userSelected);
       detailAccountForm.setVisible(true);
       //this.setEnabled(false);
     }                     

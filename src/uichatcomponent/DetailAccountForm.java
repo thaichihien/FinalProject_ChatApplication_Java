@@ -13,12 +13,15 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseManagment;
 import datastructure.UserAccount;
@@ -47,14 +50,26 @@ public class DetailAccountForm extends javax.swing.JFrame {
 
     private UserAccount user;
 
-
-
     // TODO 1: Nạp tất cả dữ liệu người dùng từ user vào các field
     // Sử dụng hàm getDetailAccount(int ID)
     // trong đó ID lấy từ user.getID()
     // TEST NGAY TẠI FILE NÀY (RUN FILE NÀY)
     private void fillAccountInfor(){
+        DatabaseManagment databaseManagment = DatabaseManagment.getInstance();
 
+        user = databaseManagment.getDetailAccount(user.getID());
+
+        userNameField.setText(user.getUsername());
+        nameField.setText(user.getFullname());
+        addressField.setText(user.getAddress());
+        emailField.setText(user.getEmail());
+
+        if(user.getGender().equals("Nam")){
+            maleRadioButton.setSelected(true);
+        }
+        else{
+            femaleRadioButton.setSelected(true);
+        }
 
 
         // truyền ngày sinh vào datechooser
@@ -74,6 +89,28 @@ public class DetailAccountForm extends javax.swing.JFrame {
     // trong đó ID là user.getID()
     private void fillfriendListTable(){
 
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        
+        try {
+            ArrayList<UserAccount> listAccounts = database.getFriendArrayListByOnline(user.getID());
+
+            DefaultTableModel tableModel = (DefaultTableModel) friendListTable.getModel();
+
+            // tableModel.setRowCount(0);
+
+            for (UserAccount account : listAccounts){
+                String username = account.getUsername();
+                String fullname = account.getFullname();
+                String email = account.getEmail();
+                String gender = account.getGender();
+                String row[] = {username,fullname,gender,email};
+                tableModel.addRow(row);
+            }
+        }
+        catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+
     }
 
 
@@ -85,6 +122,7 @@ public class DetailAccountForm extends javax.swing.JFrame {
     // Ok thì lưu mật khẩu mới vào database sử dụng changePasswordUser(int ID, String newPassword)
     // hiện JoptionPane thông báo đổi thành công
     private void changePassword(){
+        DatabaseManagment database = DatabaseManagment.getInstance();
         JPanel changePasswordPanel = new JPanel();
         JLabel oldLabel = new JLabel("Mật khẩu cũ :");
         JTextField oldPasswordField = new JTextField(20);
@@ -110,7 +148,18 @@ public class DetailAccountForm extends javax.swing.JFrame {
         if(JOptionPane.showConfirmDialog(null,changePasswordPanel,"Change password",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION){
 
             // Code here
+            String oldPass = oldPasswordField.getText().toString().trim();
+            String newPass = newPasswordField.getText().toString().trim();
 
+            if(database.checkPassword(user.getID(), oldPass)){
+                database.changePasswordUser(user.getID(), newPass);
+                JOptionPane.showMessageDialog(null, "Completed!", "Change password", JOptionPane.INFORMATION_MESSAGE);
+                return;
+            }
+            else{
+                JOptionPane.showMessageDialog(null, "Old password is incorrect!", "Change password", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
 
         }
