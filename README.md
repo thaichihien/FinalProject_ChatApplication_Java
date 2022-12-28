@@ -333,9 +333,9 @@ public ArrayList<UserAccount> getData(){
     </details>
     
 <details>
-    <summary> <b>3. Xem thông tin chi tiết của Account &#9733</b> </summary>
+    <summary> <b>3. Xem thông tin chi tiết của Account &#x2713</b> </summary>
     <ul>
-        <li>Người làm: </li>
+        <li>Người làm: Dũng</li>
         <li>Mô tả:
             <ul>
                 <li>Thực hiện 1 TODO ở MenuAccountManager và 3 TODO ở DetailAccountForm</li>
