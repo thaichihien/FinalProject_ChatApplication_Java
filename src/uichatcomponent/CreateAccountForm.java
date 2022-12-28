@@ -5,6 +5,10 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
+import datastructure.UserAccount;
+import database.DatabaseManagment;
 
 
 public class CreateAccountForm extends javax.swing.JFrame {
@@ -27,21 +31,57 @@ public class CreateAccountForm extends javax.swing.JFrame {
     // tạo xong thì hiện JoptionPane báo tạo thành công và có thể đóng cửa sổ này
     // TEST TẠI FILE NÀY (RUN FILE NÀY)
     public void createNewAccount(){
+        DatabaseManagment database = DatabaseManagment.getInstance();
+
         String birthDay;
-
-
 
         // Lấy dữ liệu ngày sinh
         DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
         birthDay = df.format(birthDayChooser.getDate());
         
+        String username = usernameField.getText().toString().trim();
+        String fullname = nameField.getText().toString().trim();
+        String password = passwordField.getText().toString().trim();
+        String address = addressField.getText().toString().trim();
+        String email = emailField.getText().toString().trim();
+        String gender = "";
 
+        if(maleRadio.isSelected()){
+            gender = "Nam";
+        }
+        else if(femaleRadio.isSelected()){
+            gender = "Nữ";
+        }
 
+        UserAccount newUser = new UserAccount();
+        newUser.setUsername(username);
+        newUser.setFullname(fullname);
+        newUser.setPassword(password);
+        newUser.setEmail(email);
+        newUser.setAddress(address);
+        newUser.setGender(gender);
+        newUser.setBirthDay(birthDay);
+
+        if(database.addNewAccount(newUser) != -1){
+            JOptionPane.showMessageDialog(null, "Add completed!", "Add account", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        }
+        else{
+            JOptionPane.showMessageDialog(null, "Add failed!", "Add account", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
     }
 
 
     // TODO 2: xóa dữ liệu đã nhập ở tất cả các field
     private void clearFields(){
+
+        usernameField.setText("");
+        nameField.setText("");
+        passwordField.setText("");
+        addressField.setText("");
+        emailField.setText("");
+        genderGroup.clearSelection();
 
     }
     
