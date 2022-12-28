@@ -138,6 +138,49 @@ public class DatabaseManagment {
         return -1;
     }
 
+    public boolean checkPassword(int ID,String password){
+        String SELECT_QUERY = "SELECT USERNAME FROM USER_ACCOUNT WHERE ID = ? AND PASSWORD = ?";
+        ResultSet data = null;
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            statment.setInt(1, ID);
+            statment.setString(2, password);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return false;
+            }
+            else{
+               return true;
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
+    public void changePasswordUser(int ID, String newPassword){
+        String UPDATE_QUERY = "UPDATE USER_ACCOUNT SET PASSWORD = ? WHERE ID = ?";
+        try (PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY);) {
+           
+            statement.setString(1, newPassword);
+            statement.setInt(2, ID);
+            statement.executeUpdate();
+           
+       } catch (Exception e) {
+           System.out.println(e);
+       }
+    }
+
 
     /**Lấy danh sách bạn bè của một account với ID
      * @param ID
@@ -880,6 +923,44 @@ public class DatabaseManagment {
 
     }
 
+    public GroupChat getDetailGroupChat(int groupID){
+        String SELECT_QUERY = "SELECT GC.ID,GC.GROUP_NAME,COUNT(MB.MEMBER_ID) AS SOLUONG,GC.CREATED_AT,GC.ONLINE FROM GROUPCHAT GC LEFT OUTER JOIN GROUPCHAT_MEMBER MB ON GC.ID = MB.GROUPCHAT_ID WHERE GC.ID = ? GROUP BY GC.ID ";
+        ResultSet data = null;
+        GroupChat groupChat = new GroupChat();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            statment.setInt(1, groupID);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return groupChat;
+            }
+            else{
+                
+                groupChat.setID(data.getInt("ID"));
+                groupChat.setGroupname(data.getString("GROUP_NAME"));
+                groupChat.setNumberOfMember(data.getInt("soluong"));
+                Timestamp date = data.getTimestamp("CREATED_AT");
+                String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(date);
+                groupChat.setCreatedAt(formattedDate);
+                groupChat.setOnline(data.getBoolean("ONLINE"));
+                return groupChat;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return groupChat;
+    }
 
     /** lấy tất cả các nhóm chat có trong database
      * @return
@@ -1296,6 +1377,19 @@ public class DatabaseManagment {
            
             statement.setString(1, name);
             statement.setInt(2, groupID);
+            statement.executeUpdate();
+           
+       } catch (Exception e) {
+           System.out.println(e);
+       }
+    }
+
+    public void removeMemberFromGroup(int groupID,int ID){
+        String DELETE_QUERY = "DELETE GROUPCHAT_MEMBER WHERE GROUPCHAT_ID = ? AND MEMBER_ID = ?";
+        try (PreparedStatement statement = conn.prepareStatement(DELETE_QUERY);) {
+           
+            statement.setInt(1, groupID);
+            statement.setInt(2, ID);
             statement.executeUpdate();
            
        } catch (Exception e) {

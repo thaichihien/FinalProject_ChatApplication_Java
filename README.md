@@ -328,20 +328,20 @@ public ArrayList<UserAccount> getData(){
             </ul>
         </li>
         <li>File làm việc: /adminchatapp/MenuAccountManager.java</li>
-        <li>Deadline: 26/12/2022</li>
+        <li>Deadline: 29/12/2022</li>
     </ul>
     </details>
     
 <details>
-    <summary> <b>3. Thêm/Cập nhật/xóa tài khoản</b> </summary>
+    <summary> <b>3. Xem thông tin chi tiết của Account &#9733</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
             <ul>
-                <li>Thêm/Cập nhật/xóa tài khoản</li>
+                <li>Xem thông tin tiết của account được chọn</li>
             </ul>
         </li>
-        <li>File làm việc: /adminchatapp/MenuAccountManager.java</li>
+        <li>File làm việc: /adminchatapp/MenuAccountManager.java và uichatcomponent/DetailAccountForm.java</li>
         <li>Deadline: 24/12/2022</li>
     </ul>
     </details>
@@ -385,5 +385,47 @@ public ArrayList<UserAccount> getData(){
         </li>
         <li>File làm việc: /adminchatapp/MenuGroupManager.java và MenuLoginHistory.java</li>
         <li>Deadline: 26/12/2022</li>
+    </ul>
+    </details>
+    
+<details>
+    <summary> <b>7. Tạo một tài khoản từ admin &#9733</b> </summary>
+    <ul>
+        <li>Người làm: </li>
+        <li>Mô tả:
+            <ul>
+                <li>Tạo một tài khoản từ admin</li>
+            </ul>
+        </li>
+        <li>File làm việc: /uichatcomponent/CreateAccountForm.java</li>
+        <li>Deadline: 29/12/2022</li>
+    </ul>
+    </details>
+
+<details>
+    <summary> <b>8. Xem thông tin chi tiết của một nhóm &#9733</b> </summary>
+    <ul>
+        <li>Người làm: </li>
+        <li>Mô tả:
+            <ul>
+                <li>Xem thông tin chi tiết của một nhóm</li>
+            </ul>
+        </li>
+        <li>File làm việc: /adminchatapp/MenuGroupManager.java và uichatcomponent/DetailGroupForm.java</li>
+        <li>Deadline: 29/12/2022</li>
+    </ul>
+    </details>
+    
+<details>
+    <summary> <b>9. Gán quyền admin,thay đổi tên nhóm, xóa thành viên &#9733</b> </summary>
+    <ul>
+        <li>Người làm: </li>
+        <li>Mô tả:
+            <ul>
+                <li>Thực hiện 3 TODO</li>
+            </ul>
+        </li>
+        <li>File làm việc:  uichatcomponent/DetailGroupChatForm.java</li>
+        <li>Deadline: 29/12/2022</li>
     </ul>
     </details>

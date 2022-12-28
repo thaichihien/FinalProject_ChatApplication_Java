@@ -1,9 +1,18 @@
 
 package uichatcomponent;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.GroupLayout.Group;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,7 +33,7 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
     private uichatcomponent.SearchBar searchBarFriendGroup;
     private javax.swing.JTable tableMemberGroup;
 
-    private JFrame parentFrame;
+   
     private GroupChat groupChat;
     private boolean isAdmin;
 
@@ -44,6 +53,9 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
             tableModel.addRow(row);
         }
     }
+
+    // TEST Ở FILE NÀY (RUN FILE NÀY)
+    // GROUP CHAT ĐANG TEST LÀ GROUP1 VỚI ID = 1 (Ở HÀM MAIN)
 
     // TODO 1: Gán quyền admin
     // - Kiểm tra xem có account đang xem có phải admin (kiểm tra biến isAdmin)
@@ -65,26 +77,70 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
     }
 
     // TODO 2: Thay đổi tên nhóm
-    // Thiết kế một Jpanel nhỏ gồm Jlabel là "Nhập tên nhóm" và Jtextfield cho
-    // người dùng nhập tên nhóm mới
-    // dùng JOptionPane truyền Jpanel để hiện lên cho người dùng
-    // JOption này có 2 nút OK và cancel
-    // Ok : + kiểm tra Jtextfield, nếu trống thì hiện JOptionPane cảnh báo
+    //      + Kiểm tra biến IsAdmin, nếu false thì return
+    //      + kiểm tra Jtextfield, nếu trống thì hiện JOptionPane cảnh báo
     //      +Thay đổi tên nhóm theo Jtextfield sử dụng setNewGroupName(String name,int groupID)
     //      + Với name là tên nhóm mới, groupID là groupChat.getID()
     //      +Thay đổi tên nhóm ở jLabelGroupName
-    // canncel: return
+    
     public void changeGroupName(){
+        JPanel changeGroupPanel = new JPanel();
+        JLabel changeLabel = new JLabel("Tên nhóm mới :");
+        JTextField newGroupNameField = new JTextField(20);
+       
+
+        changeGroupPanel.setLayout(new GridBagLayout());
+        GridBagConstraints cs = new GridBagConstraints();
+
+        cs.fill = GridBagConstraints.HORIZONTAL;
+        cs.insets = new Insets(10, 5, 5, 5);
+        cs.gridx = 0;
+        cs.gridy = 0;
+        changeGroupPanel.add(changeLabel,cs);
+        cs.gridx = 1;
+        changeGroupPanel.add(newGroupNameField,cs);
+       
+        if(JOptionPane.showConfirmDialog(null,changeGroupPanel,"Change group name",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION){
+
+            // Code here
+
+        }
+
+    }
+
+
+    // TODO 3: // TODO 1: Gán quyền admin
+    // - Kiểm tra xem có account đang xem có phải admin (kiểm tra biến isAdmin)
+    // - lấy ID của row đang được chọn trong tableMemberGroup (Gợi ý tìm hiểu getValueAt của Jtable model 
+    //         hoặc xem ví dụ hàm addToGroup của MenuGroup)
+    // - Dùng JOptionPane để hỏi người dùng có chắc chắn k, không thì return
+    // Nếu có thì thực hiện xóa account được chọn sử dụng removeMemberFromGroup(int groupID,int ID)
+    // - Gọi hàm fillTableMember()
+    public void removeMember(){
 
     }
 
 
 
-    public DetailGroupChatForm(JFrame parentFrame,GroupChat groupChat,boolean isAdmin) {
+    public DetailGroupChatForm(GroupChat groupChat,boolean isAdmin) {
         initComponents();
-        this.parentFrame = parentFrame;
+       
         this.groupChat = groupChat;
         this.isAdmin = isAdmin;
+
+        changeGroupNameButton.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                changeGroupName();
+            }
+            
+        });
+        removeMemberButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                removeMember();
+            }
+        });
 
         jLabelGroupName.setText(groupChat.getGroupname());
         fillTableMember();
@@ -92,7 +148,22 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
 
                             
     private void initComponents() {
-
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(DetailGroupChatForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(DetailGroupChatForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(DetailGroupChatForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(DetailGroupChatForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableMemberGroup = new javax.swing.JTable();
@@ -136,11 +207,7 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
 
         removeMemberButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         removeMemberButton.setText("Xóa thành viên");
-        removeMemberButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                removeMemberButtonActionPerformed(evt);
-            }
-        });
+       
 
         changeGroupNameButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         changeGroupNameButton.setText("Đổi tên nhóm");
@@ -211,47 +278,23 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>                        
 
-    private void removeMemberButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                   
-        // TODO add your handling code here:
-    }                                                  
+                                             
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {                                   
-        parentFrame.setEnabled(true);
+        //parentFrame.setEnabled(true);
     }                                  
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(DetailGroupChatForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(DetailGroupChatForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(DetailGroupChatForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(DetailGroupChatForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+       
+       java.awt.EventQueue.invokeLater(new Runnable() {
+           public void run() {
+            DatabaseManagment database = DatabaseManagment.getInstance();
+            GroupChat testGroup = database.getDetailGroupChat(1);
 
-        /* Create and display the form */
-    //    java.awt.EventQueue.invokeLater(new Runnable() {
-    //        public void run() {
-    //            new DetailGroupChatForm().setVisible(true);
-    //        }
-    //    });
+               new DetailGroupChatForm(testGroup,true).setVisible(true);
+           }
+       });
     }
 
     // Variables declaration - do not modify                     

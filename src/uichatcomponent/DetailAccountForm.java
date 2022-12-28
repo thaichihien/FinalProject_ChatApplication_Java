@@ -4,12 +4,21 @@
  */
 package uichatcomponent;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import database.DatabaseManagment;
 import datastructure.UserAccount;
@@ -67,6 +76,50 @@ public class DetailAccountForm extends javax.swing.JFrame {
 
     }
 
+
+    // TODO 3: thay đổi mật khẩu
+    // Kiểm tra oldPasswordField có giống password trong database sử dụng checkPassword(int ID,String password)
+    // => không giống hiện JOptionPane cảnh báo
+    // Kiểm tra oldPasswordField có giống newPasswordField
+    // => giống hiện JoptionPane cảnh báo
+    // Ok thì lưu mật khẩu mới vào database sử dụng changePasswordUser(int ID, String newPassword)
+    // hiện JoptionPane thông báo đổi thành công
+    private void changePassword(){
+        JPanel changePasswordPanel = new JPanel();
+        JLabel oldLabel = new JLabel("Mật khẩu cũ :");
+        JTextField oldPasswordField = new JTextField(20);
+        JLabel newLabel = new JLabel("Mật khẩu mới :");
+        JTextField newPasswordField = new JTextField(20);
+
+        changePasswordPanel.setLayout(new GridBagLayout());
+        GridBagConstraints cs = new GridBagConstraints();
+
+        cs.fill = GridBagConstraints.HORIZONTAL;
+        cs.insets = new Insets(10, 5, 5, 5);
+        cs.gridx = 0;
+        cs.gridy = 0;
+        changePasswordPanel.add(oldLabel,cs);
+        cs.gridx = 1;
+        changePasswordPanel.add(oldPasswordField,cs);
+        cs.gridx = 0;
+        cs.gridy = 1;
+        changePasswordPanel.add(newLabel,cs);
+        cs.gridx = 1;
+        changePasswordPanel.add(newPasswordField,cs);
+
+        if(JOptionPane.showConfirmDialog(null,changePasswordPanel,"Change password",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION){
+
+            // Code here
+
+
+
+        }
+
+
+
+
+    }
+
     private void lockAccount(){
 
     }
@@ -81,8 +134,17 @@ public class DetailAccountForm extends javax.swing.JFrame {
 
     public DetailAccountForm(UserAccount account) {
         initComponents();
-        
         this.user = account;
+
+        changePasswordButton.addActionListener(new ActionListener(){
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                changePassword();
+            }
+            
+        });
+
         fillAccountInfor();
         fillfriendListTable();
     }
