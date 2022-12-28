@@ -81,16 +81,7 @@ public class MenuAccountManager extends MenuAdminLayout{
     }
 
 
-    //TODO 2: Tương tự nạp dữ liệu vào bảng nhưng lần này thực hiện search và 
-    // lọc theo tiêu chí họ và tên, tên đăng nhập, ngày sinh theo tăng dần hay
-    // giảm dần. Kiểm tra searchBarFindUser, sortFilter, sortCriteria 
-    // nếu mặc định ở sortFilter, sortCriteria và searchBarFindUser thì gọi filltableUserAccount()
-    //sử dụng database.getAllAccounts(String name,String sort,String by)
-    // - Trong đó : 
-    //      + name: là họ tên hoặc tên đăng nhập cần tìm, nếu searchBarFindUser trả về chuỗi rỗng
-    //          thì truyền tham số là null
-    //      + sort: chi chấp nhận các tham số : "USERNAME","FULLNAME","CREATED_AT",null
-    //      + by: chỉ chấp nhận các tham số: "ASC","DESC"
+   
     private void fillTableBySort(){
         String Criteria, Filter, input;
         Criteria=new String((String)sortCriteria.getSelectedItem());
@@ -124,8 +115,23 @@ public class MenuAccountManager extends MenuAdminLayout{
     }
 
 
-
-
+    
+    // TODO 1: xem chi tiết của một tài khoản
+    // Lấy thông tin từ row được đang chọn trong tableUserAccount
+    // Trường hợp chưa chọn thì Joptionpane cảnh báo chưa chọn 
+    // (Gợi ý tìm hiểu getValueAt của Jtable model hoặc xem ví dụ hàm addToGroup của MenuGroup)
+    // Cần 2 thông tin là ID và username của tài khoản được chọn
+    // setText() cho selectedAccountField là username
+    // setID cho userSelected
+    private void viewDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
+      UserAccount userSelected = new UserAccount();
+      
+      
+      
+        DetailAccountForm detailAccountForm = new DetailAccountForm(userSelected);
+      detailAccountForm.setVisible(true);
+      //this.setEnabled(false);
+    }                     
 
     
 
@@ -138,14 +144,9 @@ public class MenuAccountManager extends MenuAdminLayout{
 //        
 //        createAccountForm.setVisible(true);
 //        this.setEnabled(false);
-    }                                               
-
-    private void viewDetailButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                 
-      DetailAccountForm detailAccountForm = new DetailAccountForm();
-      
-      detailAccountForm.setVisible(true);
-      //this.setEnabled(false);
-    }                     
+    }                                              
+    
+    
     
     private void deleteAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                    
         // TODO add your handling code here:
@@ -181,7 +182,7 @@ public class MenuAccountManager extends MenuAdminLayout{
             
         });
 
-
+        selectedAccountField.setEditable(false);
         filltableUserAccount();
     }
 

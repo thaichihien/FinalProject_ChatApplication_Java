@@ -1,6 +1,9 @@
 
 package uichatcomponent;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+
 import javax.swing.JFrame;
 
 
@@ -18,10 +21,46 @@ public class CreateAccountForm extends javax.swing.JFrame {
     private javax.swing.JTextField passwordField;
     private javax.swing.JTextField usernameField;
     
+    // TODO 1: Tạo tài khoản từ phía admin
+    // lấy tất cả dữ liệu đã nhập từ các field
+    // tạo tài khoản mới bằng addNewAccount(UserAccount account)
+    // tạo xong thì hiện JoptionPane báo tạo thành công và có thể đóng cửa sổ này
+    // TEST TẠI FILE NÀY (RUN FILE NÀY)
+    public void createNewAccount(){
+        String birthDay;
+
+
+
+        // Lấy dữ liệu ngày sinh
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        birthDay = df.format(birthDayChooser.getDate());
+        
+
+
+    }
+
+
+    // TODO 2: xóa dữ liệu đã nhập ở tất cả các field
+    private void clearFields(){
+
+    }
     
     
     public CreateAccountForm() {
         initComponents();
+
+        createAccButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                createNewAccount();
+            }
+        });
+        deleteFieldsButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearFields();
+            }
+        });
+
+
         
     }
 
@@ -115,11 +154,7 @@ public class CreateAccountForm extends javax.swing.JFrame {
         maleRadio.setText("Nam");
 
         createAccButton.setText("Hoàn tất");
-        createAccButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createAccButtonActionPerformed(evt);
-            }
-        });
+       
 
         deleteFieldsButton.setText("Xóa dữ liệu ô");
 
@@ -235,15 +270,7 @@ public class CreateAccountForm extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        
-        //</editor-fold>
-
-        /* Create and display the form */
+       
        java.awt.EventQueue.invokeLater(new Runnable() {
            public void run() {
                new CreateAccountForm().setVisible(true);

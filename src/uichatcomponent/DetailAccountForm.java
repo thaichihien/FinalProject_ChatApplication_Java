@@ -4,7 +4,15 @@
  */
 package uichatcomponent;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 import javax.swing.JFrame;
+
+import database.DatabaseManagment;
+import datastructure.UserAccount;
 
 /**
  *
@@ -12,14 +20,14 @@ import javax.swing.JFrame;
  */
 public class DetailAccountForm extends javax.swing.JFrame {
 
-    private javax.swing.JTextField addressField;
-    private com.toedter.calendar.JDateChooser birthDayChooser;
     private javax.swing.JButton changePasswordButton;
+    private javax.swing.JLabel friendListLabel;
     private javax.swing.JButton deleteAccountButton;
     private javax.swing.JToggleButton editorButton;
     private javax.swing.JTextField emailField;
+    private javax.swing.JTextField addressField;
+    private com.toedter.calendar.JDateChooser birthDayChooser;
     private javax.swing.JRadioButton femaleRadioButton;
-    private javax.swing.JLabel friendListLabel;
     private javax.swing.JTable friendListTable;
     private javax.swing.ButtonGroup genderGroup;
     private javax.swing.JButton lockAccountButton;
@@ -28,11 +36,33 @@ public class DetailAccountForm extends javax.swing.JFrame {
     private javax.swing.JTextField userNameField;
     private javax.swing.JButton viewHistoryButton;
 
+    private UserAccount user;
 
+
+
+    // TODO 1: Nạp tất cả dữ liệu người dùng từ user vào các field
+    // Sử dụng hàm getDetailAccount(int ID)
+    // trong đó ID lấy từ user.getID()
+    // TEST NGAY TẠI FILE NÀY (RUN FILE NÀY)
     private void fillAccountInfor(){
+
+
+
+        // truyền ngày sinh vào datechooser
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH); 
+        try {
+            birthDayChooser.setDate(new Date(formatter.parse(user.getBirthDay()).getTime()));
+        } catch (ParseException ex) {
+            birthDayChooser.setDate(new Date());
+        }
+
 
     }
 
+
+    // TODO 2: Nạp vào bảng friendListTable dữ liệu tất cả bạn bè của user
+    // Sử dụng hàm getFriendArrayListByOnline(int ID)
+    // trong đó ID là user.getID()
     private void fillfriendListTable(){
 
     }
@@ -49,9 +79,12 @@ public class DetailAccountForm extends javax.swing.JFrame {
 
 
 
-    public DetailAccountForm() {
+    public DetailAccountForm(UserAccount account) {
         initComponents();
         
+        this.user = account;
+        fillAccountInfor();
+        fillfriendListTable();
     }
 
   
@@ -288,6 +321,15 @@ public class DetailAccountForm extends javax.swing.JFrame {
             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
+
+        nameField.setEditable(false);
+        addressField.setEditable(false);
+        emailField.setEditable(false);
+        userNameField.setEditable(false);
+        maleRadioButton.setEnabled(false);
+        femaleRadioButton.setEnabled(false);
+
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -306,7 +348,11 @@ public class DetailAccountForm extends javax.swing.JFrame {
         /* Create and display the form */
        java.awt.EventQueue.invokeLater(new Runnable() {
            public void run() {
-               new DetailAccountForm().setVisible(true);
+            DatabaseManagment database = DatabaseManagment.getInstance();
+            UserAccount testAccount = database.getDetailAccount(1);
+
+
+               new DetailAccountForm(testAccount).setVisible(true);
            }
        });
     }

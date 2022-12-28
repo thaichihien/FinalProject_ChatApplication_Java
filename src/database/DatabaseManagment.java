@@ -249,6 +249,20 @@ public class DatabaseManagment {
                 account.setID(data.getInt("ID"));
                 account.setUsername(data.getString("USERNAME"));
                 account.setFullname(data.getString("FULLNAME"));
+                account.setAddress(data.getString("address"));
+                Date birthDay = data.getDate("date_of_birth");
+                if(!data.wasNull()){
+                    account.setBirthDay(birthDay.toString());
+                }
+                
+                account.setGender(data.getString("Gender"));
+                account.setEmail(data.getString("email"));
+                Timestamp createdAt = data.getTimestamp("created_at");
+                if(!data.wasNull()){
+                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(createdAt);
+                    account.setCreatedAt(formattedDate);
+                }
+                
                 account.setOnline(data.getBoolean("ONLINE"));
                 return account;
             }
