@@ -27,3 +27,4 @@ hs_err_pid*
 MainFrameTest.java
 DatabaseConfig.java
 settings.json
+.secretkey
