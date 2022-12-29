@@ -213,7 +213,7 @@ public ArrayList<UserAccount> getData(){
         <li>Người làm: </li>
         <li>Mô tả:
             <ul>
-                <li>Thực hiện viết hàm kết bạn và hủy kết bạn của tài khoản đang truy cập vào database</li>
+                <li>Thực hiện 2 TODO</li>
             </ul>
         </li>
         <li>File làm việc: /userchatapp/MenuAddFriend.java</li>
