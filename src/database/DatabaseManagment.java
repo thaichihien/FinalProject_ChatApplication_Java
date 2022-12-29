@@ -1501,17 +1501,50 @@ public class DatabaseManagment {
     }
 
 
-    public void setAcceptedRequest(int fromID,int toID){
-        String UPDATE_QUERY = "UPDATE FRIEND_REQUEST SET STATUS = 'ACCEPTED' WHERE FROM_ID = ? AND TO_ID = ?";
+    public void setResponeToRequest(int fromID,int toID,String status){
+        String UPDATE_QUERY = "UPDATE FRIEND_REQUEST SET STATUS = ? WHERE FROM_ID = ? AND TO_ID = ?";
         try (PreparedStatement updateStatement = conn.prepareStatement(UPDATE_QUERY);) {
         
-            updateStatement.setInt(1, fromID);
-            updateStatement.setInt(2, toID);
+            updateStatement.setString(1, status);
+            updateStatement.setInt(2, fromID);
+            updateStatement.setInt(3, toID);
             updateStatement.executeUpdate();
             
         } catch (Exception e) {
             System.out.println(e);
         }
+    }
+
+    public String getUsername(int ID){
+        String SELECT_QUERY = "SELECT USERNAME FROM USER_ACCOUNT WHERE ID = ?";
+       
+        ResultSet data = null;
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            statment.setInt(1, ID);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return "null";
+            }
+            else{
+                String username = data.getString("USERNAME");
+                return username;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return "null";
     }
 
     

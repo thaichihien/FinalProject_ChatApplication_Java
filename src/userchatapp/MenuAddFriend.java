@@ -149,9 +149,11 @@ public class MenuAddFriend extends JPanel{
     // Trường hợp chưa chọn thì Joptionpane cảnh báo chưa chọn 
     // (Gợi ý tìm hiểu getValueAt của Jtable model hoặc xem ví dụ hàm addToGroup của MenuGroup)
     // Cần 1 thông tin là ID của người bạn gửi lời mời đến
-    // sử dụng hàm setAcceptedRequest(int fromID,int toID)
+    // Hiện Joptionpane hỏi đồng ý kết bạn hay không
+    // sử dụng hàm setResponeToRequest(int fromID,int toID,String status)
     // trong đó fromID là ID lấy từ người bạn, toID là user.getID()
-    // sử dụng addFriendToUser(int ID,int FriendID)
+    // Có thì status là "ACCECPTED", không thì status là "DENIED"
+    // sử dụng addFriendToUser(int ID,int FriendID) cho TH có
     // trong đó ID là user.getID(),FriendID là ID từ người bạn
     private void handleFriendRequest(){
 

@@ -133,10 +133,10 @@ public ArrayList<UserAccount> getData(){
 - [ ] Thêm bạn bè bằng tên đăng nhập
 - [ ] Hủy kết bạn
 - [X] Tạo nhóm chat
-- [ ] Đổi tên nhóm chat
+- [X] Đổi tên nhóm chat
 - [ ] Thêm thành viên
-- [ ] Gán quyền admin
-- [ ] Xóa thành viên
+- [X] Gán quyền admin
+- [X] Xóa thành viên
 - [ ] Xem lịch sử chat
 - [ ] Tìm kiếm lịch sử chat
 - [ ] Xóa lịch sử chat

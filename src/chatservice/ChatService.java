@@ -9,6 +9,8 @@ import java.util.StringTokenizer;
 
 public class ChatService {
     public static final String CHAT = "chat";
+    public static final String CHATGROUP ="group";
+    public static final String GROUP_RECEIVED ="groupchat";
     public static final String CHANGES = "change";
     public static final String DELIMITER = "#";
     public static final String MENUCHAT = "menuchat";
@@ -16,6 +18,11 @@ public class ChatService {
     public static String createPacket(String signal,int to,String content,String time){
         String toWho = String.valueOf(to);
         return signal + DELIMITER + toWho + DELIMITER + time + DELIMITER+ content;
+    }
+
+    public static String createPacket(String signal,int to,String username,String content,String time){
+        String toWho = String.valueOf(to);
+        return signal + DELIMITER + toWho + DELIMITER + username +DELIMITER + time + DELIMITER+ content;
     }
     
     public static String[] packetAnalysis(String packet){

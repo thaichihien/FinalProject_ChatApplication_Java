@@ -36,11 +36,13 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
 
        
         if(allMessage[0].equals(ChatService.CHAT)){ // chat#id#time#content
-            menuChatLayout.addMessageToChatbox(allMessage);
+            menuChatLayout.addMessageToChatboxUser(allMessage);
         }else if(allMessage[0].equals(ChatService.CHANGES)){ // change#id#time#menuchat
            if(allMessage[3].equals(ChatService.MENUCHAT)){
             menuChatLayout.resetData();
            }
+        }else if(allMessage[0].equals(ChatService.CHATGROUP)){
+
         }
 
     }

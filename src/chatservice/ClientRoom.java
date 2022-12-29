@@ -9,12 +9,17 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.Map;
+
+import database.DatabaseManagment;
+import datastructure.UserAccount;
 
 public class ClientRoom extends Thread {
 
     public Socket clientSocket;
     public int ID;
+    public String username;
    
 
 
@@ -59,7 +64,8 @@ public class ClientRoom extends Thread {
         }
         this.ID = idConverted;
         Server.clientList.put(this.ID,this);
-
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        this.username = database.getUsername(this.ID);
 
         String msgFromClient= "";
         while(true){
@@ -107,14 +113,17 @@ public class ClientRoom extends Thread {
         try {
             if(allMessage[0].equals(ChatService.CHAT)){
                 int IDtoSend = Integer.parseInt(allMessage[1]);
-                ClientRoom friendRoom = Server.clientList.get(IDtoSend);
-                OutputStream clientOut = friendRoom.clientSocket.getOutputStream();
-                PrintWriter pw = new PrintWriter(new OutputStreamWriter(clientOut, "UTF-8"), true);
-                String timeSend = allMessage[2];
-                String messageSend = allMessage[3];
-                String packetSend = ChatService.createPacket(ChatService.CHAT, ID, messageSend, timeSend);
-                System.out.println(packetSend);
-                pw.println(packetSend);
+                if(Server.clientList.containsKey(IDtoSend)){
+                    ClientRoom friendRoom = Server.clientList.get(IDtoSend);
+                    OutputStream clientOut = friendRoom.clientSocket.getOutputStream();
+                    PrintWriter pw = new PrintWriter(new OutputStreamWriter(clientOut, "UTF-8"), true);
+                    String timeSend = allMessage[2];
+                    String messageSend = allMessage[3];
+                    String packetSend = ChatService.createPacket(ChatService.CHAT, ID, messageSend, timeSend);
+                    System.out.println(packetSend);
+                    pw.println(packetSend);
+                }
+                
             }
             else if(allMessage[0].equals(ChatService.CHANGES)){
                 OutputStream clientOut = this.clientSocket.getOutputStream();
@@ -133,6 +142,26 @@ public class ClientRoom extends Thread {
                     PrintWriter otherPw = new PrintWriter(new OutputStreamWriter(otherStream, "UTF-8"), true);
                     otherPw.println(packetSend);
                 }
+                
+            }
+            else if(allMessage[0].equals(ChatService.CHATGROUP)){
+                int groupID = Integer.parseInt(allMessage[1]);
+                DatabaseManagment database = DatabaseManagment.getInstance();
+                ArrayList<UserAccount> userInGroup = database.getAllGroupMembers(groupID);
+                for(UserAccount user : userInGroup){
+                    if(Server.clientList.containsKey(user.getID()) && user.getID() != this.ID){
+                        ClientRoom friendRoom = Server.clientList.get(user.getID());
+                        OutputStream clientOut = friendRoom.clientSocket.getOutputStream();
+                        PrintWriter pw = new PrintWriter(new OutputStreamWriter(clientOut, "UTF-8"), true);
+                        String timeSend = allMessage[2];
+                        String messageSend = allMessage[3];
+                        String packetSend = ChatService.createPacket(ChatService.CHATGROUP, ID, messageSend, timeSend);
+                        System.out.println(packetSend);
+                        pw.println(packetSend);
+                    }
+                }
+
+
                 
             }
             else{

@@ -4,9 +4,17 @@
  */
 package uichatcomponent;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import javax.swing.JButton;
 
+import chatservice.ChatService;
 import datastructure.GroupChat;
+import datastructure.Message;
 import datastructure.UserAccount;
 
 /**
@@ -18,6 +26,24 @@ public class ChatBoxGroup extends ChatBoxLayout{
     private JButton viewGroupInforButton;
     private GroupChat groupChat;
     
+
+    private void sendButtonActionPerformed(ActionEvent e){
+        String message = inputChatTextArea.getText();
+        //ZonedDateTime  myDateObj = ZonedDateTime.now( ZoneId.of("Asia/Ho_Chi_Minh")); 
+        Timestamp sendTime =new Timestamp(new Date().getTime());
+        String formattedsendTime = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(sendTime);
+        addMessage(new ChatMessageBlock(user.getUsername(), formattedsendTime, ChatMessageBlock.MINE, message));
+        inputChatTextArea.setText("");
+        
+        String packetSend = ChatService.createPacket(ChatService.CHATGROUP, groupChat.getID(), message,formattedsendTime);
+        user.sendPacket(packetSend);
+    }
+
+    public void addMessage(Message message){
+        this.addMessage(new ChatMessageBlock(message.getUserName(), message.getDateSend(), ChatMessageBlock.OTHER, message.getContent()));
+    }
+
+
     public ChatBoxGroup(UserAccount me,GroupChat groupChat) {
         super(me);
         this.groupChat = groupChat;
@@ -59,6 +85,15 @@ public class ChatBoxGroup extends ChatBoxLayout{
         );
         
         createInput(this);
+
+        sendButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                sendButtonActionPerformed(e);
+                
+            }
+       });
+
     }
     
 }
