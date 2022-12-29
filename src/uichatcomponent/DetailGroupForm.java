@@ -8,9 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.util.ArrayList;
-import javax.swing.JFrame;
 import database.DatabaseManagment;
-import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 import datastructure.UserAccount;

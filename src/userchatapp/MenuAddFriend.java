@@ -46,8 +46,7 @@ public class MenuAddFriend extends JPanel{
         }
         else{
             searchName = "";
-        }
-        
+        }  
         try {
             ArrayList<UserAccount> listAccounts = database.searchAccountsNotFriend(user.getID(), searchName);
             DefaultTableModel tableModel = (DefaultTableModel) tableFindFriend.getModel();
@@ -68,10 +67,7 @@ public class MenuAddFriend extends JPanel{
             System.out.println(e.getMessage());
         }
     }
-    
-    
 
-   
     public void filltableListFriendRequest(){
 
         String searchName;
@@ -167,12 +163,10 @@ public class MenuAddFriend extends JPanel{
             database.setResponeToRequest(user.getID(), idFriendFrom, "DENIED");
         }
 
+        //send packet changes to server
         filltableFindFriend();
         filltableListFriendRequest();
     }
-
-
-   
 
 
     public MenuAddFriend(UserAccount account) {

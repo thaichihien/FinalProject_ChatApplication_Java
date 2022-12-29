@@ -6,6 +6,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,6 +44,7 @@ public class DetailAccountForm extends javax.swing.JFrame {
     private javax.swing.JButton viewHistoryButton;
 
     private UserAccount user;
+    private boolean isEdit;
 
     
     // TEST NGAY TẠI FILE NÀY (RUN FILE NÀY)
@@ -145,22 +147,73 @@ public class DetailAccountForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(null, "Old password is incorrect!", "Change password", JOptionPane.WARNING_MESSAGE);
                 return;
             }
-
-
         }
-
-
-
 
     }
 
+    // TODO 1: Khóa tài khoản
+    // Sử dụng hàm checkAccountIsBanned(int ID) với ID là user.getID
+    // + nếu đang bị khóa thì dùng JOptionPane hỏi admin có muốn gỡ khóa
+    //  nếu không thì return, có thì dùng hàm setLockUserAccount(int ID,boolean lock)
+    //   ID là user.getID(), lock nếu true thì là khóa,false là gỡ khóa
+    // + nếu không bị khóa thì dùng JOptionPane hỏi admin có muốn khóa
+    //  tương tự như TH trên nhưng lần này lock = true
     private void lockAccount(){
 
     }
 
+
+    // TODO2: Xóa tài khoản:
+    // JOtionPane hỏi admin có muốn chắc xóa tài khoản này
+    // Nếu có thì dùng deleteAnAccount(int ID) trong đó ID là user.getID()
+    // Không thì return
     private void deleteAccount(){
-        
+
+
+
+
+        this.dispose(); // đóng Jframe này
     }
+
+
+   // TODO 3: Sửa thông tin tài khoản:
+   // Lấy thông tin từ các field như username,fullname,...
+   // set thông tin vào user
+   // dùng hàm updateAccount(UserAccount account)
+    private void editAccount(){
+        if(!isEdit){
+            isEdit = true;
+        }
+        else{
+            isEdit = false;
+           
+            // code here
+
+             // Lấy dữ liệu ngày sinh
+            DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+            String birthDay = df.format(birthDayChooser.getDate());
+
+
+            user.setBirthDay(birthDay);
+
+
+            fillAccountInfor();
+        }
+
+        birthDayChooser.setEnabled(isEdit);
+        nameField.setEditable(isEdit);
+        addressField.setEditable(isEdit);
+        emailField.setEditable(isEdit);
+        userNameField.setEditable(isEdit);
+        maleRadioButton.setEnabled(isEdit);
+        femaleRadioButton.setEnabled(isEdit);
+
+
+
+    }
+
+
+
 
     private void viewLoginHistoryUser(){
         ViewLoginHistory viewLoginHistory = new ViewLoginHistory(user);
@@ -193,6 +246,43 @@ public class DetailAccountForm extends javax.swing.JFrame {
             
         });
 
+        lockAccountButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                lockAccount();
+            }
+            
+        });
+
+        deleteAccountButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                deleteAccount();
+                
+            }
+            
+        });
+
+        editorButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editAccount();
+                
+            }
+            
+        });
+
+        isEdit = false;
+        birthDayChooser.setEnabled(false);
+        nameField.setEditable(false);
+        addressField.setEditable(false);
+        emailField.setEditable(false);
+        userNameField.setEditable(false);
+        maleRadioButton.setEnabled(false);
+        femaleRadioButton.setEnabled(false);
         fillAccountInfor();
         fillfriendListTable();
     }
@@ -432,12 +522,7 @@ public class DetailAccountForm extends javax.swing.JFrame {
         );
 
 
-        nameField.setEditable(false);
-        addressField.setEditable(false);
-        emailField.setEditable(false);
-        userNameField.setEditable(false);
-        maleRadioButton.setEnabled(false);
-        femaleRadioButton.setEnabled(false);
+      
 
 
         pack();

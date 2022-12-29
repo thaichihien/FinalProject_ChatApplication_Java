@@ -313,6 +313,8 @@ public ArrayList<UserAccount> getData(){
     </ul>
     </details>
     
+
+    
 ### Admin:
 <details>
     <summary> <b>1. Hiển thị danh sách tất cả tài khoản &#x2713</b> </summary>
@@ -440,4 +442,17 @@ public ArrayList<UserAccount> getData(){
     </ul>
     </details>
     
+<details>
+    <summary> <b>10. Khóa,Xóa và chỉnh sửa tài khoản</b> </summary>
+    <ul>
+        <li>Người làm: </li>
+        <li>Mô tả:
+            <ul>
+                <li>Xóa thành viên khỏi nhóm chat</li>
+            </ul>
+        </li>
+        <li>File làm việc: /userchatapp/DetailChatGroupForm.java</li>
+        <li>Deadline: 24/12/2022</li>
+    </ul>
+    </details>
 

@@ -19,6 +19,7 @@ public class UserAccount {
     private boolean online;
     private String createdAt;
     private String position;
+    private boolean banned;
 
     // Socket
     public Socket clienSocket;
@@ -166,6 +167,20 @@ public class UserAccount {
         String result = String.format("{%d, %s, %s, %s, %b}", this.ID,this.username,this.fullname,this.email,this.online);
         return result;
     }
+
+
+    public boolean isBanned() {
+        return this.banned;
+    }
+
+    public boolean getBanned() {
+        return this.banned;
+    }
+
+    public void setBanned(boolean banned) {
+        this.banned = banned;
+    }
+
 
 
 

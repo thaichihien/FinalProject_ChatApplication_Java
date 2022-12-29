@@ -82,7 +82,7 @@ public class DatabaseManagment {
         try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY);) {
             statement.setString(1, account.getUsername());
 
-            //TODO encrypt password
+            
             statement.setString(2, account.getPassword());
             statement.setString(3, account.getFullname());
             statement.setString(4, account.getAddress());
@@ -476,6 +476,7 @@ public class DatabaseManagment {
                 account.setPassword(data.getString("PASSWORD"));
                 account.setFullname(data.getString("FULLNAME"));
                 account.setOnline(data.getBoolean("ONLINE"));
+                account.setBanned(data.getBoolean("BANNED"));
                 return account;
             }
 
@@ -555,6 +556,8 @@ public class DatabaseManagment {
         }
         return false;
     }
+
+    
 
     /** Tìm danh sách account với username bắt đầu bằng name
      * @param name
@@ -1762,6 +1765,85 @@ public class DatabaseManagment {
         return false;
     }
 
+
+    public void setLockUserAccount(int ID,boolean lock){
+        String UPDATE_QUERY = "UPDATE USER_ACCOUNT SET BANNED = ? WHERE ID = ?";
+        try (PreparedStatement updateStatement = conn.prepareStatement(UPDATE_QUERY);) {
+        
+            updateStatement.setBoolean(1, lock);
+            updateStatement.setInt(2, ID);
+            updateStatement.executeUpdate();
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+
+    /** Kiểm tra xem tài khoản có bị ban
+     * @param ID
+     * @return true nếu bị ban, false nếu không
+     */
+    public boolean checkAccountIsBanned(int ID){
+        String SELECT_QUERY = "SELECT USERNAME FROM USER_ACCOUNT WHERE ID = ? AND BANNED = true";
+        ResultSet data = null;
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+
+            statment.setInt(1, ID);
+            data = statment.executeQuery();
+
+            if(!data.next()){
+                return false;
+            }
+            else{
+               return true;
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
+    public void deleteAnAccount(int ID){
+        String DELETE_QUERY = "DELETE FROM USER_ACCOUNT WHERE ID = ?";
+        try (PreparedStatement statement = conn.prepareStatement(DELETE_QUERY);) {
+           
+            statement.setInt(1, ID);
+            statement.executeUpdate();
+           
+       } catch (Exception e) {
+           System.out.println(e);
+       }
+
+    }
+
+    public void updateAccount(UserAccount account){
+        String UPDATE_QUERY = "UPDATE USER_ACCOUNT SET USERNAME = ?,FULLNAME = ?,ADDRESS = ?,DATE_OF_BIRTH = ?,GENDER = ?,EMAIL = ? WHERE ID = ?";
+        try (PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY);) {
+        
+
+            statement.setString(1, account.getUsername());
+            statement.setString(2, account.getFullname());
+            statement.setString(3, account.getAddress());
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH);
+            statement.setDate(4, new java.sql.Date(formatter.parse(account.getBirthDay()).getTime()));
+            statement.setString(5, account.getGender());
+            statement.setString(6, account.getEmail());
+            statement.setInt(7, account.getID());
+            statement.executeUpdate();
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
     
 
 }

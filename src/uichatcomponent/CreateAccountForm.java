@@ -4,7 +4,7 @@ package uichatcomponent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 
-import javax.swing.JFrame;
+
 import javax.swing.JOptionPane;
 
 import datastructure.UserAccount;
@@ -73,7 +73,7 @@ public class CreateAccountForm extends javax.swing.JFrame {
     }
 
 
-    // TODO 2: xóa dữ liệu đã nhập ở tất cả các field
+   
     private void clearFields(){
 
         usernameField.setText("");
@@ -298,17 +298,13 @@ public class CreateAccountForm extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void createAccButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_createAccButtonActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_createAccButtonActionPerformed
+   
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         
     }//GEN-LAST:event_formWindowClosing
 
-    /**
-     * @param args the command line arguments
-     */
+    
     public static void main(String args[]) {
        
        java.awt.EventQueue.invokeLater(new Runnable() {
