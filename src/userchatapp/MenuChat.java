@@ -119,9 +119,10 @@ public class MenuChat extends JPanel{
         int chatBoxID = Integer.parseInt(allMessage[1]);
         ChatBoxGroup chatBoxToDisplay = chatGroup.get(chatBoxID);
         Message newMessage = new Message();
-        newMessage.setDateSend(allMessage[2]);
-        newMessage.setContent(allMessage[3]);
-        //chatBoxToDisplay.addMessage(newMessage);
+        newMessage.setUserName(allMessage[2]);
+        newMessage.setDateSend(allMessage[3]);
+        newMessage.setContent(allMessage[4]);
+        chatBoxToDisplay.addMessage(newMessage);
     }
 
 

@@ -152,6 +152,10 @@
         {
             "name": "Server/2 Client",
             "configurations": ["Launch Server", "Launch Client","Launch Client"]
+        },
+        {
+            "name": "Server/3 Client",
+            "configurations": ["Launch Server", "Launch Client","Launch Client","Launch Client"]
         }
     ]
 }
