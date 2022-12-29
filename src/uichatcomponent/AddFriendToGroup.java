@@ -5,9 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
-import javax.xml.crypto.Data;
+
 
 import database.DatabaseManagment;
 import datastructure.GroupChat;
@@ -22,6 +23,7 @@ public class AddFriendToGroup extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelGroupName;
     private uichatcomponent.SearchBar searchBarFriend;
     private javax.swing.JTable tabelFriendList;
+    private DetailGroupChatForm parentFrame;
 
 
     private void filltabelFriendList(){
@@ -56,14 +58,16 @@ public class AddFriendToGroup extends javax.swing.JFrame {
         String ID = tabelFriendList.getModel().getValueAt(0,0).toString();
         DatabaseManagment database = DatabaseManagment.getInstance();
         database.addNewMemberToGroup(groupChat.getID(), Integer.parseInt(ID));
-        JOptionPane.showConfirmDialog(null, "Add friend to group successfully", "Successful", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(null, "Add friend to group successfully", "Successful", JOptionPane.INFORMATION_MESSAGE);
         filltabelFriendList();
+        parentFrame.fillTableMember();
     }
 
 
 
-    public AddFriendToGroup(GroupChat groupChat,int userID) {
+    public AddFriendToGroup(DetailGroupChatForm parentFrame,GroupChat groupChat,int userID) {
         initComponents();
+        this.parentFrame = parentFrame;
         this.groupChat = groupChat;
         this.userID = userID;
         jLabelGroupName.setText(groupChat.getGroupname());
@@ -113,13 +117,15 @@ public class AddFriendToGroup extends javax.swing.JFrame {
         addToGroupButton = new javax.swing.JButton();
         jLabelGroupName = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        searchBarFriend.setText("searchBar1");
+        
         searchBarFriend.setAutoscrolls(false);
         searchBarFriend.setBackgroundColor(new java.awt.Color(204, 204, 204));
+        searchBarFriend.setPlaceHolder("Nhập tên bạn bè...");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 0, 0));

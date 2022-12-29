@@ -8,12 +8,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.GroupLayout.Group;
+
 import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseManagment;
@@ -92,7 +92,8 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
 
 
     public void addMemberToGroup(){
-
+        AddFriendToGroup addFriendToGroup = new AddFriendToGroup(this,groupChat, userID);
+        addFriendToGroup.setVisible(true);
     }
 
     // TODO 2: Thay đổi tên nhóm
@@ -183,6 +184,16 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 enableAdmin();
             }
+        });
+
+        addMemberButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               addMemberToGroup();
+                
+            }
+            
         });
 
         jLabelGroupName.setText(groupChat.getGroupname());

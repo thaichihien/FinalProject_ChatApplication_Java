@@ -1653,6 +1653,34 @@ public class DatabaseManagment {
         return "null";
     }
 
+    public boolean checkAdmin(int ID,int groupID){
+        String SELECT_QUERY = "SELECT GROUPCHAT_ID FROM GROUPCHAT_MEMBER WHERE MEMBER_ID = ? AND GROUPCHAT_ID = ? AND POSITION = 'admin'";
+        ResultSet data = null;
+        try (PreparedStatement statement = conn.prepareStatement(SELECT_QUERY)){
+
+            statement.setInt(1, ID);
+            statement.setInt(2, groupID);
+            data = statement.executeQuery();
+            if(data.next()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
     
 
 }

@@ -13,6 +13,7 @@ import java.util.Date;
 import javax.swing.JButton;
 
 import chatservice.ChatService;
+import database.DatabaseManagment;
 import datastructure.GroupChat;
 import datastructure.Message;
 import datastructure.UserAccount;
@@ -41,6 +42,13 @@ public class ChatBoxGroup extends ChatBoxLayout{
 
     public void addMessage(Message message){
         this.addMessage(new ChatMessageBlock(message.getUserName(), message.getDateSend(), ChatMessageBlock.OTHER, message.getContent()));
+    }
+
+    public void viewGroupDetail(){
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        boolean isAdmin = database.checkAdmin(this.user.getID(), groupChat.getID());
+        DetailGroupChatForm detailGroupChatForm = new DetailGroupChatForm(groupChat,isAdmin,this.user.getID());
+        detailGroupChatForm.setVisible(true);
     }
 
 
@@ -92,6 +100,14 @@ public class ChatBoxGroup extends ChatBoxLayout{
                 sendButtonActionPerformed(e);
                 
             }
+       });
+       viewGroupInforButton.addActionListener(new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            viewGroupDetail();
+        }
+        
        });
 
     }
