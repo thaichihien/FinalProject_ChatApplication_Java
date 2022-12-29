@@ -119,7 +119,7 @@ public class DatabaseManagment {
         try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);) {
             statement.setString(1, account.getUsername());
 
-            //TODO encrypt password
+            
             statement.setString(2, account.getPassword());
             statement.setString(3, account.getEmail());
             statement.setBoolean(4, true);
@@ -167,19 +167,27 @@ public class DatabaseManagment {
         return false;
     }
 
-    public boolean checkAccount(String email){
+    public int checkAccount(String email){
         String SELECT_QUERY = "SELECT ID FROM USER_ACCOUNT WHERE EMAIL = ?";
         ResultSet data = null;
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
             statment.setString(1, email);
             data = statment.executeQuery();
+
             
             if(!data.next()){
-                return false;
+                return -1;
             }
             else{
-               return true;
+
+                int ID = data.getInt("ID");
+                if(data.wasNull()){
+                    return -1;
+                }
+                else return ID;
+
+               
             }
             
         } catch (SQLException e) {
@@ -193,7 +201,7 @@ public class DatabaseManagment {
                 }
             }
         }
-        return false;
+        return -1;
     }
 
     public void changePasswordUser(int ID, String newPassword){
@@ -450,13 +458,12 @@ public class DatabaseManagment {
      * Lấy thông tin chi tiết của một account với username và password
      * @return UserAccount
      */
-    public UserAccount getDetailAccount(String username, String password){
-        String SELECT_QUERY = "SELECT * FROM USER_ACCOUNT WHERE USERNAME = ? AND PASSWORD = ?";
+    public UserAccount getDetailAccount(String username){
+        String SELECT_QUERY = "SELECT * FROM USER_ACCOUNT WHERE USERNAME = ?";
         ResultSet data = null;
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
 
             statment.setString(1, username);
-            statment.setString(2, password);
             data = statment.executeQuery();
 
             if(!data.next()){
@@ -466,6 +473,7 @@ public class DatabaseManagment {
                 UserAccount account = new UserAccount();
                 account.setID(data.getInt("ID"));
                 account.setUsername(data.getString("USERNAME"));
+                account.setPassword(data.getString("PASSWORD"));
                 account.setFullname(data.getString("FULLNAME"));
                 account.setOnline(data.getBoolean("ONLINE"));
                 return account;

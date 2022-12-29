@@ -4,9 +4,7 @@ import java.awt.Color;
 
 import chatservice.ChatService;
 import datastructure.UserAccount;
-import uichatcomponent.ChatBoxGroup;
-import uichatcomponent.ChatBoxUser;
-import uichatcomponent.ItemChatAccount;
+
 
 
 /**

@@ -9,6 +9,7 @@ import javax.swing.border.EmptyBorder;
 
 import database.DatabaseManagment;
 import datastructure.UserAccount;
+import utils.PasswordService;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -17,9 +18,10 @@ import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JTextField;
@@ -47,12 +49,39 @@ public class Login extends JFrame {
 		String username,password;
 		username=new String(txtUser.getText());
 		password=new String(txtPass.getPassword());
-		if(username.isBlank()||password.isBlank())
+		if(username.isBlank()||password.isBlank()){
+			JOptionPane.showMessageDialog(null,"Please enter all required fields!");
 			return null;
+		}
 		
 		DatabaseManagment db=DatabaseManagment.getInstance();
-		UserAccount account = db.getDetailAccount(username,password);
-		return account;
+		UserAccount account = db.getDetailAccount(username);
+		if(account == null){
+			JOptionPane.showMessageDialog(null,"This account does not exist!");
+			return null;
+		}
+
+		Pattern pattern = Pattern.compile("^USER", Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(username);
+		boolean matchFound = matcher.find();
+		if(matchFound) {	// For data inserted vie Sql
+			if(password.equals(account.getPassword())){
+				return account;
+			}else{
+				JOptionPane.showMessageDialog(null,"Your password is incorrect!");
+				return null;
+			}
+		} else {
+			String encryptPassword = account.getPassword();
+			if(PasswordService.verifyPassword(password, encryptPassword)){
+				return account;
+			}
+			else{
+				JOptionPane.showMessageDialog(null,"Your password is incorrect!");
+				return null;
+			}
+		}
+
 	}
 
 	private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
@@ -63,7 +92,6 @@ public class Login extends JFrame {
 			account.setPw(socketTemp.getPw());
 			account.setBr(socketTemp.getBr());
 
-			// TODO send ID to server
 			socketTemp.sendPacket(String.valueOf(account.getID()));
 			while (true) {
 				try {
@@ -89,21 +117,22 @@ public class Login extends JFrame {
 			menuForm.setVisible(true);
 			this.dispose();
 		}
-		else{
-			
-
-			String username,password;
-			username=new String(txtUser.getText());
-			password=new String(txtPass.getPassword());
-			if(username.isBlank()||password.isBlank())
-				JOptionPane.showMessageDialog(null,"Please enter all required fields!");
-			else {
-				JOptionPane.showMessageDialog(null,"Your username or password is incorrect!");
-			}
-		}
+		
 	
+		txtPass.setText("");
 	}
 
+	private void lblCreateAccMouseClicked(java.awt.event.MouseEvent evt) {
+		Register registerForm = new Register(this.socketTemp);
+		registerForm.setVisible(true);
+		this.dispose();
+	}
+
+	private void lblForgetPassMouseClicked(java.awt.event.MouseEvent evt) {
+		ForgetPassword registerForm = new ForgetPassword(socketTemp);
+		registerForm.setVisible(true);
+		this.dispose();
+	}
 
 
 	/**
@@ -122,9 +151,7 @@ public class Login extends JFrame {
 	// 	});
 	// }
 
-	/**
-	 * Create the frame.
-	 */
+	
 	public Login(Socket clienSocket,PrintWriter pw,BufferedReader br) {
 		initComponent();
 		socketTemp = new UserAccount();
@@ -236,16 +263,6 @@ public class Login extends JFrame {
 		contentPane.add(lblForgetPass);
 	}
 
-	private void lblCreateAccMouseClicked(java.awt.event.MouseEvent evt) {
-		Register registerForm = new Register();
-		registerForm.setVisible(true);
-		this.dispose();
-	}
-
-	private void lblForgetPassMouseClicked(java.awt.event.MouseEvent evt) {
-		ForgetPassword registerForm = new ForgetPassword();
-		registerForm.setVisible(true);
-		this.dispose();
-	}
+	
 
 }

@@ -5,7 +5,15 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+
+import chatservice.ChatService;
+import database.DatabaseManagment;
+import datastructure.UserAccount;
+import utils.MailService;
+import utils.PasswordService;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Color;
@@ -17,29 +25,55 @@ public class ForgetPassword extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtEmail;
 	private JButton btnSend;
-        private JButton btnBack;
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					ForgetPassword frame = new ForgetPassword();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+    private JButton btnBack;
+
+	private UserAccount socketTemp;
+	
+	// public static void main(String[] args) {
+	// 	EventQueue.invokeLater(new Runnable() {
+	// 		public void run() {
+	// 			try {
+	// 				ForgetPassword frame = new ForgetPassword();
+	// 				frame.setVisible(true);
+	// 			} catch (Exception e) {
+	// 				e.printStackTrace();
+	// 			}
+	// 		}
+	// 	});
+	// }
+
+	private void btnSendActionPerformed(java.awt.event.ActionEvent evt) { 
+		
+		String email = txtEmail.getText().trim();
+		DatabaseManagment database = DatabaseManagment.getInstance();
+		int ID = database.checkAccount(email);
+		if(ID < 0){
+			JOptionPane.showMessageDialog(null, "This account does not exist","Not exist",JOptionPane.WARNING_MESSAGE);
+			return;
+		}
+		String newRandomPassword = PasswordService.generateRandomPasseword(10);
+		String encryptPassword = PasswordService.encryptPassword(newRandomPassword);
+		MailService.sendEmail("Your new password :" + newRandomPassword, email);
+		database.changePasswordUser(ID, encryptPassword);
+		JOptionPane.showMessageDialog(null, "A new password is sent to your email", "Email sent successfully", JOptionPane.INFORMATION_MESSAGE);
+
+		Login menuForm = new Login(socketTemp.clienSocket,socketTemp.pw,socketTemp.br);
+		menuForm.setVisible(true);
+		this.dispose();
+	}  
+	 
+	  private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {                                         
+		Login menuForm = new Login(socketTemp.clienSocket,socketTemp.pw,socketTemp.br);
+		menuForm.setVisible(true);
+		this.dispose();
+	}  
 
 	/**
 	 * Create the frame.
 	 */
-	public ForgetPassword() {
+	public ForgetPassword(UserAccount socketTemp) {
             initComponent();
-            
+            this.socketTemp =socketTemp;
             btnSend.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     btnSendActionPerformed(evt);
@@ -54,8 +88,8 @@ public class ForgetPassword extends JFrame {
             
 	}
         
-        private void initComponent(){
-            setFont(null);
+    private void initComponent(){
+        setFont(null);
 		setTitle("Đăng ký tài khoản");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 810, 564);
@@ -113,15 +147,5 @@ public class ForgetPassword extends JFrame {
         }
 
         
-         private void btnSendActionPerformed(java.awt.event.ActionEvent evt) {                                         
-            // MainFormUser menuForm = new MainFormUser();
-            // menuForm.setVisible(true);
-            // this.dispose();
-        }  
-         
-          private void btnBackActionPerformed(java.awt.event.ActionEvent evt) {                                         
-            // Login menuForm = new Login();
-            // menuForm.setVisible(true);
-            // this.dispose();
-        }  
+        
 }

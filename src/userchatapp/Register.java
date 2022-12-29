@@ -1,6 +1,6 @@
 package userchatapp;
 
-import java.awt.EventQueue;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -9,13 +9,14 @@ import javax.swing.border.EmptyBorder;
 
 
 import datastructure.UserAccount;
-
+import utils.PasswordService;
 import database.DatabaseManagment;
 
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
+import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.awt.Color;
 import java.awt.Cursor;
@@ -35,6 +36,8 @@ public class Register extends JFrame {
 	private JButton btnRegister;
 	private JLabel lblHavingAcc;
 
+	//socket
+	private UserAccount socketTemp;
 	
 
 
@@ -60,14 +63,17 @@ public class Register extends JFrame {
 		{
 			DatabaseManagment db=DatabaseManagment.getInstance();
 
-			if(db.checkAccount(email)){
-				JOptionPane.showMessageDialog(null,"Your repassword is incorrect");
+			if(db.checkAccount(email) < 0){
+				JOptionPane.showMessageDialog(null,"This e-mail is already taken");
 				return null;
 			}
 
 			newAccount=new UserAccount();
+
+			String encryptPassword = PasswordService.encryptPassword(password);
+			
 			newAccount.setUsername(username);
-			newAccount.setPassword(password);
+			newAccount.setPassword(encryptPassword);
 			newAccount.setEmail(email);
 
 			
@@ -84,6 +90,29 @@ public class Register extends JFrame {
 		
 		UserAccount account = registerAccount();
 		if(account != null){
+			account.setClienSocket(socketTemp.getClienSocket());
+			account.setPw(socketTemp.getPw());
+			account.setBr(socketTemp.getBr());
+
+			socketTemp.sendPacket(String.valueOf(account.getID()));
+			while (true) {
+				try {
+					String validateRespone = socketTemp.receivePacket();
+					if(validateRespone.equals("IDEXIST")){
+						JOptionPane.showMessageDialog(null, 
+						"This account is online on the system", "Login failed", 
+						JOptionPane.WARNING_MESSAGE);
+						txtUser.setText("");
+						txtPass.setText("");
+						return;
+					}
+					else{
+						break;
+					}
+				} catch (HeadlessException e) {
+					e.printStackTrace();
+				}
+			}
 			MainFormUser menuForm = new MainFormUser(account);
 			menuForm.setVisible(true);
 			this.dispose();
@@ -94,27 +123,34 @@ public class Register extends JFrame {
 		txtPass.setText("");
 		txtRePass.setText("");
 	 }  
+
+	 
+	 private void lblHavingAccMouseClicked(java.awt.event.MouseEvent evt) {                                     
+		 Login registerForm = new Login(socketTemp.clienSocket,socketTemp.pw,socketTemp.br);
+		 registerForm.setVisible(true);
+		 this.dispose(); 
+	}      
 	
 	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					Register frame = new Register();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	// public static void main(String[] args) {
+	// 	EventQueue.invokeLater(new Runnable() {
+	// 		public void run() {
+	// 			try {
+	// 				Register frame = new Register();
+	// 				frame.setVisible(true);
+	// 			} catch (Exception e) {
+	// 				e.printStackTrace();
+	// 			}
+	// 		}
+	// 	});
+	// }
 
 	/**
 	 * Create the frame.
 	 */
-	public Register() {
+	public Register(UserAccount socketTemp) {
             initComponent();
-                
+            this.socketTemp= socketTemp;
             lblHavingAcc.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                     lblHavingAccMouseClicked(evt);
@@ -229,12 +265,7 @@ public class Register extends JFrame {
 		contentPane.add(txtEmail);
         }
         
-        
-        private void lblHavingAccMouseClicked(java.awt.event.MouseEvent evt) {                                     
-            //  Login registerForm = new Login();
-            //  registerForm.setVisible(true);
-            //  this.dispose(); 
-        }                                    
+                                      
 
        
 }
