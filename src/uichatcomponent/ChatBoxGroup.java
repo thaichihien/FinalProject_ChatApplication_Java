@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package uichatcomponent;
 
 import java.awt.event.ActionEvent;
@@ -18,10 +15,7 @@ import datastructure.GroupChat;
 import datastructure.Message;
 import datastructure.UserAccount;
 
-/**
- *
- * @author HIEN
- */
+
 public class ChatBoxGroup extends ChatBoxLayout{
 
     private JButton viewGroupInforButton;

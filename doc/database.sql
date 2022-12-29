@@ -72,7 +72,7 @@ CREATE TABLE MESSAGE_GROUP(
 	ID BIGSERIAL PRIMARY KEY,
 	FROM_USER INTEGER REFERENCES USER_ACCOUNT(ID) ON DELETE CASCADE,
 	TO_GROUP INTEGER REFERENCES GROUPCHAT(ID),
-	CHAT_TIME TIMESTAMP,
+	TIME_SEND TIMESTAMP,
 	CONTENT TEXT
 );
 
@@ -141,6 +141,7 @@ values
 				('4-6',6, 4, '2023-12-18 22:52:40', 'Message8'),
 				('1-9',9, 1, '2023-12-18 22:52:40', 'Message9');
 
+
 -- GROUPCHAT
 insert into GROUPCHAT (GROUP_NAME,CREATED_AT,ONLINE)
 values
@@ -155,4 +156,15 @@ values
 				(1, 3,'member'),
 				(2, 2,'admin'),
 				(3, 3,'admin');		
+
+
+INSERT INTO MESSAGE_GROUP (FROM_USER, TO_GROUP, TIME_SEND, CONTENT)
+values
+				(1, 1, '2023-12-18 22:52:40', 'Message1'),
+				(1, 1, '2023-12-18 22:52:40', 'Message2'),
+				(2, 1, '2023-12-18 22:52:40', 'Message4'),
+				(3, 1, '2023-12-18 22:52:40', 'Message5'),
+				(3, 3, '2023-12-18 22:52:40', 'Message6'),
+				(1, 1, '2023-12-18 22:52:40', 'Message7'),
+				(2, 2, '2023-12-18 22:52:40', 'Message8');
 

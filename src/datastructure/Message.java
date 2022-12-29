@@ -8,6 +8,9 @@ public class Message {
     private String dateSend;
     private String content;
     private int visible_only;
+    
+    //group
+    private int groupID;
 
     public final int NOT_HIDE = -90;
 
@@ -64,6 +67,19 @@ public class Message {
         this.visible_only = visible_only;
     }
    
+
+    public int getGroupID() {
+        return this.groupID;
+    }
+
+    public void setGroupID(int groupID) {
+        this.groupID = groupID;
+    }
+
+    public int getNOT_HIDE() {
+        return this.NOT_HIDE;
+    }
+
 
 
 }

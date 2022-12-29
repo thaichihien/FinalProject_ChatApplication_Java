@@ -1336,6 +1336,52 @@ public class DatabaseManagment {
         }
         return messageList;
     }
+    public ArrayList<Message> getAllMessageGroupFromUser(int ID){
+        String SELECT_QUERY = "SELECT MG.*,UA.USERNAME FROM MESSAGE_GROUP MG LEFT OUTER JOIN USER_ACCOUNT UA ON MG.FROM_USER = UA.ID WHERE TO_GROUP IN (SELECT GC.ID FROM GROUPCHAT_MEMBER GM LEFT OUTER JOIN GROUPCHAT GC ON GM.GROUPCHAT_ID = GC.ID WHERE GM.MEMBER_ID = ?) ORDER BY MG.TIME_SEND DESC";
+        ResultSet data = null;
+        ArrayList<Message> messageList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            
+           statment.setInt(1, ID);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return messageList;
+            }
+            else{
+               
+                
+                do {                    
+                    Message message = new Message();
+                    
+                    Timestamp date = data.getTimestamp("time_send");
+                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(date);
+                    message.setDateSend(formattedDate);
+                    message.setUserName(data.getString("username"));
+                    message.setGroupID(data.getInt("TO_GROUP"));
+                    message.setContent(data.getString("content"));
+                
+                    messageList.add(message);
+                    
+                } while (data.next());
+                return messageList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return messageList;
+    }
 
     public ArrayList<FriendRequest> getAllFriendRequestRaw(int ID){
         String SELECT_QUERY = "SELECT FR.*,UA.USERNAME FROM FRIEND_REQUEST FR LEFT OUTER JOIN USER_ACCOUNT UA ON FR.FROM_ID = UA.ID WHERE TO_ID = ?";

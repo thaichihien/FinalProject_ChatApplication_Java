@@ -40,6 +40,7 @@ public class MenuChat extends JPanel{
         ArrayList<UserAccount> onlineUser = database.getFriendArrayListByOnline(user.getID());
         ArrayList<Message> allChat = database.getAllMessageFromUser(user.getID());
         ArrayList<GroupChat> onlineGroup = database.getAllGroupChatOnline(user.getID());
+        ArrayList<Message> allGroupChat = database.getAllMessageGroupFromUser(user.getID());
         listFriendJlist.clearList();
 
         // put user online first
@@ -98,10 +99,20 @@ public class MenuChat extends JPanel{
             if(chatUser.containsKey(message.getChatboxID())){
                 chatUser.get(message.getChatboxID()).addMessage(messageBlock);
             }
-            
         }
 
-        
+        for(Message message : allGroupChat){
+            ChatMessageBlock messageBlock;
+            if(message.getUserName().equals(user.getUsername())){
+                messageBlock = new ChatMessageBlock(message.getUserName(), message.getDateSend(), ChatMessageBlock.MINE, message.getContent());
+            }
+            else{
+                messageBlock = new ChatMessageBlock(message.getUserName(), message.getDateSend(), ChatMessageBlock.OTHER, message.getContent());
+            }
+            if(chatGroup.containsKey(message.getGroupID())){
+                chatGroup.get(message.getGroupID()).addMessage(messageBlock);
+            }
+        }
     }
 
    
