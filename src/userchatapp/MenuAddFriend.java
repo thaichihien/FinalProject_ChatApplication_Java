@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseManagment;
@@ -29,7 +30,8 @@ public class MenuAddFriend extends JPanel{
     JTable tableListFriendRequest;
     
     UserAccount user;
-    
+    ArrayList<UserAccount> listAccountFindFriends;
+    ArrayList<UserAccount> listAccountRequestFriends;
 
     
     public void filltableFindFriend(){
@@ -49,8 +51,7 @@ public class MenuAddFriend extends JPanel{
         try {
             ArrayList<UserAccount> listAccounts = database.searchAccountsNotFriend(user.getID(), searchName);
             DefaultTableModel tableModel = (DefaultTableModel) tableFindFriend.getModel();
-
-            // tableModel.setRowCount(0);
+            listAccountFindFriends = listAccounts;
 
             for (UserAccount account : listAccounts){
                 String username = account.getUsername();
@@ -87,8 +88,6 @@ public class MenuAddFriend extends JPanel{
                 ArrayList<UserAccount> listFriendRequests = database.getAllFriendRequest(user.getID(), searchName);
 
                 DefaultTableModel tableModel = (DefaultTableModel) tableListFriendRequest.getModel();
-
-                System.out.println(listFriendRequests.size());
     
                 for (UserAccount account : listFriendRequests){
                     String username = account.getUsername();
@@ -110,9 +109,7 @@ public class MenuAddFriend extends JPanel{
                 ArrayList<UserAccount> listFriendRequests;
                 listFriendRequests = database.getAllFriendRequest(user.getID());
                 DefaultTableModel tableModel = (DefaultTableModel) tableListFriendRequest.getModel();
-
-                System.out.println(listFriendRequests.size());
-    
+                listAccountRequestFriends = listFriendRequests;
                 for (UserAccount account : listFriendRequests){
                     String username = account.getUsername();
                     String fullname = account.getFullname();
@@ -140,7 +137,20 @@ public class MenuAddFriend extends JPanel{
     // sử dụng hàm createFriendRequest(int ID,int otherID)
     // trong đó ID là user.getID(), otherID là ID của người bạn muốn gửi
     private void sendFriendRequest(){
-
+        int row = tableFindFriend.getSelectedRow();
+        if(row < 0){    // Cảnh báo chưa chọn dòng nào trong bảng
+             JOptionPane.showMessageDialog(null, "Please select an account", "Not selected", JOptionPane.WARNING_MESSAGE);
+             return;
+        }
+        String usernameChoosed = tableFindFriend.getModel().getValueAt(row, 0).toString();
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        for (UserAccount account : listAccountFindFriends){
+            if(account.getUsername().equals(usernameChoosed)){
+                database.createFriendRequest(user.getID(), account.getID());
+                return;
+            }
+        }
+        
     }
 
 
@@ -156,9 +166,29 @@ public class MenuAddFriend extends JPanel{
     // sử dụng addFriendToUser(int ID,int FriendID) cho TH có
     // trong đó ID là user.getID(),FriendID là ID từ người bạn
     private void handleFriendRequest(){
+        int row = tableListFriendRequest.getSelectedRow();
+        if(row < 0){    // Cảnh báo chưa chọn dòng nào trong bảng
+             JOptionPane.showMessageDialog(null, "Please select an account", "Not selected", JOptionPane.WARNING_MESSAGE);
+             return;
+        }
+        int idFriendFrom;
+        String usernameChoosed = tableListFriendRequest.getModel().getValueAt(row, 0).toString();
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        for (UserAccount account : listAccountRequestFriends){
+            if(account.getUsername().equals(usernameChoosed)){
+                idFriendFrom = account.getID();
+                int response = JOptionPane.showConfirmDialog(this, "Bạn có muốn đồng ý lời mời kết bạn này không?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+                if (response == 0){
+                    database.setResponeToRequest(user.getID(), idFriendFrom, "ACCEPTED");
+                    database.addFriendToUser(user.getID(), idFriendFrom);
+                }
+                else{
+                    database.setResponeToRequest(user.getID(), idFriendFrom, "DENIED");
+                }
+            }
+        }
 
     }
-
 
 
    
@@ -185,8 +215,9 @@ public class MenuAddFriend extends JPanel{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                handleFriendRequest();
-                
+                // handleFriendRequest();
+                sendFriendRequest();
+
             }
 
         });
@@ -195,8 +226,8 @@ public class MenuAddFriend extends JPanel{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                sendFriendRequest();
                 
+                handleFriendRequest();
             }
 
         });
