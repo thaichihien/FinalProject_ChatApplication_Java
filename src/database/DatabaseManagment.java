@@ -270,7 +270,97 @@ public class DatabaseManagment {
         return friendList;
     }
 
+    /**Lấy danh sách bạn bè của một account với ID không có trong nhóm với groupID
+     * @param ID
+     * @return  ArrayList<UserAccount>
+     */
+    public ArrayList<UserAccount> getFriendArrayListNotInGroup(int ID,int groupID){
+        String SELECT_QUERY = "SELECT DISTINCT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID  WHERE UF.ID = ? AND UA.ID NOT IN(SELECT GM.MEMBER_ID FROM GROUPCHAT_MEMBER GM WHERE GM.GROUPCHAT_ID = ?)";
+        ResultSet data = null;
+        ArrayList<UserAccount> friendList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            statment.setInt(1, ID);
+            statment.setInt(2, groupID);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return friendList;
+            }
+            else{ 
+                do {                    
+                    UserAccount account = new UserAccount();
+                    account.setID(data.getInt("ID"));
+                    account.setUsername(data.getString("USERNAME"));
+                    account.setFullname(data.getString("FULLNAME"));
+                    account.setOnline(data.getBoolean("ONLINE"));
+                    friendList.add(account);
+                    
+                } while (data.next());
+                return friendList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }   
+            }
+        }
+        return friendList;
+    }
 
+    /**Lấy danh sách bạn bè của một account với ID không có trong nhóm với groupID
+     * @param ID
+     * @return  ArrayList<UserAccount>
+     */
+    public ArrayList<UserAccount> getFriendArrayListNotInGroup(int ID,int groupID,String name){
+        String SELECT_QUERY = "SELECT DISTINCT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID  WHERE UF.ID = ? AND (UA.USERNAME LIKE ? OR UA.FULLNAME LIKE ?) AND UA.ID NOT IN(SELECT GM.MEMBER_ID FROM GROUPCHAT_MEMBER GM WHERE GM.GROUPCHAT_ID = ?)";
+        ResultSet data = null;
+        ArrayList<UserAccount> friendList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            statment.setInt(1, ID);
+            statment.setString(2, "%" + name + "%");
+            statment.setString(3, "%" + name + "%");
+            statment.setInt(4, groupID);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return friendList;
+            }
+            else{ 
+                do {                    
+                    UserAccount account = new UserAccount();
+                    account.setID(data.getInt("ID"));
+                    account.setUsername(data.getString("USERNAME"));
+                    account.setFullname(data.getString("FULLNAME"));
+                    account.setOnline(data.getBoolean("ONLINE"));
+                    friendList.add(account);
+                    
+                } while (data.next());
+                return friendList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }   
+            }
+        }
+        return friendList;
+    }
 
     /**
      * Lấy thông tin chi tiết của một account với ID
@@ -676,6 +766,22 @@ public class DatabaseManagment {
             System.out.println(e);
         }
         
+    }
+
+    public void addNewMemberToGroup(int groupID,int ID){
+        String INSERT_QUERY = "INSERT INTO GROUPCHAT_MEMBER(GROUPCHAT_ID,MEMBER_ID,POSITION)"
+         + "VALUES(?,?,?)";
+        try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY);) {
+            
+            statement.setInt(1, groupID);
+            statement.setInt(2, ID);
+            statement.setString(3, "member");
+            statement.execute();
+          
+            
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 
     /** Lấy dữ liệu tất cả lịch sử đăng nhập

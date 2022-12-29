@@ -34,7 +34,7 @@ public class MenuChat extends JPanel{
     private HashMap<Integer,ChatBoxGroup> chatGroup;
 
 
-    // TODO cải tiến search bạn bè, hiển thị nhóm chat
+    
     public void fillFriendList(){
         
         ArrayList<UserAccount> onlineUser = database.getFriendArrayListByOnline(user.getID());

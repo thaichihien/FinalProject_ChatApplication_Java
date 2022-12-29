@@ -35,11 +35,7 @@ public class MenuGroupManager extends MenuAdminLayout{
     JButton viewDetailGroupButton;
 
     // TODO 1: xem chi tiết của một nhóm
-    // Lấy thông tin từ row được đang chọn trong tableGroup
-    // Trường hợp chưa chọn thì Joptionpane cảnh báo chưa chọn 
-    // (Gợi ý tìm hiểu getValueAt của Jtable model hoặc xem ví dụ hàm addToGroup của MenuGroup)
-    // Cần 2 thông tin là ID và tên nhóm đang được chọn
-    // setID và setName cho groupChatSelected
+   
 
     private void viewDetailGroupButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                      
         GroupChat groupChatSelected = new GroupChat();

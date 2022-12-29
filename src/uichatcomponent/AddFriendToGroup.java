@@ -1,19 +1,110 @@
 
 package uichatcomponent;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+import javax.xml.crypto.Data;
+
+import database.DatabaseManagment;
+import datastructure.GroupChat;
+import datastructure.UserAccount;
+import utils.Utils;
 
 public class AddFriendToGroup extends javax.swing.JFrame {
 
-    /**
-     * Creates new form AddFriendToGroup
-     */
-    public AddFriendToGroup() {
+    private GroupChat groupChat;
+    private int userID;
+    private javax.swing.JButton addToGroupButton;
+    private javax.swing.JLabel jLabelGroupName;
+    private uichatcomponent.SearchBar searchBarFriend;
+    private javax.swing.JTable tabelFriendList;
+
+
+    private void filltabelFriendList(){
+        Utils.clearTable(tabelFriendList);
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        String searchFriend = searchBarFriend.getText().trim();
+        ArrayList<UserAccount> friendList = null;
+        if(!searchFriend.isBlank()){
+            friendList = database.getFriendArrayListNotInGroup(userID,groupChat.getID(),searchFriend);
+        }
+        else{
+            friendList = database.getFriendArrayListNotInGroup(userID,groupChat.getID());
+        }
+        DefaultTableModel tableModel = (DefaultTableModel) tabelFriendList.getModel();
+        for(UserAccount friend : friendList){
+            String ID = String.valueOf(friend.getID());
+            String username = friend.getUsername();
+            String fullname = friend.getFullname();
+            String online = String.valueOf(friend.getOnline());
+            String[] row ={ID,username,fullname,online};
+            tableModel.addRow(row);
+        }
+    }
+
+
+    public void addMemberToGroup(){
+        int row = tabelFriendList.getSelectedRow();
+        if(row < 0){
+            JOptionPane.showMessageDialog(null, "Please select an account", "Not selected", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        String ID = tabelFriendList.getModel().getValueAt(0,0).toString();
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        database.addNewMemberToGroup(groupChat.getID(), Integer.parseInt(ID));
+        JOptionPane.showConfirmDialog(null, "Add friend to group successfully", "Successful", JOptionPane.INFORMATION_MESSAGE);
+        filltabelFriendList();
+    }
+
+
+
+    public AddFriendToGroup(GroupChat groupChat,int userID) {
         initComponents();
+        this.groupChat = groupChat;
+        this.userID = userID;
+        jLabelGroupName.setText(groupChat.getGroupname());
+        searchBarFriend.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               filltabelFriendList();
+            }
+        });
+        addToGroupButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                addMemberToGroup();
+            }
+            
+        });
+
+        filltabelFriendList();
     }
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(AddFriendToGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(AddFriendToGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(AddFriendToGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(AddFriendToGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         jPanel1 = new javax.swing.JPanel();
         searchBarFriend = new uichatcomponent.SearchBar();
         jLabel1 = new javax.swing.JLabel();
@@ -36,13 +127,10 @@ public class AddFriendToGroup extends javax.swing.JFrame {
 
         tabelFriendList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "ID", "username", "fullname", "online"
             }
         ));
         jScrollPane1.setViewportView(tabelFriendList);
@@ -110,44 +198,20 @@ public class AddFriendToGroup extends javax.swing.JFrame {
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(AddFriendToGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(AddFriendToGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(AddFriendToGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(AddFriendToGroup.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+       
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new AddFriendToGroup().setVisible(true);
-            }
-        });
+        // java.awt.EventQueue.invokeLater(new Runnable() {
+        //     public void run() {
+        //         new AddFriendToGroup().setVisible(true);
+        //     }
+        // });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton addToGroupButton;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabelGroupName;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private uichatcomponent.SearchBar searchBarFriend;
-    private javax.swing.JTable tabelFriendList;
+
     // End of variables declaration//GEN-END:variables
 }

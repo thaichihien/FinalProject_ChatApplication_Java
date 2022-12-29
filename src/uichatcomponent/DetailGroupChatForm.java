@@ -36,6 +36,7 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
    
     private GroupChat groupChat;
     private boolean isAdmin;
+    private int userID;
 
 
     public void fillTableMember(){
@@ -58,16 +59,7 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
     // GROUP CHAT ĐANG TEST LÀ GROUP1 VỚI ID = 1 (Ở HÀM MAIN)
 
     // TODO 1: Gán quyền admin
-    // - Kiểm tra xem có account đang xem có phải admin (kiểm tra biến isAdmin)
-    // - lấy ID của row đang được chọn trong tableMemberGroup (Gợi ý tìm hiểu getValueAt của Jtable model 
-    //         hoặc xem ví dụ hàm addToGroup của MenuGroup)
-    // - Dùng JOptionPane để hỏi người dùng có chắc chắn k, không thì return
-    // Chia 2 TH : + Nếu account chọn đang là member thì gán quyền admin:
-    //             + Sử dụng  database.assignAdminToUser(int ID,int groupID)
-    //              + Trong đó ID là ID vừa lấy của row selected, groupId là groupChat.getID()
-    //             + Nếu account chọn đang là admin thì gán quyền member:
-    //              + Sử dụng assignMemberToUser(int ID,int groupID) tham số tương tự trên
-    // - Gọi hàm fillTableMember()
+  
     public void enableAdmin(){
         DatabaseManagment database = DatabaseManagment.getInstance();
         if (!isAdmin){return;}
@@ -97,16 +89,14 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
         }
     }
 
+
+
     public void addMemberToGroup(){
 
     }
 
     // TODO 2: Thay đổi tên nhóm
-    //      + Kiểm tra biến IsAdmin, nếu false thì return
-    //      + kiểm tra Jtextfield, nếu trống thì hiện JOptionPane cảnh báo
-    //      +Thay đổi tên nhóm theo Jtextfield sử dụng setNewGroupName(String name,int groupID)
-    //      + Với name là tên nhóm mới, groupID là groupChat.getID()
-    //      +Thay đổi tên nhóm ở jLabelGroupName
+   
     
     public void changeGroupName(){
         JPanel changeGroupPanel = new JPanel();
@@ -145,12 +135,7 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
 
 
     // TODO 3: Xóa member
-    // - Kiểm tra xem có account đang xem có phải admin (kiểm tra biến isAdmin)
-    // - lấy ID của row đang được chọn trong tableMemberGroup (Gợi ý tìm hiểu getValueAt của Jtable model 
-    //         hoặc xem ví dụ hàm addToGroup của MenuGroup)
-    // - Dùng JOptionPane để hỏi người dùng có chắc chắn k, không thì return
-    // Nếu có thì thực hiện xóa account được chọn sử dụng removeMemberFromGroup(int groupID,int ID)
-    // - Gọi hàm fillTableMember()
+   
     public void removeMember(){
         DatabaseManagment database = DatabaseManagment.getInstance();
 
@@ -174,12 +159,12 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
 
 
 
-    public DetailGroupChatForm(GroupChat groupChat,boolean isAdmin) {
+    public DetailGroupChatForm(GroupChat groupChat,boolean isAdmin,int userID) {
         initComponents();
        
         this.groupChat = groupChat;
         this.isAdmin = isAdmin;
-
+        this.userID = userID;
         changeGroupNameButton.addActionListener(new ActionListener(){
 
             @Override
@@ -350,7 +335,7 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
             DatabaseManagment database = DatabaseManagment.getInstance();
             GroupChat testGroup = database.getDetailGroupChat(1);
 
-               new DetailGroupChatForm(testGroup,true).setVisible(true);
+               new DetailGroupChatForm(testGroup,true,1).setVisible(true);
            }
        });
     }
