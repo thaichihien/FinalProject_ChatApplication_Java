@@ -208,9 +208,9 @@ public ArrayList<UserAccount> getData(){
     </details>
 
 <details>
-    <summary> <b>4. Thực hiện kết bạn và chấp nhận lời mời &#9733</b> </summary>
+    <summary> <b>4. Thực hiện kết bạn và chấp nhận lời mời &#x2713</b> </summary>
     <ul>
-        <li>Người làm: </li>
+        <li>Người làm: Dũng</li>
         <li>Mô tả:
             <ul>
                 <li>Thực hiện 2 TODO</li>
