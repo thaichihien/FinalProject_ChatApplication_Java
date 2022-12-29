@@ -128,7 +128,7 @@ public ArrayList<UserAccount> getData(){
 ### Bên người dùng
 - [X] Đăng ký tài khoản + (cải tiến mã hóa mật khẩu, UI che mật khẩu)
 - [X] Đăng nhập tài khoản
-- [ ] Quên mật khẩu
+- [X] Quên mật khẩu
 - [ ] Sửa thông tin, thay đổi mật khẩu
 - [X] Hiển thị danh sách bạn bè
 - [ ] Thêm bạn bè bằng tên đăng nhập

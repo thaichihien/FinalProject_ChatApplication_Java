@@ -53,6 +53,7 @@ public class ForgetPassword extends JFrame {
 		}
 		String newRandomPassword = PasswordService.generateRandomPasseword(10);
 		String encryptPassword = PasswordService.encryptPassword(newRandomPassword);
+		JOptionPane.showMessageDialog(null, "Sending new password to your email....", "Please wait", JOptionPane.INFORMATION_MESSAGE);
 		MailService.sendEmail("Your new password :" + newRandomPassword, email);
 		database.changePasswordUser(ID, encryptPassword);
 		JOptionPane.showMessageDialog(null, "A new password is sent to your email", "Email sent successfully", JOptionPane.INFORMATION_MESSAGE);

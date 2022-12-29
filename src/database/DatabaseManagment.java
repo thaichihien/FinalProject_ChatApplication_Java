@@ -113,8 +113,8 @@ public class DatabaseManagment {
             System.out.println("account information is empty");
             return -1;
         }
-        String INSERT_QUERY = "INSERT INTO USER_ACCOUNT(USERNAME,PASSWORD,EMAIL,ONLINE)"
-         + "VALUES(?,?,?,?)";
+        String INSERT_QUERY = "INSERT INTO USER_ACCOUNT(USERNAME,PASSWORD,EMAIL,ONLINE,BANNED)"
+         + "VALUES(?,?,?,?,?)";
 
         try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);) {
             statement.setString(1, account.getUsername());
@@ -123,7 +123,7 @@ public class DatabaseManagment {
             statement.setString(2, account.getPassword());
             statement.setString(3, account.getEmail());
             statement.setBoolean(4, true);
-   
+            statement.setBoolean(5, false);
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             rs.next();
