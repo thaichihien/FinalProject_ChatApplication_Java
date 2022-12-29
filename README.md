@@ -129,15 +129,17 @@ public ArrayList<UserAccount> getData(){
 - [X] Đăng ký tài khoản + (cải tiến mã hóa mật khẩu, UI che mật khẩu)
 - [X] Đăng nhập tài khoản
 - [ ] Quên mật khẩu
+- [ ] Sửa thông tin, thay đổi mật khẩu
 - [X] Hiển thị danh sách bạn bè
 - [ ] Thêm bạn bè bằng tên đăng nhập
-- [ ] Hủy kết bạn
+- [X] Hủy kết bạn
 - [X] Tạo nhóm chat
 - [X] Đổi tên nhóm chat
-- [ ] Thêm thành viên
+- [X] Thêm thành viên
 - [X] Gán quyền admin
 - [X] Xóa thành viên
-- [ ] Xem lịch sử chat
+- [X] Xem lịch sử chat
+- [ ] Lưu lịch sử tin nhắn
 - [ ] Tìm kiếm lịch sử chat
 - [ ] Xóa lịch sử chat
 ### Bên quản trị

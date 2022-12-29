@@ -14,6 +14,7 @@ CREATE TABLE USER_ACCOUNT (
 	EMAIL VARCHAR,
 	ONLINE BOOLEAN,
 	CREATED_AT TIMESTAMP,
+	BANNED BOOLEAN,
 	primary key(ID)
 );
 
@@ -81,17 +82,17 @@ ALTER SEQUENCE USER_ACCOUNT_id_seq RESTART WITH 1;
 
 
 --USER ACCOUNT
-insert into USER_ACCOUNT (USERNAME, PASSWORD, FULLNAME, ADDRESS, DATE_OF_BIRTH, GENDER, ONLINE)
+insert into USER_ACCOUNT (USERNAME, PASSWORD, FULLNAME, ADDRESS, DATE_OF_BIRTH, GENDER, ONLINE,BANNED)
 values
-				('USER1','123456',N'Nguyễn Mạnh Hùng', N'Địa chỉ 1', '1990-01-14', N'Nam', '1'),
-				('USER2','123456',N'Nguyễn Mạnh Thủy', N'Địa chỉ 2', '1994-12-08', N'Nữ', '1'),
-				('USER3','123456',N'Nguyễn Mạnh Hà', N'Địa chỉ 3', '1998-09-03', N'Nữ', '1'),
-				('USER4','123456',N'Nguyễn Mạnh Thu', N'Địa chỉ 4', '1998-09-03', N'Nữ', '0'),
-				('USER5','123456',N'Nguyễn Mạnh Mai', N'Địa chỉ 5', '2003-03-26', N'Nữ', '1'),
-				('USER6','123456',N'Nguyễn Mạnh Vy', N'Địa chỉ 6', '2000-02-14', N'Nữ', '1'),
-				('USER7','123456',N'Nguyễn Mạnh Nam', N'Địa chỉ 7', '1991-05-06', 'Nam', '0'),
-				('USER8','123456',N'Nguyễn Mạnh An', N'Địa chỉ 8', '1996-08-19', 'Nam', '1'),
-				('USER9','123456',N'Nguyễn Mạnh Nguyệt', N'Địa chỉ 9', '2006-01-14', N'Nữ', '0');
+				('USER1','123456',N'Nguyễn Mạnh Hùng', N'Địa chỉ 1', '1990-01-14', N'Nam', '1','0'),
+				('USER2','123456',N'Nguyễn Mạnh Thủy', N'Địa chỉ 2', '1994-12-08', N'Nữ', '1','0'),
+				('USER3','123456',N'Nguyễn Mạnh Hà', N'Địa chỉ 3', '1998-09-03', N'Nữ', '1','0'),
+				('USER4','123456',N'Nguyễn Mạnh Thu', N'Địa chỉ 4', '1998-09-03', N'Nữ', '0','0'),
+				('USER5','123456',N'Nguyễn Mạnh Mai', N'Địa chỉ 5', '2003-03-26', N'Nữ', '1','0'),
+				('USER6','123456',N'Nguyễn Mạnh Vy', N'Địa chỉ 6', '2000-02-14', N'Nữ', '1','0'),
+				('USER7','123456',N'Nguyễn Mạnh Nam', N'Địa chỉ 7', '1991-05-06', 'Nam', '0','0'),
+				('USER8','123456',N'Nguyễn Mạnh An', N'Địa chỉ 8', '1996-08-19', 'Nam', '1','0'),
+				('USER9','123456',N'Nguyễn Mạnh Nguyệt', N'Địa chỉ 9', '2006-01-14', N'Nữ', '0','0');
 				
 				
 INSERT INTO LOGIN_HISTORY(USER_ID,LOGIN_TIME)

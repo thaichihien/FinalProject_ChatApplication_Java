@@ -1,7 +1,6 @@
 package database;
 
 import java.sql.Timestamp;
-import java.security.Identity;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -187,7 +186,7 @@ public class DatabaseManagment {
      * @return  ArrayList<UserAccount>
      */
     public ArrayList<UserAccount> getFriendArrayList(int ID){
-        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE UF.ID = ?";
+        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE,UA.GENDER FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE UF.ID = ?";
         ResultSet data = null;
         ArrayList<UserAccount> friendList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
@@ -207,6 +206,7 @@ public class DatabaseManagment {
                     account.setUsername(data.getString("USERNAME"));
                     account.setFullname(data.getString("FULLNAME"));
                     account.setOnline(data.getBoolean("ONLINE"));
+                    account.setGender(data.getString("Gender"));
                     friendList.add(account);
                     
                 } while (data.next());
@@ -229,7 +229,7 @@ public class DatabaseManagment {
     }
 
     public ArrayList<UserAccount> getFriendArrayListByOnline(int ID){
-        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE UF.ID = ? ORDER BY UA.ONLINE DESC";
+        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE,UA.GENDER FROM USER_ACCOUNT UA INNER JOIN USER_FRIEND UF ON UA.ID = UF.FRIEND_ID WHERE UF.ID = ? ORDER BY UA.ONLINE DESC";
         ResultSet data = null;
         ArrayList<UserAccount> friendList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
@@ -249,6 +249,7 @@ public class DatabaseManagment {
                     account.setUsername(data.getString("USERNAME"));
                     account.setFullname(data.getString("FULLNAME"));
                     account.setOnline(data.getBoolean("ONLINE"));
+                    account.setGender(data.getString("Gender"));
                     friendList.add(account);
                     
                 } while (data.next());
@@ -791,7 +792,7 @@ public class DatabaseManagment {
         String SELECT_QUERY = "SELECT LH.*,UA.USERNAME FROM LOGIN_HISTORY LH INNER JOIN USER_ACCOUNT UA ON LH.USER_ID = UA.ID";
         ResultSet data = null;
         ArrayList<LoginHistory> loginList = new ArrayList<>();
-        Connection conn = DatabaseManagment.getInstance().getConnection();
+        
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
             //statment.setString(1, name);
@@ -808,6 +809,49 @@ public class DatabaseManagment {
                     login.setUserName(data.getString("username"));
                     java.sql.Timestamp date = data.getTimestamp("LOGIN_TIME");
                     String formattedDate = new SimpleDateFormat("dd-MM-yyyy HH:mm").format(date);
+                    login.setLoginTime(formattedDate);
+                    loginList.add(login);
+                    
+                } while (data.next());
+                return loginList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return loginList;
+    }
+
+    /** Lấy dữ liệu tất cả lịch sử đăng nhập
+     * @return
+     */
+    public ArrayList<LoginHistory> getAllLoginHistoryUser(int ID){
+        String SELECT_QUERY = "SELECT * FROM LOGIN_HISTORY WHERE USER_ID = ?";
+        ResultSet data = null;
+        ArrayList<LoginHistory> loginList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            statment.setInt(1, ID);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return loginList;
+            }
+            else{
+                do {                    
+                    LoginHistory login = new LoginHistory();
+                    login.setID(data.getInt("LOGIN_ID"));
+                    java.sql.Timestamp date = data.getTimestamp("LOGIN_TIME");
+                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(date);
                     login.setLoginTime(formattedDate);
                     loginList.add(login);
                     

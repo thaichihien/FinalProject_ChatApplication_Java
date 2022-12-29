@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package uichatcomponent;
 
 import java.awt.GridBagConstraints;
@@ -15,21 +12,18 @@ import java.util.Date;
 import java.util.Locale;
 import java.util.ArrayList;
 
-import javax.swing.JFrame;
+
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JTable;
+
 import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseManagment;
 import datastructure.UserAccount;
 
-/**
- *
- * @author HIEN
- */
+
 public class DetailAccountForm extends javax.swing.JFrame {
 
     private javax.swing.JButton changePasswordButton;
@@ -50,9 +44,7 @@ public class DetailAccountForm extends javax.swing.JFrame {
 
     private UserAccount user;
 
-    // TODO 1: Nạp tất cả dữ liệu người dùng từ user vào các field
-    // Sử dụng hàm getDetailAccount(int ID)
-    // trong đó ID lấy từ user.getID()
+    
     // TEST NGAY TẠI FILE NÀY (RUN FILE NÀY)
     private void fillAccountInfor(){
         DatabaseManagment databaseManagment = DatabaseManagment.getInstance();
@@ -84,9 +76,7 @@ public class DetailAccountForm extends javax.swing.JFrame {
     }
 
 
-    // TODO 2: Nạp vào bảng friendListTable dữ liệu tất cả bạn bè của user
-    // Sử dụng hàm getFriendArrayListByOnline(int ID)
-    // trong đó ID là user.getID()
+    
     private void fillfriendListTable(){
 
         DatabaseManagment database = DatabaseManagment.getInstance();
@@ -115,12 +105,7 @@ public class DetailAccountForm extends javax.swing.JFrame {
 
 
     // TODO 3: thay đổi mật khẩu
-    // Kiểm tra oldPasswordField có giống password trong database sử dụng checkPassword(int ID,String password)
-    // => không giống hiện JOptionPane cảnh báo
-    // Kiểm tra oldPasswordField có giống newPasswordField
-    // => giống hiện JoptionPane cảnh báo
-    // Ok thì lưu mật khẩu mới vào database sử dụng changePasswordUser(int ID, String newPassword)
-    // hiện JoptionPane thông báo đổi thành công
+   
     private void changePassword(){
         DatabaseManagment database = DatabaseManagment.getInstance();
         JPanel changePasswordPanel = new JPanel();
@@ -177,6 +162,11 @@ public class DetailAccountForm extends javax.swing.JFrame {
         
     }
 
+    private void viewLoginHistoryUser(){
+        ViewLoginHistory viewLoginHistory = new ViewLoginHistory(user);
+        viewLoginHistory.setVisible(true);
+    }
+
 
 
 
@@ -190,6 +180,15 @@ public class DetailAccountForm extends javax.swing.JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 changePassword();
+            }
+            
+        });
+
+        viewHistoryButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               viewLoginHistoryUser();
             }
             
         });
@@ -443,16 +442,13 @@ public class DetailAccountForm extends javax.swing.JFrame {
 
         pack();
         setLocationRelativeTo(null);
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
         //parentFrame.setEnabled(true);
-    }//GEN-LAST:event_formWindowClosing
+    }
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         
 

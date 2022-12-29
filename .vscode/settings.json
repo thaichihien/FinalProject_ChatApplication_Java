@@ -3,7 +3,9 @@
         "lib/**/*.jar",
         "d:\\JAVA\\postgresql-42.5.1.jar",
         "c:\\Users\\Admin\\Downloads\\postgresql-42.5.1.jar",
-        "c:\\Users\\Admin\\Downloads\\jcalendar-1.4\\lib\\jcalendar-1.4.jar"
+        "c:\\Users\\Admin\\Downloads\\jcalendar-1.4\\lib\\jcalendar-1.4.jar",
+        "d:\\JAVA\\library\\javax.mail.jar",
+        "d:\\JAVA\\library\\jaf-1.1.1\\activation.jar"
     ],
     "java.completion.filteredTypes": [
         "com.sun.*",
