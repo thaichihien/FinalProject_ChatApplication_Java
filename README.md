@@ -19,7 +19,9 @@
 - **userchatapp:** : chứa giao diện người dùng
 ## Cài đăt thư viện
 - **PostgreSQL Driver** : để kết nối csdl Postgres từ Java : https://jdbc.postgresql.org/download/
-- **JCalendar:** giao diện Swing để chọn ngày, dùng bên Admin: https://toedter.com/jcalendar/
+- **JCalendar:** giao diện Swing để chọn ngày, dùng bên Admin, sử dụng **jcalendar-1.4.jar**: https://toedter.com/jcalendar/
+- **Java Mail**: cho phần gửi email với mật khẩu random mới: https://javaee.github.io/javamail/
+- **JAF (JavaBeans Activation Framework)** : phục vụ cho chức năng gửi mail: https://www.oracle.com/java/technologies/downloads.html
 ## Hướng dẫn tạo cơ sở dự liệu Postgres:
 - Đọc hướng dẫn chi tiết tại thư mục ***doc***
 ## Hướng dẫn kết nối Postgres từ java:
@@ -34,6 +36,12 @@ public class DatabaseConfig {
     public static String password = System.getenv("POSTGRES_PASSWORD"); //thay bằng chuỗi mật khẩu postgres nếu k dùng biến môi trường
 }
 ```
+## Cài đặt cho Login,Register và Forgot Password
+- Cài hai thư viện: **Java Mail**, **JAF**
+- Đối với forgot password: thêm 2 biến môi trường **USER_EMAIL_PROJECT** và **PASSWORD_EMAIL_PROJECT** lần lượt cho email và mật khẩu để gửi mật khẩu random mới cho người dùng
+- Tạo file `.secretkey` tại ***src/utils*** với nội dung:
+
+`secret_key = <your secret key>`
 ## Hướng dẫn test code:
 ### Đối với chức năng Login và Register:
 - Viết code tại các file Login.java Register.java. Chạy code ở các file này
