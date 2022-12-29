@@ -151,6 +151,8 @@ public class DetailAccountForm extends javax.swing.JFrame {
 
     }
 
+    
+
     // TODO 1: Khóa tài khoản
     // Sử dụng hàm checkAccountIsBanned(int ID) với ID là user.getID
     // + nếu đang bị khóa thì dùng JOptionPane hỏi admin có muốn gỡ khóa
@@ -175,6 +177,7 @@ public class DetailAccountForm extends javax.swing.JFrame {
         this.dispose(); // đóng Jframe này
     }
 
+    // TEST NGAY TẠI FILE NÀY, SỬA ID TẠI HÀM MAIN USER TEST 
 
    // TODO 3: Sửa thông tin tài khoản:
    // Lấy thông tin từ các field như username,fullname,...
@@ -207,9 +210,22 @@ public class DetailAccountForm extends javax.swing.JFrame {
         userNameField.setEditable(isEdit);
         maleRadioButton.setEnabled(isEdit);
         femaleRadioButton.setEnabled(isEdit);
+    }
+
+    // SỬA ID USER TEST TẠI ĐÂY
+    public static void main(String args[]) {
+        
+
+        /* Create and display the form */
+       java.awt.EventQueue.invokeLater(new Runnable() {
+           public void run() {
+            DatabaseManagment database = DatabaseManagment.getInstance();
+            UserAccount testAccount = database.getDetailAccount(1);
 
 
-
+               new DetailAccountForm(testAccount).setVisible(true);
+           }
+       });
     }
 
 
@@ -534,20 +550,7 @@ public class DetailAccountForm extends javax.swing.JFrame {
         //parentFrame.setEnabled(true);
     }
 
-    public static void main(String args[]) {
-        
-
-        /* Create and display the form */
-       java.awt.EventQueue.invokeLater(new Runnable() {
-           public void run() {
-            DatabaseManagment database = DatabaseManagment.getInstance();
-            UserAccount testAccount = database.getDetailAccount(1);
-
-
-               new DetailAccountForm(testAccount).setVisible(true);
-           }
-       });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel_email;
