@@ -1,11 +1,15 @@
 
 package uichatcomponent;
 
-import java.text.DateFormat;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 
-import javax.swing.JOptionPane;
 
 import datastructure.UserAccount;
 import database.DatabaseManagment;
@@ -15,90 +19,92 @@ public class ChangeInforForm extends javax.swing.JFrame {
 
     private javax.swing.JTextField addressField;
     private com.toedter.calendar.JDateChooser birthDayChooser;
-    private javax.swing.JButton createAccButton;
+    private javax.swing.JButton updateAccButton;
     private javax.swing.JButton deleteFieldsButton;
     private javax.swing.JTextField emailField;
     private javax.swing.JRadioButton femaleRadio;
     private javax.swing.ButtonGroup genderGroup;
     private javax.swing.JRadioButton maleRadio;
     private javax.swing.JTextField nameField;
-    private javax.swing.JTextField passwordField;
     private javax.swing.JTextField usernameField;
     private javax.swing.JButton changePasswordButton;
     
-    // TODO 1: Tạo tài khoản từ phía admin
-    // lấy tất cả dữ liệu đã nhập từ các field
-    // tạo tài khoản mới bằng addNewAccount(UserAccount account)
-    // tạo xong thì hiện JoptionPane báo tạo thành công và có thể đóng cửa sổ này
-    // TEST TẠI FILE NÀY (RUN FILE NÀY)
-    public void createNewAccount(){
-        DatabaseManagment database = DatabaseManagment.getInstance();
+    private UserAccount user;
 
-        String birthDay;
 
-        // Lấy dữ liệu ngày sinh
-        DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        birthDay = df.format(birthDayChooser.getDate());
-        
-        String username = usernameField.getText().toString().trim();
-        String fullname = nameField.getText().toString().trim();
-        String password = passwordField.getText().toString().trim();
-        String address = addressField.getText().toString().trim();
-        String email = emailField.getText().toString().trim();
-        String gender = "";
+    // TODO 1: Nạp thông tin account
+    // sử dụng hàm getDetailAccount(int ID) với ID là user.getID()
+    // để lấy tất cả thông tin account
+    // nạp tất cả thông tin user vào các field
+    // tham khảo DetailAccountForm.java
+    public void fillAccountInfor(){
 
-        if(maleRadio.isSelected()){
-            gender = "Nam";
-        }
-        else if(femaleRadio.isSelected()){
-            gender = "Nữ";
-        }
 
-        UserAccount newUser = new UserAccount();
-        newUser.setUsername(username);
-        newUser.setFullname(fullname);
-        newUser.setPassword(password);
-        newUser.setEmail(email);
-        newUser.setAddress(address);
-        newUser.setGender(gender);
-        newUser.setBirthDay(birthDay);
 
-        if(database.addNewAccount(newUser) != -1){
-            JOptionPane.showMessageDialog(null, "Add completed!", "Add account", JOptionPane.INFORMATION_MESSAGE);
-            return;
-        }
-        else{
-            JOptionPane.showMessageDialog(null, "Add failed!", "Add account", JOptionPane.ERROR_MESSAGE);
-            return;
-        }
+
+         // truyền ngày sinh vào datechooser
+         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH); 
+         try {
+             birthDayChooser.setDate(new Date(formatter.parse(user.getBirthDay()).getTime()));
+         } catch (ParseException ex) {
+             birthDayChooser.setDate(new Date());
+         }
+
     }
 
 
-    // TODO 2: xóa dữ liệu đã nhập ở tất cả các field
+    // TODO 2 : Cập nhật tài khoản:
+    // Lấy các field đã điền và set giá trị cho this.user
+    // sử dụng hàm updateAccount(UserAccount account)
+    // tham khảo CreateAccountForm.java nhưng ở đây là cập nhật k phải tạo mới
+    public void updateAccount(){
+        
+    }
+
+
+    //  xóa dữ liệu đã nhập ở tất cả các field
     private void clearFields(){
 
         usernameField.setText("");
         nameField.setText("");
-        passwordField.setText("");
         addressField.setText("");
         emailField.setText("");
         genderGroup.clearSelection();
 
     }
+
+    // TODO 3: thay đổi mật khẩu 
+    // tham khảo DetailAccountForm
+    // copy qua cũng được =)
+
+    private void changePassword(){
+
+
+    }
     
     
-    public ChangeInforForm() {
+    public ChangeInforForm(UserAccount account) {
         initComponents();
 
-        createAccButton.addActionListener(new java.awt.event.ActionListener() {
+        this.user = account;
+        updateAccButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                createNewAccount();
+                updateAccount();
             }
         });
         deleteFieldsButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 clearFields();
             }
+        });
+
+        changePasswordButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                changePassword();
+            }
+            
         });
 
 
@@ -139,13 +145,13 @@ public class ChangeInforForm extends javax.swing.JFrame {
         jLabel_matkhau = new javax.swing.JLabel();
         femaleRadio = new javax.swing.JRadioButton();
         maleRadio = new javax.swing.JRadioButton();
-        createAccButton = new javax.swing.JButton();
+        updateAccButton = new javax.swing.JButton();
         deleteFieldsButton = new javax.swing.JButton();
         birthDayChooser = new com.toedter.calendar.JDateChooser();
         changePasswordButton = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Tạo tài khoản");
+        setTitle("Cập nhật tài khoản");
         setMinimumSize(new java.awt.Dimension(700, 500));
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -194,8 +200,8 @@ public class ChangeInforForm extends javax.swing.JFrame {
         maleRadio.setForeground(new java.awt.Color(0, 0, 0));
         maleRadio.setText("Nam");
 
-        createAccButton.setText("Hoàn tất");
-        createAccButton.addActionListener(new java.awt.event.ActionListener() {
+        updateAccButton.setText("Hoàn tất");
+        updateAccButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 createAccButtonActionPerformed(evt);
             }
@@ -213,7 +219,7 @@ public class ChangeInforForm extends javax.swing.JFrame {
                 .addGap(102, 102, 102)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(createAccButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(updateAccButton, javax.swing.GroupLayout.PREFERRED_SIZE, 192, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(deleteFieldsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 191, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
@@ -286,7 +292,7 @@ public class ChangeInforForm extends javax.swing.JFrame {
                 .addGap(36, 36, 36)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(deleteFieldsButton, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(createAccButton, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(updateAccButton, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(76, Short.MAX_VALUE))
         );
 
@@ -320,7 +326,10 @@ public class ChangeInforForm extends javax.swing.JFrame {
        
        java.awt.EventQueue.invokeLater(new Runnable() {
            public void run() {
-               new ChangeInforForm().setVisible(true);
+                DatabaseManagment database = DatabaseManagment.getInstance();
+                UserAccount testAccount = database.getDetailAccount(1);
+
+               new ChangeInforForm(testAccount).setVisible(true);
            }
        });
     }

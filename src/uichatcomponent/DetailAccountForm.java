@@ -48,6 +48,7 @@ public class DetailAccountForm extends javax.swing.JFrame {
 
     
     // TEST NGAY TẠI FILE NÀY (RUN FILE NÀY)
+    // Nạp dữ liệu account
     private void fillAccountInfor(){
         DatabaseManagment databaseManagment = DatabaseManagment.getInstance();
 
@@ -106,7 +107,7 @@ public class DetailAccountForm extends javax.swing.JFrame {
     }
 
 
-    // TODO 3: thay đổi mật khẩu
+    // TODO 3: thay đổi mật khẩu (done)
    
     private void changePassword(){
         DatabaseManagment database = DatabaseManagment.getInstance();

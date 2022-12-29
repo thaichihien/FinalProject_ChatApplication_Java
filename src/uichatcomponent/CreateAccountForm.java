@@ -25,7 +25,7 @@ public class CreateAccountForm extends javax.swing.JFrame {
     private javax.swing.JTextField passwordField;
     private javax.swing.JTextField usernameField;
     
-    // TODO 1: Tạo tài khoản từ phía admin
+    // TODO 1: Nạp dữ liệu
     // lấy tất cả dữ liệu đã nhập từ các field
     // tạo tài khoản mới bằng addNewAccount(UserAccount account)
     // tạo xong thì hiện JoptionPane báo tạo thành công và có thể đóng cửa sổ này

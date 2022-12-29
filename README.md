@@ -313,6 +313,20 @@ public ArrayList<UserAccount> getData(){
     </ul>
     </details>
     
+<details>
+    <summary> <b>11. Sửa thông tin tài khoản &#9733</b> </summary>
+    <ul>
+        <li>Người làm: </li>
+        <li>Mô tả:
+            <ul>
+                <li>Thực hiện 3 TODO</li>
+            </ul>
+        </li>
+        <li>File làm việc: /uichatcomponent/ChangeInforForm.java</li>
+        <li>Deadline: 24/12/2022</li>
+    </ul>
+    </details>
+    
 
     
 ### Admin:
@@ -443,7 +457,7 @@ public ArrayList<UserAccount> getData(){
     </details>
     
 <details>
-    <summary> <b>10. Khóa,Xóa và chỉnh sửa tài khoản</b> </summary>
+    <summary> <b>10. Khóa,Xóa và chỉnh sửa tài khoản &#9733</b> </summary>
     <ul>
         <li>Người làm: </li>
         <li>Mô tả:
@@ -451,7 +465,7 @@ public ArrayList<UserAccount> getData(){
                 <li>Xóa thành viên khỏi nhóm chat</li>
             </ul>
         </li>
-        <li>File làm việc: /userchatapp/DetailChatGroupForm.java</li>
+        <li>File làm việc: /uichatcomponent/DetailChatGroupForm.java</li>
         <li>Deadline: 30/12/2022</li>
     </ul>
     </details>
