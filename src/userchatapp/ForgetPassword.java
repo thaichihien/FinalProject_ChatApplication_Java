@@ -1,12 +1,12 @@
 package userchatapp;
 
-import java.awt.EventQueue;
+
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
-import chatservice.ChatService;
+
 import database.DatabaseManagment;
 import datastructure.UserAccount;
 import utils.MailService;
@@ -131,7 +131,6 @@ public class ForgetPassword extends JFrame {
 		contentPane.add(lblRequire);
 		
 		txtEmail = new JTextField();
-		txtEmail.setText("   Email");
 		txtEmail.setHorizontalAlignment(SwingConstants.LEFT);
 		txtEmail.setForeground(Color.GRAY);
 		txtEmail.setFont(new Font("Tahoma", Font.PLAIN, 16));

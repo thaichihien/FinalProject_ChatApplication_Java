@@ -47,10 +47,10 @@ public class Register extends JFrame {
 		UserAccount newAccount;
 	
 		String username, password, email, repass;
-		username=new String(txtUser.getText());
+		username=new String(txtUser.getText().trim());
 		password=new String(txtPass.getPassword());
 		repass=new String(txtRePass.getPassword());
-		email=new String(txtEmail.getText());
+		email=new String(txtEmail.getText().trim());
 		if(username.isBlank()||password.isBlank()||email.isBlank()||repass.isBlank()){
 			JOptionPane.showMessageDialog(null,"Please enter all required fields");
 			return null;
@@ -63,7 +63,7 @@ public class Register extends JFrame {
 		{
 			DatabaseManagment db=DatabaseManagment.getInstance();
 
-			if(db.checkAccount(email) < 0){
+			if(db.checkAccount(email) > 0){
 				JOptionPane.showMessageDialog(null,"This e-mail is already taken");
 				return null;
 			}
