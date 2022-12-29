@@ -167,6 +167,35 @@ public class DatabaseManagment {
         return false;
     }
 
+    public boolean checkAccount(String email){
+        String SELECT_QUERY = "SELECT ID FROM USER_ACCOUNT WHERE EMAIL = ?";
+        ResultSet data = null;
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            statment.setString(1, email);
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return false;
+            }
+            else{
+               return true;
+            }
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return false;
+    }
+
     public void changePasswordUser(int ID, String newPassword){
         String UPDATE_QUERY = "UPDATE USER_ACCOUNT SET PASSWORD = ? WHERE ID = ?";
         try (PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY);) {

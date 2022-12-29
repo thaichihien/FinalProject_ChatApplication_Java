@@ -4,8 +4,9 @@ import java.awt.EventQueue;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.border.EmptyBorder;
-import javax.xml.crypto.Data;
+
 
 import datastructure.UserAccount;
 
@@ -16,10 +17,6 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.Insets;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JTextField;
@@ -28,8 +25,8 @@ import javax.swing.JButton;
 public class Register extends JFrame {
 	private JPanel contentPane;
 	private JTextField txtUser;
-	private JTextField txtRePass;
-	private JTextField txtPass;
+	private JPasswordField txtRePass;
+	private JPasswordField txtPass;
 	private JTextField txtEmail;
 	private JLabel labelUser;
 	private JLabel labelRePass;
@@ -40,7 +37,7 @@ public class Register extends JFrame {
 
 	
 
-	// TODO 1: viết hàm đăng ký, kiểm tra các field, thêm vào database
+
 
 	private UserAccount registerAccount(){
 	// Ok thì trả về account vừa đăng ký ngược lại null rồi làm hiện lỗi tại hàm btnRegisterActionPerformed()
@@ -48,19 +45,32 @@ public class Register extends JFrame {
 	
 		String username, password, email, repass;
 		username=new String(txtUser.getText());
-		password=new String(txtPass.getText());
-		repass=new String(txtRePass.getText());
+		password=new String(txtPass.getPassword());
+		repass=new String(txtRePass.getPassword());
 		email=new String(txtEmail.getText());
-		if(username.isBlank()||password.isBlank()||email.isBlank()||repass.isBlank())
+		if(username.isBlank()||password.isBlank()||email.isBlank()||repass.isBlank()){
+			JOptionPane.showMessageDialog(null,"Please enter all required fields");
 			return null;
+		}
+		else if(!repass.equals(password)){
+			JOptionPane.showMessageDialog(null,"Your repassword is incorrect");
+			return null;
+		}
 		else if(repass.equals(password))
 		{
+			DatabaseManagment db=DatabaseManagment.getInstance();
+
+			if(db.checkAccount(email)){
+				JOptionPane.showMessageDialog(null,"Your repassword is incorrect");
+				return null;
+			}
+
 			newAccount=new UserAccount();
 			newAccount.setUsername(username);
 			newAccount.setPassword(password);
 			newAccount.setEmail(email);
 
-			DatabaseManagment db=DatabaseManagment.getInstance();
+			
 			int newID = db.registerNewAccount(newAccount);
 			if(newID == -1) return null;
 			newAccount.setID(newID);
@@ -74,40 +84,18 @@ public class Register extends JFrame {
 		
 		UserAccount account = registerAccount();
 		if(account != null){
-		 MainFormUser menuForm = new MainFormUser(account);
-		 menuForm.setVisible(true);
-		 this.dispose();
+			MainFormUser menuForm = new MainFormUser(account);
+			menuForm.setVisible(true);
+			this.dispose();
 		 
 		}
-		else{
-		 //TODO 2: Hiện lỗi tại đây cho người dùng, recommend dùng JOptionPane;
-			// JFrame frame = new JFrame("Error");
-			// frame.setSize(200, 200);
-			// frame.setLocationRelativeTo(null);
-			// frame.setVisible(true);
-			
+		
 
-			String username, password, email, repass;
-			username=new String(txtUser.getText());
-			password=new String(txtPass.getText());
-			repass=new String(txtRePass.getText());
-			email=new String(txtEmail.getText());
-			if(username.isBlank()||password.isBlank()||email.isBlank()||repass.isBlank())
-				JOptionPane.showMessageDialog(null,"Please enter all required fields");
-
-			if(!repass.equals(password))
-			 	JOptionPane.showMessageDialog(null,"Your repassword is incorrect");
-		}
-
-		txtUser.setText("");
-		txtEmail.setText("");
 		txtPass.setText("");
 		txtRePass.setText("");
 	 }  
 	
-	/**
-	 * Launch the application.
-	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -196,7 +184,7 @@ public class Register extends JFrame {
 		labelRePass.setBounds(273, 395, 226, 28);
 		contentPane.add(labelRePass);
 		
-		txtRePass = new JTextField();
+		txtRePass = new JPasswordField();
 		txtRePass.setMargin(new Insets(10, 15, 10, 10));
 		txtRePass.setHorizontalAlignment(SwingConstants.LEFT);
 		txtRePass.setForeground(Color.GRAY);
@@ -217,7 +205,7 @@ public class Register extends JFrame {
 		labelPass.setBounds(273, 320, 226, 28);
 		contentPane.add(labelPass);
 		
-		txtPass = new JTextField();
+		txtPass = new JPasswordField();
 		txtPass.setMargin(new Insets(10, 15, 10, 10));
 		txtPass.setHorizontalAlignment(SwingConstants.LEFT);
 		txtPass.setForeground(Color.GRAY);
