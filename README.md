@@ -139,7 +139,7 @@ public ArrayList<UserAccount> getData(){
 - [X] Quên mật khẩu
 - [ ] Sửa thông tin, thay đổi mật khẩu
 - [X] Hiển thị danh sách bạn bè
-- [ ] Thêm bạn bè bằng tên đăng nhập
+- [X] Thêm bạn bè bằng tên đăng nhập
 - [X] Hủy kết bạn
 - [X] Tạo nhóm chat
 - [X] Đổi tên nhóm chat
@@ -147,8 +147,8 @@ public ArrayList<UserAccount> getData(){
 - [X] Gán quyền admin
 - [X] Xóa thành viên
 - [X] Xem lịch sử chat
-- [ ] Lưu lịch sử tin nhắn
-- [ ] Tìm kiếm lịch sử chat
+- [X] Lưu lịch sử tin nhắn
+- [X] Tìm kiếm lịch sử chat
 - [ ] Xóa lịch sử chat
 ### Bên quản trị
 - [X] Xem danh sách cho phép lọc theo tên/tên đăng nhập, sắp xếp theo tên/ngày tạo
