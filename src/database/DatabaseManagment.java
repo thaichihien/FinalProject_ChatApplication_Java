@@ -1337,6 +1337,60 @@ public class DatabaseManagment {
         }
         return messageList;
     }
+
+    public ArrayList<Message> searchMessageUser(String ChatBoxID,String keyword){
+        String SELECT_QUERY = "SELECT MU.ID,MU.CHATBOX_ID,UA.USERNAME,MU.TIME_SEND,MU.CONTENT,MU.VISIBLE_ONLY FROM MESSAGE_USER MU INNER JOIN USER_ACCOUNT UA ON UA.ID = MU.FROM_USER WHERE MU.CHATBOX_ID = ? AND MU.CONTENT LIKE ? ORDER BY MU.TIME_SEND DESC";
+        ResultSet data = null;
+        ArrayList<Message> messageList = new ArrayList<>();
+        try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
+            
+            statment.setString(1, ChatBoxID);
+            statment.setString(2, "%" + keyword + "%");
+            data = statment.executeQuery();
+            
+            if(!data.next()){
+                return messageList;
+            }
+            else{
+               
+                
+                do {                    
+                    Message message = new Message();
+                    message.setChatboxID(data.getString("chatbox_id"));
+                    Timestamp date = data.getTimestamp("time_send");
+                    String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(date);
+                    message.setDateSend(formattedDate);
+                    message.setUserName(data.getString("username"));
+                    message.setContent(data.getString("content"));
+                    int id_visibleOnly = data.getInt("visible_only");
+                    if(data.wasNull()){
+                        message.setVisible_only(message.NOT_HIDE);
+                    }
+                    else{
+                        message.setVisible_only(id_visibleOnly);
+                    }
+                   
+                    messageList.add(message);
+                    
+                } while (data.next());
+                return messageList;
+            }
+            
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            if(data != null){
+                try {
+                    data.close();
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        }
+        return messageList;
+    }
+    
     public ArrayList<Message> getAllMessageGroupFromUser(int ID){
         String SELECT_QUERY = "SELECT MG.*,UA.USERNAME FROM MESSAGE_GROUP MG LEFT OUTER JOIN USER_ACCOUNT UA ON MG.FROM_USER = UA.ID WHERE TO_GROUP IN (SELECT GC.ID FROM GROUPCHAT_MEMBER GM LEFT OUTER JOIN GROUPCHAT GC ON GM.GROUPCHAT_ID = GC.ID WHERE GM.MEMBER_ID = ?) ORDER BY MG.TIME_SEND DESC";
         ResultSet data = null;

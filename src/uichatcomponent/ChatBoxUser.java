@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 
@@ -24,6 +25,8 @@ public class ChatBoxUser extends ChatBoxLayout{
 
     private JButton unfriendButton;
     UserAccount other;
+
+
 
     private void sendButtonActionPerformed(ActionEvent e){
         String message = inputChatTextArea.getText();
@@ -45,6 +48,25 @@ public class ChatBoxUser extends ChatBoxLayout{
             String packet = ChatService.createPacket(ChatService.CHANGES, other.getID(), ChatService.MENUCHAT, "0");
             user.sendPacket(packet);
         }
+    }
+
+    private void findMessageUser(){
+        String keyword = searchBarChat.getText();
+        if(keyword.isBlank()){
+            return;
+        }
+
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        String chatBoxID = createChatBoxUserID(user.getID(), other.getID());
+        ArrayList<Message> messageFound = database.searchMessageUser(chatBoxID, keyword);
+        if(messageFound.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Message not found", "Not found", JOptionPane.WARNING_MESSAGE);
+            return;
+        }else{
+            MessageHistory displayHistory = new MessageHistory(messageFound,user.getUsername(),keyword);
+            JOptionPane.showMessageDialog(null, displayHistory, "All messages found", JOptionPane.PLAIN_MESSAGE);
+        }
+
     }
     
 
@@ -107,6 +129,15 @@ public class ChatBoxUser extends ChatBoxLayout{
             
         }
 
+       });
+
+       searchBarChat.addActionListener(new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            findMessageUser();
+        }
+        
        });
         
       
