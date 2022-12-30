@@ -149,7 +149,7 @@ public ArrayList<UserAccount> getData(){
 - [X] Xem lịch sử chat
 - [X] Lưu lịch sử tin nhắn
 - [X] Tìm kiếm lịch sử chat
-- [ ] Xóa lịch sử chat
+- [X] Xóa lịch sử chat
 ### Bên quản trị
 - [X] Xem danh sách cho phép lọc theo tên/tên đăng nhập, sắp xếp theo tên/ngày tạo
 - [ ] Thêm/cập nhật/xoá
