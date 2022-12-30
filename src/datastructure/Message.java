@@ -13,7 +13,8 @@ public class Message {
     //group
     private int groupID;
 
-    public final int NOT_HIDE = -90;
+    public static final int NOT_HIDE = -90;
+    public static final int DELETED = -100;
 
     public Message() {
     }
@@ -77,17 +78,14 @@ public class Message {
         this.groupID = groupID;
     }
 
-    public int getNOT_HIDE() {
-        return this.NOT_HIDE;
-    }
-
-
-    public int getUserID() {
-        return this.userID;
-    }
+    
 
     public void setUserID(int userID) {
         this.userID = userID;
+    }
+    
+    public int getUserID(){
+        return this.userID;
     }
 
     

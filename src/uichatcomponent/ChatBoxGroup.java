@@ -71,6 +71,8 @@ public class ChatBoxGroup extends ChatBoxLayout{
         this.groupChat = groupChat;
         nameJLabel.setText(groupChat.getGroupname());
         setStatusHeader(groupChat.getOnline());
+        deleteHistoryJLabel.setText("");
+        deleteHistoryJLabel.setEnabled(false);
         viewGroupInforButton = new JButton();
         viewGroupInforButton.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         viewGroupInforButton.setText("Thông tin nhóm");

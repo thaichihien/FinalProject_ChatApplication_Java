@@ -1286,13 +1286,14 @@ public class DatabaseManagment {
 
 
     public ArrayList<Message> getAllMessageFromUser(int ID){
-        String SELECT_QUERY = "SELECT MU.ID,MU.CHATBOX_ID,UA.USERNAME,MU.TIME_SEND,MU.CONTENT,MU.VISIBLE_ONLY FROM MESSAGE_USER MU INNER JOIN USER_ACCOUNT UA ON UA.ID = MU.FROM_USER WHERE MU.FROM_USER = ? OR MU.TO_USER = ? ORDER BY MU.TIME_SEND DESC";
+        String SELECT_QUERY = "SELECT MU.ID,MU.CHATBOX_ID,UA.USERNAME,MU.TIME_SEND,MU.CONTENT,MU.VISIBLE_ONLY FROM MESSAGE_USER MU INNER JOIN USER_ACCOUNT UA ON UA.ID = MU.FROM_USER WHERE (MU.FROM_USER = ? OR MU.TO_USER = ?) AND (VISIBLE_ONLY = ? OR VISIBLE_ONLY IS NULL) ORDER BY MU.TIME_SEND DESC";
         ResultSet data = null;
         ArrayList<Message> messageList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
            statment.setInt(1, ID);
            statment.setInt(2, ID);
+           statment.setInt(3, ID);
             data = statment.executeQuery();
             
             if(!data.next()){
@@ -1311,7 +1312,7 @@ public class DatabaseManagment {
                     message.setContent(data.getString("content"));
                     int id_visibleOnly = data.getInt("visible_only");
                     if(data.wasNull()){
-                        message.setVisible_only(message.NOT_HIDE);
+                        message.setVisible_only(Message.NOT_HIDE);
                     }
                     else{
                         message.setVisible_only(id_visibleOnly);
@@ -1338,14 +1339,15 @@ public class DatabaseManagment {
         return messageList;
     }
 
-    public ArrayList<Message> searchMessageUser(String ChatBoxID,String keyword){
-        String SELECT_QUERY = "SELECT MU.ID,MU.CHATBOX_ID,UA.USERNAME,MU.TIME_SEND,MU.CONTENT,MU.VISIBLE_ONLY FROM MESSAGE_USER MU INNER JOIN USER_ACCOUNT UA ON UA.ID = MU.FROM_USER WHERE MU.CHATBOX_ID = ? AND MU.CONTENT LIKE ? ORDER BY MU.TIME_SEND DESC";
+    public ArrayList<Message> searchMessageUser(String ChatBoxID,String keyword,int ID){
+        String SELECT_QUERY = "SELECT MU.ID,MU.CHATBOX_ID,UA.USERNAME,MU.TIME_SEND,MU.CONTENT,MU.VISIBLE_ONLY FROM MESSAGE_USER MU INNER JOIN USER_ACCOUNT UA ON UA.ID = MU.FROM_USER WHERE MU.CHATBOX_ID = ? AND MU.CONTENT LIKE ? AND (VISIBLE_ONLY = ? OR VISIBLE_ONLY IS NULL) ORDER BY MU.TIME_SEND DESC";
         ResultSet data = null;
         ArrayList<Message> messageList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
             statment.setString(1, ChatBoxID);
             statment.setString(2, "%" + keyword + "%");
+            statment.setInt(3, ID);
             data = statment.executeQuery();
             
             if(!data.next()){
@@ -1362,7 +1364,7 @@ public class DatabaseManagment {
                     message.setContent(data.getString("content"));
                     int id_visibleOnly = data.getInt("visible_only");
                     if(data.wasNull()){
-                        message.setVisible_only(message.NOT_HIDE);
+                        message.setVisible_only(Message.NOT_HIDE);
                     }
                     else{
                         message.setVisible_only(id_visibleOnly);
@@ -2025,6 +2027,52 @@ public class DatabaseManagment {
         }
 
 
+    }
+
+    private boolean checkIfOtherDeletedMessage(String chatBoxID,int ID){
+        String SELECT_QUERY = "SELECT ID FROM MESSAGE_USER WHERE CHATBOX_ID = ? AND  VISIBLE_ONLY = ?";
+        ResultSet data = null;
+        try (PreparedStatement statement = conn.prepareStatement(SELECT_QUERY)) {
+            statement.setString(1, chatBoxID);
+            statement.setInt(2, ID);
+            data = statement.executeQuery();
+            if(!data.next()){
+                return false;
+            }
+            else return true;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                data.close();
+            } catch (SQLException e) {
+                
+                e.printStackTrace();
+            }
+        }
+        return false;
+    }
+
+    public void deleteMessageUser(String chatBoxID,int ID,int otherID){
+        boolean deletedFromBoth = checkIfOtherDeletedMessage(chatBoxID, ID);
+        String UPDATE_QUERY = "UPDATE MESSAGE_USER SET VISIBLE_ONLY = ? WHERE CHATBOX_ID = ? AND VISIBLE_ONLY IS NULL";
+        if(deletedFromBoth){
+            UPDATE_QUERY = "UPDATE MESSAGE_USER SET VISIBLE_ONLY = ? WHERE CHATBOX_ID = ? AND NOT VISIBLE_ONLY IS NULL";
+        }
+       
+        try (PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)) {
+        
+            if(deletedFromBoth){
+                statement.setInt(1, Message.DELETED);
+            }else{
+                statement.setInt(1, otherID);
+            }
+            statement.setString(2, chatBoxID);
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

@@ -1,8 +1,11 @@
 
 package uichatcomponent;
 
+import java.awt.Cursor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,7 +61,7 @@ public class ChatBoxUser extends ChatBoxLayout{
 
         DatabaseManagment database = DatabaseManagment.getInstance();
         String chatBoxID = createChatBoxUserID(user.getID(), other.getID());
-        ArrayList<Message> messageFound = database.searchMessageUser(chatBoxID, keyword);
+        ArrayList<Message> messageFound = database.searchMessageUser(chatBoxID, keyword,user.getID());
         if(messageFound.isEmpty()){
             JOptionPane.showMessageDialog(null, "Message not found", "Not found", JOptionPane.WARNING_MESSAGE);
             return;
@@ -67,6 +70,18 @@ public class ChatBoxUser extends ChatBoxLayout{
             JOptionPane.showMessageDialog(null, displayHistory, "All messages found", JOptionPane.PLAIN_MESSAGE);
         }
 
+    }
+
+
+    private void deleteMessage(){
+        if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete all messages with this person (messages can still be visible to the other person) ?", "Confirm delete message", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            String chatBoxUser = createChatBoxUserID(user.getID(), other.getID());
+            DatabaseManagment database = DatabaseManagment.getInstance();
+            database.deleteMessageUser(chatBoxUser, user.getID(), other.getID());
+            JOptionPane.showMessageDialog(null, "Delete message successfully", "Successful", JOptionPane.INFORMATION_MESSAGE);
+            String packet = ChatService.createPacket(ChatService.CHANGES, other.getID(), ChatService.MENUCHAT, "0");
+            user.sendPacket(packet);
+        }
     }
     
 
@@ -140,6 +155,13 @@ public class ChatBoxUser extends ChatBoxLayout{
         
        });
         
+       deleteHistoryJLabel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+       deleteHistoryJLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                deleteMessage();
+            }
+       });
       
     }
 
