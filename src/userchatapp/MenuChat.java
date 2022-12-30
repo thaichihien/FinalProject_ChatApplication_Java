@@ -1,9 +1,12 @@
 
 package userchatapp;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -19,13 +22,12 @@ import uichatcomponent.ChatBoxUser;
 import uichatcomponent.ChatMessageBlock;
 import uichatcomponent.ItemChatAccount;
 import uichatcomponent.ListItemChatAccount;
-import uichatcomponent.SearchBar;
 
 
 public class MenuChat extends JPanel{
     
 
-    public SearchBar searchBarFriendList;
+    public JButton refreshButton;
     public ListItemChatAccount<String> listFriendJlist;
     public JTabbedPane chatLayout;
     private DatabaseManagment database;
@@ -153,19 +155,29 @@ public class MenuChat extends JPanel{
         chatGroup = new HashMap<>();
         fillFriendList();
 
+        refreshButton.addActionListener(new ActionListener() {
+
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                fillFriendList();
+            }
+            
+        });
+
         
     }
 
     private void initComponents(){
         this.setBackground(new java.awt.Color(255, 255, 255));
         this.setLayout(null);
-        searchBarFriendList = new SearchBar();
+        refreshButton = new JButton();
         chatLayout = new JTabbedPane();
         chatLayout.setBounds(410, -30, 880, 880);   
         
         JPanel sidePanel = new JPanel();
         sidePanel.setBackground(new java.awt.Color(235, 235, 235));
-        searchBarFriendList.setPlaceHolder("Tìm kiếm bạn bè...");
+        refreshButton.setFont(new java.awt.Font("Segoe UI", 1, 18));
+        refreshButton.setText("Làm mới danh sách bạn bè");
         JScrollPane jScrollPaneListFriend = new JScrollPane();
         listFriendJlist = new ListItemChatAccount<>();
         listFriendJlist.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
@@ -185,7 +197,7 @@ public class MenuChat extends JPanel{
                 .addGroup(sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(sidePanelLayout.createSequentialGroup()
                         .addGap(50, 50, 50)
-                        .addComponent(searchBarFriendList, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(sidePanelLayout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addComponent(jScrollPaneListFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 327, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -195,7 +207,7 @@ public class MenuChat extends JPanel{
             sidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(sidePanelLayout.createSequentialGroup()
                 .addGap(56, 56, 56)
-                .addComponent(searchBarFriendList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(refreshButton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(44, 44, 44)
                 .addComponent(jScrollPaneListFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 534, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(176, Short.MAX_VALUE))

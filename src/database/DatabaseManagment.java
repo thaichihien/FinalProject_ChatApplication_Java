@@ -659,7 +659,7 @@ public class DatabaseManagment {
      * @return
      */
     public ArrayList<UserAccount> searchAccountsNotFriend(int ID,String name){
-        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.ONLINE FROM USER_ACCOUNT UA WHERE UA.ID NOT IN(SELECT FRIEND_ID FROM USER_FRIEND WHERE ID = ?) AND  (UA.USERNAME LIKE ? OR UA.FULLNAME LIKE ?) AND NOT UA.ID = ?";
+        String SELECT_QUERY = "SELECT UA.ID,UA.USERNAME,UA.FULLNAME,UA.EMAIL,UA.ONLINE FROM USER_ACCOUNT UA WHERE UA.ID NOT IN(SELECT FRIEND_ID FROM USER_FRIEND WHERE ID = ?) AND  (UA.USERNAME LIKE ? OR UA.FULLNAME LIKE ?) AND NOT UA.ID = ?";
         ResultSet data = null;
         ArrayList<UserAccount> accountList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
@@ -680,6 +680,7 @@ public class DatabaseManagment {
                     account.setID(data.getInt("ID"));
                     account.setUsername(data.getString("USERNAME"));
                     account.setFullname(data.getString("FULLNAME"));
+                    account.setEmail(data.getString("EMAIL"));
                     account.setOnline(data.getBoolean("ONLINE"));
                     accountList.add(account);
                     
@@ -1285,13 +1286,13 @@ public class DatabaseManagment {
 
 
     public ArrayList<Message> getAllMessageFromUser(int ID){
-        String SELECT_QUERY = "SELECT MU.ID,MU.CHATBOX_ID,UA.USERNAME,MU.TIME_SEND,MU.CONTENT,MU.VISIBLE_ONLY FROM MESSAGE_USER MU INNER JOIN USER_ACCOUNT UA ON UA.ID = MU.FROM_USER WHERE CHATBOX_ID LIKE ? ORDER BY MU.TIME_SEND DESC";
+        String SELECT_QUERY = "SELECT MU.ID,MU.CHATBOX_ID,UA.USERNAME,MU.TIME_SEND,MU.CONTENT,MU.VISIBLE_ONLY FROM MESSAGE_USER MU INNER JOIN USER_ACCOUNT UA ON UA.ID = MU.FROM_USER WHERE MU.FROM_USER = ? OR MU.TO_USER = ? ORDER BY MU.TIME_SEND DESC";
         ResultSet data = null;
         ArrayList<Message> messageList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
             
-            String id = String.valueOf(ID);
-            statment.setString(1, id + "-%");
+           statment.setInt(1, ID);
+           statment.setInt(2, ID);
             data = statment.executeQuery();
             
             if(!data.next()){

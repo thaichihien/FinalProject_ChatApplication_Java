@@ -53,13 +53,14 @@ public class MenuAddFriend extends JPanel{
             listAccountFindFriends = listAccounts;
 
             for (UserAccount account : listAccounts){
+                String ID = String.valueOf(account.getID());
                 String username = account.getUsername();
                 String fullname = account.getFullname();
                 String email = account.getEmail();
                 String online = "";
                 if(account.isOnline()) online = "online";
                 else online = "offline";
-                String row[] = {username,fullname,email,online};
+                String row[] = {ID,username,fullname,email,online};
                 tableModel.addRow(row);
             }
         }
@@ -133,7 +134,7 @@ public class MenuAddFriend extends JPanel{
              JOptionPane.showMessageDialog(null, "Please select an account", "Not selected", JOptionPane.WARNING_MESSAGE);
              return;
         }
-        String IDChoosed = tableListFriendRequest.getModel().getValueAt(row, 0).toString();
+        String IDChoosed = tableFindFriend.getModel().getValueAt(row, 0).toString();
         DatabaseManagment database = DatabaseManagment.getInstance();
         int IDRequest = Integer.parseInt(IDChoosed);
         database.createFriendRequest(user.getID(), IDRequest);
@@ -156,11 +157,11 @@ public class MenuAddFriend extends JPanel{
         idFriendFrom = Integer.parseInt(IDChoosed);
         int response = JOptionPane.showConfirmDialog(this, "Would you like to accept this friend request?", "Confirm", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (response == JOptionPane.YES_OPTION){
-            database.setResponeToRequest(user.getID(), idFriendFrom, "ACCEPTED");
+            database.setResponeToRequest(idFriendFrom,user.getID(), "ACCEPTED");
             database.addFriendToUser(user.getID(), idFriendFrom);
         }
         else{
-            database.setResponeToRequest(user.getID(), idFriendFrom, "DENIED");
+            database.setResponeToRequest(idFriendFrom,user.getID() , "DENIED");
         }
 
         //send packet changes to server
@@ -313,44 +314,7 @@ public class MenuAddFriend extends JPanel{
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane_tableListFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(61, Short.MAX_VALUE))
-        
-        // javax.swing.GroupLayout menuAddfriendLayout = new javax.swing.GroupLayout(this);
-        // this.setLayout(menuAddfriendLayout);
-        // menuAddfriendLayout.setHorizontalGroup(
-        //     menuAddfriendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        //     .addGroup(menuAddfriendLayout.createSequentialGroup()
-        //         .addGap(83, 83, 83)
-        //         .addGroup(menuAddfriendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-        //             .addGroup(menuAddfriendLayout.createSequentialGroup()
-        //                 .addGroup(menuAddfriendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        //                     .addComponent(jLabel_danhsachbanbe, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //                     .addComponent(jLabel_thembanbe, javax.swing.GroupLayout.PREFERRED_SIZE, 174, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //                     .addComponent(searchBarFindFriendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 831, javax.swing.GroupLayout.PREFERRED_SIZE))
-        //                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-        //                 .addComponent(responeRequestButton, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE))
-        //             .addComponent(searchBarFindNewFriend, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        //             .addComponent(jScrollPane_tableFindFriend)
-        //             .addComponent(jScrollPane_tableListFriend))
-        //         .addContainerGap(76, Short.MAX_VALUE))
-        // );
-        // menuAddfriendLayout.setVerticalGroup(
-        //     menuAddfriendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-        //     .addGroup(menuAddfriendLayout.createSequentialGroup()
-        //         .addGap(36, 36, 36)
-        //         .addComponent(jLabel_thembanbe, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        //         .addComponent(searchBarFindNewFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //         .addGap(18, 18, 18)
-        //         .addComponent(jScrollPane_tableFindFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 148, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //         .addGap(18, 18, 18)
-        //         .addComponent(jLabel_danhsachbanbe, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-        //         .addGroup(menuAddfriendLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-        //             .addComponent(searchBarFindFriendRequest, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //             .addComponent(responeRequestButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        //         .addGap(18, 18, 18)
-        //         .addComponent(jScrollPane_tableListFriend, javax.swing.GroupLayout.PREFERRED_SIZE, 216, javax.swing.GroupLayout.PREFERRED_SIZE)
-        //         .addContainerGap(61, Short.MAX_VALUE))
+       
         );
     }
     
