@@ -113,6 +113,9 @@ public class Register extends JFrame {
 					e.printStackTrace();
 				}
 			}
+
+			DatabaseManagment database = DatabaseManagment.getInstance();
+			database.addToLoginHistory(account.getID());
 			MainFormUser menuForm = new MainFormUser(account);
 			menuForm.setVisible(true);
 			this.dispose();
