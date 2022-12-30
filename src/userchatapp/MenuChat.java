@@ -44,7 +44,7 @@ public class MenuChat extends JPanel{
         ArrayList<GroupChat> onlineGroup = database.getAllGroupChatOnline(user.getID());
         ArrayList<Message> allGroupChat = database.getAllMessageGroupFromUser(user.getID());
         listFriendJlist.clearList();
-
+        chatLayout.removeAll();
         // put user online first
         int index = 0;
         for(;index < onlineUser.size();index++){
@@ -92,6 +92,7 @@ public class MenuChat extends JPanel{
         // message for user
         for(Message message: allChat){
             ChatMessageBlock messageBlock;
+            
             if(message.getUserName().equals(user.getUsername())){
                 messageBlock = new ChatMessageBlock(message.getUserName(), message.getDateSend(), ChatMessageBlock.MINE, message.getContent());
             }
@@ -163,7 +164,7 @@ public class MenuChat extends JPanel{
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                fillFriendList();
+                resetData();
             }
             
         });

@@ -13,6 +13,7 @@ import javax.swing.JTable;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
+import chatservice.ChatService;
 import database.DatabaseManagment;
 import datastructure.UserAccount;
 import uichatcomponent.SearchBar;
@@ -159,12 +160,15 @@ public class MenuAddFriend extends JPanel{
         if (response == JOptionPane.YES_OPTION){
             database.setResponeToRequest(idFriendFrom,user.getID(), "ACCEPTED");
             database.addFriendToUser(user.getID(), idFriendFrom);
+            String packet = ChatService.createPacket(ChatService.CHANGES, idFriendFrom, ChatService.MENUCHAT, "0");
+            user.sendPacket(packet);
         }
         else{
             database.setResponeToRequest(idFriendFrom,user.getID() , "DENIED");
         }
 
         //send packet changes to server
+        
         filltableFindFriend();
         filltableListFriendRequest();
     }

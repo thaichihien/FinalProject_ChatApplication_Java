@@ -68,23 +68,14 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
         userNameLabel.setText(this.user.getUsername());
 
         menuChatLayout = new MenuChat(this.user);
-        jTabbedPaneLayput.addTab("ss", menuChatLayout);
-        //menuChatLayout.addToListFriendJlist(new ItemChatAccount("Người dùng 1",true));
-        //menuChatLayout.addToListFriendJlist(new ItemChatAccount("Nhóm 2",true));
-        
-
-        //ChatBoxUser testChatBox1 = new ChatBoxUser("Chí Hiện",true);
-        //ChatBoxGroup testChatGroup1 = new ChatBoxGroup("Lương Sơn Bạc", false);
-        //menuChatLayout.chatLayout.addTab("", testChatBox1);
-        //menuChatLayout.chatLayout.addTab("", testChatGroup1);
-        //jTabbedPane.setSelectedIndex();
-        
+        jTabbedPaneLayput.addTab("chat", menuChatLayout);
+    
         MenuAddFriend menuFriendLayout = new MenuAddFriend(this.user);
-        jTabbedPaneLayput.addTab("ss", menuFriendLayout);
-        //jTabbedPane.setSelectedIndex(3);
+        jTabbedPaneLayput.addTab("addfriend", menuFriendLayout);
+    
         
         MenuGroup menuGroupLayout = new MenuGroup(this.user);
-        jTabbedPaneLayput.addTab("asaa", menuGroupLayout);
+        jTabbedPaneLayput.addTab("group", menuGroupLayout);
         
         Thread receiveMessageProcess = new Thread(this);
         receiveMessageProcess.start();

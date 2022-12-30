@@ -8,6 +8,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
+import javax.swing.JTextField;
 
 import datastructure.UserAccount;
 
@@ -22,7 +23,7 @@ public class ChatBoxLayout extends JPanel{
     protected JLabel deleteHistoryJLabel;
     protected SearchBar searchBarChat;
     public ChatMessageDisplay displayChat;
-    protected JTextArea inputChatTextArea;
+    protected JTextField inputChatTextArea;
     protected JButton sendButton;
     protected UserAccount user;
 
@@ -45,7 +46,7 @@ public class ChatBoxLayout extends JPanel{
         deleteHistoryJLabel = new JLabel();
         searchBarChat = new SearchBar();
         displayChat = new ChatMessageDisplay();
-        inputChatTextArea = new JTextArea();
+        inputChatTextArea = new JTextField();
         sendButton = new JButton();
         
         nameJLabel.setFont(new java.awt.Font("Segoe UI", 1, 24));
@@ -66,9 +67,9 @@ public class ChatBoxLayout extends JPanel{
     public void createInput(JPanel layout){
         inputChatTextArea.setColumns(20);
         inputChatTextArea.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        inputChatTextArea.setLineWrap(true);
-        inputChatTextArea.setRows(5);
-        inputChatTextArea.setWrapStyleWord(true);
+        // inputChatTextArea.setLineWrap(true);
+        // inputChatTextArea.setRows(5);
+        // inputChatTextArea.setWrapStyleWord(true);
         JScrollPane inputChatScollPane = new JScrollPane();
         inputChatScollPane.setViewportView(inputChatTextArea);
 
