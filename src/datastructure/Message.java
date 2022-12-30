@@ -8,6 +8,7 @@ public class Message {
     private String dateSend;
     private String content;
     private int visible_only;
+    private int userID;
     
     //group
     private int groupID;
@@ -80,6 +81,16 @@ public class Message {
         return this.NOT_HIDE;
     }
 
+
+    public int getUserID() {
+        return this.userID;
+    }
+
+    public void setUserID(int userID) {
+        this.userID = userID;
+    }
+
+    
 
 
 }

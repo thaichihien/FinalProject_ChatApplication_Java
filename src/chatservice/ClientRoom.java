@@ -10,22 +10,25 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Map;
 
 import database.DatabaseManagment;
+import datastructure.Message;
 import datastructure.UserAccount;
+import uichatcomponent.ChatBoxUser;
 
 public class ClientRoom extends Thread {
 
     public Socket clientSocket;
     public int ID;
     public String username;
+    private DatabaseManagment database;
    
 
 
 
     public ClientRoom(Socket socket) {
         clientSocket = socket;
+        database = DatabaseManagment.getInstance();
     }
 
     @Override
@@ -64,7 +67,7 @@ public class ClientRoom extends Thread {
         }
         this.ID = idConverted;
         Server.clientList.put(this.ID,this);
-        DatabaseManagment database = DatabaseManagment.getInstance();
+       
         this.username = database.getUsername(this.ID);
 
         String msgFromClient= "";
@@ -105,21 +108,22 @@ public class ClientRoom extends Thread {
         System.out.println("received from " + String.valueOf(ID) +" : " + message );
         String[] allMessage = ChatService.packetAnalysis(message);
 
-        // chat#ID#time#message
-
-        //TODO save message into database
 
         System.out.println("messafe[0] : " + allMessage[0]);
         try {
-            if(allMessage[0].equals(ChatService.CHAT)){
+            if(allMessage[0].equals(ChatService.CHAT)){ // chat#ID#time#message
                 int IDtoSend = Integer.parseInt(allMessage[1]);
+                Message messageUser = new Message();
+                messageUser.setChatboxID(ChatBoxUser.createChatBoxUserID(this.ID, IDtoSend));
+                messageUser.setDateSend(allMessage[2]);
+                messageUser.setContent(allMessage[3]);
+                database.saveMessageUser(messageUser, this.ID, IDtoSend);
+
                 if(Server.clientList.containsKey(IDtoSend)){
                     ClientRoom friendRoom = Server.clientList.get(IDtoSend);
                     OutputStream clientOut = friendRoom.clientSocket.getOutputStream();
                     PrintWriter pw = new PrintWriter(new OutputStreamWriter(clientOut, "UTF-8"), true);
-                    String timeSend = allMessage[2];
-                    String messageSend = allMessage[3];
-                    String packetSend = ChatService.createPacket(ChatService.CHAT, ID, messageSend, timeSend);
+                    String packetSend = ChatService.createPacket(ChatService.CHAT, ID, messageUser.getContent(), messageUser.getDateSend());
                     System.out.println(packetSend);
                     pw.println(packetSend);
                 }
@@ -146,26 +150,27 @@ public class ClientRoom extends Thread {
             }
             else if(allMessage[0].equals(ChatService.CHATGROUP)){
                 int groupID = Integer.parseInt(allMessage[1]);
-                DatabaseManagment database = DatabaseManagment.getInstance();
+                Message messageGroup = new Message();
+                messageGroup.setGroupID(groupID);
+                messageGroup.setDateSend(allMessage[2]);
+                messageGroup.setContent(allMessage[3]);
+                database.saveMessageGroup(messageGroup,this.ID);
+
                 ArrayList<UserAccount> userInGroup = database.getAllGroupMembers(groupID);
                 for(UserAccount user : userInGroup){
                     if(Server.clientList.containsKey(user.getID()) && user.getID() != this.ID){
                         ClientRoom friendRoom = Server.clientList.get(user.getID());
                         OutputStream clientOut = friendRoom.clientSocket.getOutputStream();
                         PrintWriter pw = new PrintWriter(new OutputStreamWriter(clientOut, "UTF-8"), true);
-                        String timeSend = allMessage[2];
-                        String messageSend = allMessage[3];
-                        String packetSend = ChatService.createPacket(ChatService.GROUP_RECEIVED, groupID, this.username, messageSend, timeSend);
+                        String packetSend = ChatService.createPacket(ChatService.GROUP_RECEIVED, groupID, this.username, messageGroup.getContent(), messageGroup.getDateSend());
                         System.out.println(packetSend);
                         pw.println(packetSend);
                     }
                 }
 
-
-                
             }
             else{
-                System.out.println("diff");
+                System.out.println("error message");
             }
         } catch (NumberFormatException e) {
             // TODO Auto-generated catch block

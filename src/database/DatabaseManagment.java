@@ -1821,7 +1821,7 @@ public class DatabaseManagment {
             updateStatement.executeUpdate();
             
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
 
@@ -1866,7 +1866,7 @@ public class DatabaseManagment {
             statement.executeUpdate();
            
        } catch (Exception e) {
-           System.out.println(e);
+           e.printStackTrace();
        }
 
     }
@@ -1887,9 +1887,48 @@ public class DatabaseManagment {
             statement.executeUpdate();
             
         } catch (Exception e) {
-            System.out.println(e);
+            e.printStackTrace();
         }
     }
     
+    public void saveMessageUser(Message message,int fromID,int toID){
+        String INSERT_QUERY = "INSERT INTO MESSAGE_USER(CHATBOX_ID,FROM_USER,TO_USER,TIME_SEND,CONTENT) VALUES(?,?,?,?,?)";
+        try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY)) {
+            statement.setString(1, message.getChatboxID());
+            statement.setInt(2, fromID);
+            statement.setInt(3, toID);
+
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy");
+            Date parsedDate = dateFormat.parse(message.getDateSend());
+            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            statement.setTimestamp(4, timestamp);
+            statement.setString(5, message.getContent());
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public void saveMessageGroup(Message message,int fromID){
+        String INSERT_QUERY = "INSERT INTO MESSAGE_GROUP(FROM_USER,TO_GROUP,TIME_SEND,CONTENT) VALUES(?,?,?,?)";
+        try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY)) {
+           
+            statement.setInt(1, fromID);
+            statement.setInt(2, message.getGroupID());
+            SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm dd-MM-yyyy");
+            Date parsedDate = dateFormat.parse(message.getDateSend());
+            Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
+            statement.setTimestamp(3, timestamp);
+            statement.setString(4, message.getContent());
+            statement.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
 
 }
