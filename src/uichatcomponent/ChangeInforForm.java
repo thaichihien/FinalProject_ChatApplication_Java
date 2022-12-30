@@ -2,6 +2,9 @@
 package uichatcomponent;
 
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.ParseException;
@@ -9,7 +12,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import datastructure.UserAccount;
 import database.DatabaseManagment;
@@ -40,7 +46,20 @@ public class ChangeInforForm extends javax.swing.JFrame {
     public void fillAccountInfor(){
 
 
+         DatabaseManagment dbm=DatabaseManagment.getInstance();
+        user =dbm.getDetailAccount(user.getID());
 
+        usernameField.setText(user.getUsername());
+        nameField.setText(user.getFullname());
+        addressField.setText(user.getAddress());
+        emailField.setText(user.getEmail());
+
+        if(user.getGender().equals("Nam")){
+            maleRadio.setSelected(true);
+        }
+        else{
+            femaleRadio.setSelected(true);
+        }
 
          // truyền ngày sinh vào datechooser
          SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH); 
