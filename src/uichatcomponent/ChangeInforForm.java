@@ -97,7 +97,28 @@ public class ChangeInforForm extends javax.swing.JFrame {
     // copy qua cũng được =)
 
     private void changePassword(){
+        String username =usernameField.getText();
+        String name=nameField.getText();
+        String address=addressField.getText();
+        String email =emailField.getText();
+        String gender="";
+        if(maleRadio.isSelected())
+            gender="Nam";
+        if(femaleRadio.isSelected())
+            gender="Nữ";
 
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        String birthDay = df.format(birthDayChooser.getDate());
+
+        user.setUsername(username);
+        user.setFullname(name);
+        user.setAddress(address);
+        user.setEmail(email);
+        user.setGender(gender);
+        user.setBirthDay(birthDay);
+
+        DatabaseManagment db=DatabaseManagment.getInstance();
+        db.updateAccount(user);
 
     }
     
