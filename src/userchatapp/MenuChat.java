@@ -115,6 +115,10 @@ public class MenuChat extends JPanel{
                 chatGroup.get(message.getGroupID()).addMessage(messageBlock);
             }
         }
+
+        if(listFriendJlist.getModel().getSize() > 0){
+            chatLayout.setSelectedIndex(0);
+        }
     }
 
    

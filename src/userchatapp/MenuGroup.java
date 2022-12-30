@@ -83,7 +83,7 @@ public class MenuGroup extends JPanel {
 
     public void createNewGroupChat() {
         String groupName = inputGroupName.getText();
-        if (groupName.isEmpty()) {
+        if (groupName.isBlank()) {
             JOptionPane.showMessageDialog(null, "Group name is empty", "Input a group name",
                     JOptionPane.WARNING_MESSAGE);
             return;
@@ -167,7 +167,7 @@ public class MenuGroup extends JPanel {
         jLabel_taonhom.setText("Tạo nhóm");
         inputGroupName.setBackground(new java.awt.Color(204, 204, 204));
         inputGroupName.setForeground(new java.awt.Color(51, 51, 51));
-        inputGroupName.setText("..");
+       
 
         jlabel_banbedachon.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jlabel_banbedachon.setForeground(new java.awt.Color(51, 51, 51));
@@ -183,7 +183,7 @@ public class MenuGroup extends JPanel {
 
                 },
                 new String[] {
-                        "id", "Username", "Email", "Online","Đã chọn"
+                        "ID", "Username", "Email", "Online","Đã chọn"
                 }));
         JScrollPane jScrollPane_tableListFriend = new JScrollPane();
         jScrollPane_tableListFriend.setViewportView(tableListFriend);

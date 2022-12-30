@@ -1,14 +1,7 @@
 
 package adminchatapp;
 
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.security.Timestamp;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.SimpleDateFormat;
+
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;

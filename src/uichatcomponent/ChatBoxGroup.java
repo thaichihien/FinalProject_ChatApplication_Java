@@ -5,9 +5,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
 import javax.swing.JButton;
+import javax.swing.JOptionPane;
 
 import chatservice.ChatService;
 import database.DatabaseManagment;
@@ -43,6 +45,24 @@ public class ChatBoxGroup extends ChatBoxLayout{
         boolean isAdmin = database.checkAdmin(this.user.getID(), groupChat.getID());
         DetailGroupChatForm detailGroupChatForm = new DetailGroupChatForm(groupChat,isAdmin,this.user.getID());
         detailGroupChatForm.setVisible(true);
+    }
+
+
+    private void findMessageGroup(){
+        String keyword = searchBarChat.getText();
+        if(keyword.isBlank()){
+            return;
+        }
+
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        ArrayList<Message> messageFound = database.searchMessageGroup(groupChat.getID(), keyword);
+        if(messageFound.isEmpty()){
+            JOptionPane.showMessageDialog(null, "Message not found", "Not found", JOptionPane.WARNING_MESSAGE);
+            return;
+        }else{
+            MessageHistory displayHistory = new MessageHistory(messageFound,user.getUsername(),keyword);
+            JOptionPane.showMessageDialog(null, displayHistory, "All messages found", JOptionPane.PLAIN_MESSAGE);
+        }
     }
 
 
@@ -104,6 +124,14 @@ public class ChatBoxGroup extends ChatBoxLayout{
         
        });
 
+       searchBarChat.addActionListener(new ActionListener() {
+
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            findMessageGroup();
+        }
+        
+       });
     }
     
 }
