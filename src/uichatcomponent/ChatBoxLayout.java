@@ -11,10 +11,7 @@ import javax.swing.JTextField;
 
 import datastructure.UserAccount;
 
-/**
- *
- * @author HIEN
- */
+
 public class ChatBoxLayout extends JPanel{
     protected JPanel headerJPanel;
     protected JLabel nameJLabel;

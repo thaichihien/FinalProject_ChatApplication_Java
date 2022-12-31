@@ -137,7 +137,7 @@ public ArrayList<UserAccount> getData(){
 - [X] Đăng ký tài khoản + (cải tiến mã hóa mật khẩu, UI che mật khẩu)
 - [X] Đăng nhập tài khoản
 - [X] Quên mật khẩu
-- [ ] Sửa thông tin, thay đổi mật khẩu
+- [X] Sửa thông tin, thay đổi mật khẩu
 - [X] Hiển thị danh sách bạn bè
 - [X] Thêm bạn bè bằng tên đăng nhập
 - [X] Hủy kết bạn
@@ -152,8 +152,8 @@ public ArrayList<UserAccount> getData(){
 - [X] Xóa lịch sử chat
 ### Bên quản trị
 - [X] Xem danh sách cho phép lọc theo tên/tên đăng nhập, sắp xếp theo tên/ngày tạo
-- [ ] Thêm/cập nhật/xoá
-- [ ] Khoá tài khoản
+- [X] Thêm/cập nhật/xoá
+- [X] Khoá tài khoản
 - [X] Cập nhật mật khẩu
 - [X] Xem lịch sử đăng nhập
 - [X] Danh sách bạn bè.
@@ -162,6 +162,11 @@ public ArrayList<UserAccount> getData(){
 - [x] Sắp xếp theo tên/thời gian tạo
 - [X] Xem danh sách thành viên 1 nhóm
 - [X] Xem danh sách admin 1 nhóm.
+
+**Cải tiến:**
+- [ ] Socket cho admin, giúp cập nhật danh sách thời gian thực
+- [ ] Cập nhật online,offline
+- [ ] Một tài khoản thay đổi thông tin, thông báo socket đến các tài khoản khác
 ## Lưu ý:
 - Mở VScode ra làm thì trước tiên &rarr; **FETCH**: để kiếm tra trên github có thay đổi gì không (bước này để chuẩn bị backup trước khi pull nếu confilct), nếu có thì **PULL**: lấy code trên github về máy
 - Làm xong một chức năng, một hàm rồi (***Không bị lỗi compile***) &rarr; **COMMIT** và **PUSH**
