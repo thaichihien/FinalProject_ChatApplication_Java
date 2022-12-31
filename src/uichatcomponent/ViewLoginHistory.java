@@ -133,20 +133,18 @@ public class ViewLoginHistory extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>                        
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
+   
+    // public static void main(String args[]) {
        
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                DatabaseManagment database = DatabaseManagment.getInstance();
-                UserAccount testAccount = database.getDetailAccount(1);
+    //     java.awt.EventQueue.invokeLater(new Runnable() {
+    //         public void run() {
+    //             DatabaseManagment database = DatabaseManagment.getInstance();
+    //             UserAccount testAccount = database.getDetailAccount(1);
 
-                new ViewLoginHistory(testAccount).setVisible(true);
-            }
-        });
-    }
+    //             new ViewLoginHistory(testAccount).setVisible(true);
+    //         }
+    //     });
+    // }
 
     // Variables declaration - do not modify                     
     private javax.swing.JLabel jLabel1;

@@ -141,7 +141,31 @@ public class MenuAccountManager extends MenuAdminLayout{
     
 
     private void lockAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                  
+        int row = tableUserAccount.getSelectedRow();
+        if(row < 0){    // Cảnh báo chưa chọn dòng nào trong bảng
+             JOptionPane.showMessageDialog(null, "Please select an account", "Not selected", JOptionPane.WARNING_MESSAGE);
+             return;
+        }
+  
+        String IDString = tableUserAccount.getModel().getValueAt(row, 0).toString();
+        int ID = Integer.parseInt(IDString);
         
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        if(database.checkAccountIsBanned(ID)){
+            if(JOptionPane.showConfirmDialog(this, "Are you sure you want to unban this account?", "Confirm unban", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                database.setLockUserAccount(ID, false);
+                return;
+            }else{
+                return;
+            }
+        }else{
+            if(JOptionPane.showConfirmDialog(this, "Are you sure you want to ban this account?", "Confirm ban", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                database.setLockUserAccount(ID, true);
+                return;
+            }else{
+                return;
+            }
+        }
     }                                                 
 
     private void addAcountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                
@@ -152,7 +176,22 @@ public class MenuAccountManager extends MenuAdminLayout{
     
     
     private void deleteAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                    
-        
+        int row = tableUserAccount.getSelectedRow();
+        if(row < 0){    // Cảnh báo chưa chọn dòng nào trong bảng
+             JOptionPane.showMessageDialog(null, "Please select an account", "Not selected", JOptionPane.WARNING_MESSAGE);
+             return;
+        }
+  
+        String IDString = tableUserAccount.getModel().getValueAt(row, 0).toString();
+        int ID = Integer.parseInt(IDString);
+       
+        if(JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this account \n(The account will not be recoverable) ?", "Confirm delete", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            DatabaseManagment database = DatabaseManagment.getInstance();
+            database.deleteAnAccount(ID);
+        }else{
+            return;
+        }
+        filltableUserAccount();
     }    
 
 

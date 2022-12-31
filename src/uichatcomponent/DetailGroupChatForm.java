@@ -339,17 +339,17 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
     }                                  
 
     
-    public static void main(String args[]) {
+    // public static void main(String args[]) {
        
-       java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-            DatabaseManagment database = DatabaseManagment.getInstance();
-            GroupChat testGroup = database.getDetailGroupChat(1);
+    //    java.awt.EventQueue.invokeLater(new Runnable() {
+    //         public void run() {
+    //         DatabaseManagment database = DatabaseManagment.getInstance();
+    //         GroupChat testGroup = database.getDetailGroupChat(1);
 
-               new DetailGroupChatForm(testGroup,true,1).setVisible(true);
-           }
-       });
-    }
+    //            new DetailGroupChatForm(testGroup,true,1).setVisible(true);
+    //        }
+    //    });
+    // }
 
     // Variables declaration - do not modify                     
     private javax.swing.JPanel jPanel1;

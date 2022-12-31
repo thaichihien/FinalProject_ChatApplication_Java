@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package uichatcomponent;
 
 import java.awt.event.ActionEvent;
@@ -16,10 +13,7 @@ import datastructure.GroupChat;
 
 import utils.Utils;
 
-/**
- *
- * @author HIEN
- */
+
 public class DetailGroupForm extends javax.swing.JFrame {
 
     private javax.swing.JComboBox<String> filterCombobox;
@@ -28,11 +22,7 @@ public class DetailGroupForm extends javax.swing.JFrame {
     private GroupChat groupChat;
 
     // TODO 2: nạp vào tất cả thành viên của một nhóm dựa vào ID 
-    // sử dụng getAllMemberGroup(int groupID,String where)
-    // trong đó groupID lấy từ groupChat.getID()
-    // + where chỉ chấp nhận các tham số "admin","member",null (giá trị null không phải chuỗi "null")
-    // giá trị của where thì kiểm tra từ filterCombobox
-    // Tất cả thành viên thì where = null
+    
     private void filltableListAccount(String selected){
         Utils.clearTable(tableListAccount);
         DatabaseManagment database = DatabaseManagment.getInstance();
