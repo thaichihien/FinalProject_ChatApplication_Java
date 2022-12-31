@@ -39,14 +39,10 @@ public class ChangeInforForm extends javax.swing.JFrame {
 
 
     // TODO 1: Nạp thông tin account
-    // sử dụng hàm getDetailAccount(int ID) với ID là user.getID()
-    // để lấy tất cả thông tin account
-    // nạp tất cả thông tin user vào các field
-    // tham khảo DetailAccountForm.java
-    public void fillAccountInfor(){
+   
+    private void fillAccountInfor(){
 
-
-         DatabaseManagment dbm=DatabaseManagment.getInstance();
+        DatabaseManagment dbm=DatabaseManagment.getInstance();
         user =dbm.getDetailAccount(user.getID());
 
         usernameField.setText(user.getUsername());
@@ -73,9 +69,7 @@ public class ChangeInforForm extends javax.swing.JFrame {
 
 
     // TODO 2 : Cập nhật tài khoản:
-    // Lấy các field đã điền và set giá trị cho this.user
-    // sử dụng hàm updateAccount(UserAccount account)
-    // tham khảo CreateAccountForm.java nhưng ở đây là cập nhật k phải tạo mới
+   
     public void updateAccount(){
         String username =usernameField.getText();
         String name=nameField.getText();
@@ -185,7 +179,7 @@ public class ChangeInforForm extends javax.swing.JFrame {
             }
             
         });
-
+        fillAccountInfor();
 
         
     }

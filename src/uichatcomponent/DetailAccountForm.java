@@ -155,25 +155,36 @@ public class DetailAccountForm extends javax.swing.JFrame {
     
 
     // TODO 1: Khóa tài khoản
-    // Sử dụng hàm checkAccountIsBanned(int ID) với ID là user.getID
-    // + nếu đang bị khóa thì dùng JOptionPane hỏi admin có muốn gỡ khóa
-    //  nếu không thì return, có thì dùng hàm setLockUserAccount(int ID,boolean lock)
-    //   ID là user.getID(), lock nếu true thì là khóa,false là gỡ khóa
-    // + nếu không bị khóa thì dùng JOptionPane hỏi admin có muốn khóa
-    //  tương tự như TH trên nhưng lần này lock = true
+   
     private void lockAccount(){
-
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        if(database.checkAccountIsBanned(user.getID())){
+            if(JOptionPane.showConfirmDialog(this, "Are you sure you want to unban this account?", "Confirm unban", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                database.setLockUserAccount(user.getID(), false);
+                return;
+            }else{
+                return;
+            }
+        }else{
+            if(JOptionPane.showConfirmDialog(this, "Are you sure you want to ban this account?", "Confirm ban", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+                database.setLockUserAccount(user.getID(), true);
+                return;
+            }else{
+                return;
+            }
+        }
     }
 
 
     // TODO2: Xóa tài khoản:
-    // JOtionPane hỏi admin có muốn chắc xóa tài khoản này
-    // Nếu có thì dùng deleteAnAccount(int ID) trong đó ID là user.getID()
-    // Không thì return
+    
     private void deleteAccount(){
-
-
-
+        if(JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this account \n(The account will not be recoverable) ?", "Confirm delete", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            DatabaseManagment database = DatabaseManagment.getInstance();
+            database.deleteAnAccount(user.getID());
+        }else{
+            return;
+        }
 
         this.dispose(); // đóng Jframe này
     }
@@ -181,9 +192,7 @@ public class DetailAccountForm extends javax.swing.JFrame {
     // TEST NGAY TẠI FILE NÀY, SỬA ID TẠI HÀM MAIN USER TEST 
 
    // TODO 3: Sửa thông tin tài khoản:
-   // Lấy thông tin từ các field như username,fullname,...
-   // set thông tin vào user
-   // dùng hàm updateAccount(UserAccount account)
+  
     private void editAccount(){
         if(!isEdit){
             isEdit = true;
@@ -192,14 +201,29 @@ public class DetailAccountForm extends javax.swing.JFrame {
             isEdit = false;
            
             // code here
+            String username =userNameField.getText();
+            String name=nameField.getText();
+            String address=addressField.getText();
+            String email =emailField.getText();
+            String gender="";
+            if(maleRadioButton.isSelected())
+                gender="Nam";
+            if(femaleRadioButton.isSelected())
+                gender="Nữ";
 
              // Lấy dữ liệu ngày sinh
             DateFormat df = new SimpleDateFormat("yyyy-MM-dd");
             String birthDay = df.format(birthDayChooser.getDate());
 
-
+            user.setUsername(username);
+            user.setFullname(name);
+            user.setEmail(email);
+            user.setAddress(address);
+            user.setGender(gender);
             user.setBirthDay(birthDay);
 
+            DatabaseManagment database = DatabaseManagment.getInstance();
+            database.updateAccount(user);
 
             fillAccountInfor();
         }
