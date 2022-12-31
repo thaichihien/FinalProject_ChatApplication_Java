@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
+
 package uichatcomponent;
 
 import java.awt.Color;
@@ -153,14 +150,7 @@ public class SearchBar extends JTextField{
         Ellipse2D.Double circle = new Ellipse2D.Double(point.x,point.y,buttonSize,buttonSize);
         return circle.contains(mouse);
         
-        
-        
+            
     }
-    
-    
-    
-    
-    
-    
     
 }
