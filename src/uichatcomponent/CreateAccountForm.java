@@ -26,10 +26,7 @@ public class CreateAccountForm extends javax.swing.JFrame {
     private javax.swing.JTextField usernameField;
     
     // TODO 1: Nạp dữ liệu
-    // lấy tất cả dữ liệu đã nhập từ các field
-    // tạo tài khoản mới bằng addNewAccount(UserAccount account)
-    // tạo xong thì hiện JoptionPane báo tạo thành công và có thể đóng cửa sổ này
-    // TEST TẠI FILE NÀY (RUN FILE NÀY)
+    
     public void createNewAccount(){
         DatabaseManagment database = DatabaseManagment.getInstance();
 
@@ -302,17 +299,17 @@ public class CreateAccountForm extends javax.swing.JFrame {
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         
-    }//GEN-LAST:event_formWindowClosing
+    }
 
     
-    public static void main(String args[]) {
+    // public static void main(String args[]) {
        
-       java.awt.EventQueue.invokeLater(new Runnable() {
-           public void run() {
-               new CreateAccountForm().setVisible(true);
-           }
-       });
-    }
+    //    java.awt.EventQueue.invokeLater(new Runnable() {
+    //        public void run() {
+    //            new CreateAccountForm().setVisible(true);
+    //        }
+    //    });
+    // }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel_diachi;

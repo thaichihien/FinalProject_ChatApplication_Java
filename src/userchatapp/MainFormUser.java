@@ -1,16 +1,15 @@
 
 package userchatapp;
 import java.awt.Color;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import chatservice.ChatService;
 import datastructure.UserAccount;
+import uichatcomponent.ChangeInforForm;
 
 
 
-/**
- *
- * @author HIEN
- */
 public class MainFormUser extends javax.swing.JFrame implements Runnable {
 
     private final Color activeTabColor = new Color(239,239,239);
@@ -18,7 +17,6 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
     private UserAccount user;
     MenuChat menuChatLayout;
 
-    	// ! WARNING: KHÔNG CHỈNH SỬA FILE NÀY, ĐANG LÀM VIỆC SOCKET
 
     @Override
     public void run() {
@@ -45,8 +43,42 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
 
     }
 
+    private void changeInfor(){
+        ChangeInforForm changeInforForm = new ChangeInforForm(user);
+        changeInforForm.setVisible(true);
+    }
+
     
     public MainFormUser(UserAccount user) {
+        initComponents();
+        this.user = user;
+        userNameLabel.setText(this.user.getUsername());
+
+        userNameLabel.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                changeInfor();
+            }
+        });
+
+        menuChatLayout = new MenuChat(this.user);
+        jTabbedPaneLayput.addTab("chat", menuChatLayout);
+    
+        MenuAddFriend menuFriendLayout = new MenuAddFriend(this.user);
+        jTabbedPaneLayput.addTab("addfriend", menuFriendLayout);
+        
+        MenuGroup menuGroupLayout = new MenuGroup(this.user);
+        jTabbedPaneLayput.addTab("group", menuGroupLayout);
+        
+        Thread receiveMessageProcess = new Thread(this);
+        receiveMessageProcess.start();
+        
+
+
+    }
+
+   
+    private void initComponents() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Nimbus".equals(info.getName())) {
@@ -63,78 +95,6 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(MainFormUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
-        initComponents();
-        this.user = user;
-        userNameLabel.setText(this.user.getUsername());
-
-        menuChatLayout = new MenuChat(this.user);
-        jTabbedPaneLayput.addTab("chat", menuChatLayout);
-    
-        MenuAddFriend menuFriendLayout = new MenuAddFriend(this.user);
-        jTabbedPaneLayput.addTab("addfriend", menuFriendLayout);
-    
-        
-        MenuGroup menuGroupLayout = new MenuGroup(this.user);
-        jTabbedPaneLayput.addTab("group", menuGroupLayout);
-        
-        Thread receiveMessageProcess = new Thread(this);
-        receiveMessageProcess.start();
-
-//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
-//        listItemChatAccountGroup.addItem(new ItemChatAccount("ss",true));
-//        listItemChatAccountGroup.addItem(new ItemChatAccount("Tessst",true));
-//        listItemChatAccountGroup.addItem(new ItemChatAccount("Teaast",true));
-//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
-//        listItemChatAccountGroup.addItem(new ItemChatAccount("Tesst",true));
-//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
-//        listItemChatAccountGroup.addItem(new ItemChatAccount("Tesst",true));
-//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
-//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
-//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
-//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
-//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
-//        listItemChatAccountGroup.addItem(new ItemChatAccount("Test",true));
-        
-//        ListModel model = listFriends.getModel();
-//        for(int i=0; i < model.getSize(); i++){
-//            ItemChatAccount o = (ItemChatAccount) model.getElementAt(i); 
-//            System.out.println(o.getName());
-//            
-//        }
-        
-        
-        
-//        ChatBoxUser testChatBox = new ChatBoxUser("Chí Hiện",true);
-//        ChatBoxGroup testChatGroup = new ChatBoxGroup("Nhóm Chat", false);
-//        chatLayout.addTab("2", testChatGroup);
-//        chatLayout.addTab("3", testChatBox);
-//        chatMessageDisplayUser.setMarginTopBottom(10);
-//        chatMessageDisplayUser.setMarginLeftRight(20);
-//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Hiện","15:20",ChatMessageBlock.MINE,"Hello friend"));
-//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Hiện","16:20",ChatMessageBlock.MINE,"Ok guy"));
-//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("The Weeknd","15:20",ChatMessageBlock.OTHER,"how about this"));
-//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Hiện","15:20",ChatMessageBlock.MINE,"Hmm fine with whatever you say"));
-//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Frank Ocean","15:20",ChatMessageBlock.OTHER,"That a very long longlonglonglonglonglonglonglonglonglonglonglonglonglong story"));
-//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Hiện","15:20",ChatMessageBlock.MINE,"end"));
-//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Hiện","15:20",ChatMessageBlock.MINE,"ok fieneenenenene"));
-//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("The Weeknd","15:20",ChatMessageBlock.OTHER,"Out of time"));
-//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("The Weeknd","15:20",ChatMessageBlock.OTHER,"The last few month i been working on me baby"));
-//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("The Weeknd","15:20",ChatMessageBlock.OTHER,"There so much trauma in my life"));
-//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Hiện","15:20",ChatMessageBlock.MINE,"I've so cold to the one who love me baby"));
-//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Frank Ocean","15:20",ChatMessageBlock.OTHER,"I look back now and I realize"));
-//        chatMessageDisplayUser.addMessage(new ChatMessageBlock("Hiện","15:20",ChatMessageBlock.MINE,"end"));
-        
-    }
-
-    /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
-     */
-    
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
-
         jPanel1 = new javax.swing.JPanel();
         navbar = new javax.swing.JPanel();
         userNameLabel = new javax.swing.JLabel();

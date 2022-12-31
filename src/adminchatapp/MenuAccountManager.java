@@ -141,7 +141,7 @@ public class MenuAccountManager extends MenuAdminLayout{
     
 
     private void lockAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                  
-        // TODO add your handling code here:
+        
     }                                                 
 
     private void addAcountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                
@@ -151,9 +151,8 @@ public class MenuAccountManager extends MenuAdminLayout{
     }                                              
     
     
-    
     private void deleteAccountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                    
-        // TODO add your handling code here:
+        
     }    
 
 
