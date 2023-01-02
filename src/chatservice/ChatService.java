@@ -11,6 +11,8 @@ public class ChatService {
     public static final String CHANGES = "change";
     public static final String DELIMITER = "#";
     public static final String MENUCHAT = "menuchat";
+    public static final String CONNECT = "login";
+    public static final String DISCONNECT = "logout";
 
     public static String createPacket(String signal,int to,String content,String time){
         String toWho = String.valueOf(to);

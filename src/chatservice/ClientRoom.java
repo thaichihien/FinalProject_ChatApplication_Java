@@ -79,7 +79,9 @@ public class ClientRoom extends Thread {
                 // - send to other 
                 // - disconect
                 //- send to group
-                handleMessage(msgFromClient);
+                if(!handleMessage(msgFromClient)){
+                    break;
+                }
 
 
                //boardcasting("empty", name + ": " + msgFromClient);
@@ -104,7 +106,7 @@ public class ClientRoom extends Thread {
       }
     }
 
-    public void handleMessage(String message){
+    public boolean handleMessage(String message){
         System.out.println("received from " + String.valueOf(ID) +" : " + message );
         String[] allMessage = ChatService.packetAnalysis(message);
 
@@ -168,44 +170,36 @@ public class ClientRoom extends Thread {
                     }
                 }
 
+            }else if(allMessage[0].equals(ChatService.DISCONNECT)){
+                // TODO : 
+                // + send signal to all
+                // + stop loop
+
+
+
+
+                return false;
             }
             else{
                 System.out.println("error message");
             }
         } catch (NumberFormatException e) {
-            // TODO Auto-generated catch block
+            
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
-            // TODO Auto-generated catch block
+           
             e.printStackTrace();
         } catch (IOException e) {
             try {
                 this.clientSocket.close();
             } catch (IOException e1) {
-                // TODO Auto-generated catch block
+               
                 e1.printStackTrace();
             }
             Server.clientList.remove(this.ID);
             e.printStackTrace();
         }
+        return true;
     }
 
-
-
-    // public void boardcasting(String except,String msgFromClient){
-    //     for(Map.Entry<String,ClientRoom>  other : Server.clientList.entrySet()){
-    //         if(!other.getKey().equals(except)){
-    //             try {
-    //                 OutputStream clientOut = other.getValue().clientSocket.getOutputStream();
-    //                 PrintWriter pw = new PrintWriter(new OutputStreamWriter(clientOut, "UTF-8"), true);
-    //                 String ansMsg = msgFromClient;
-    //                 pw.println(ansMsg);
-    //             } catch (IOException e) {
-    //                 e.printStackTrace();
-    //             }
-    //         }
-            
-    //     }
-    // }
-    
 }

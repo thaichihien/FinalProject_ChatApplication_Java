@@ -2075,5 +2075,17 @@ public class DatabaseManagment {
         }
     }
 
+    public void setStatusUser(int ID,boolean isonline){
+        String UPDATE_QUERY = "UPDATE USER_ACCOUNT SET ONLINE = ? WHERE ID = ?";
+        try (PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)) {
+            statement.setBoolean(1, isonline);
+            statement.setInt(2, ID);
+            statement.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

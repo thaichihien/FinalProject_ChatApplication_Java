@@ -3,8 +3,10 @@ package userchatapp;
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import chatservice.ChatService;
+import database.DatabaseManagment;
 import datastructure.UserAccount;
 import uichatcomponent.ChangeInforForm;
 
@@ -48,6 +50,24 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
         changeInforForm.setVisible(true);
     }
 
+
+    // LOGOUT 
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        database.setStatusUser(user.getID(), false);
+        
+        // send logout signal
+
+
+        try {
+            user.br.close();
+            user.pw.close();
+            user.clienSocket.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     
     public MainFormUser(UserAccount user) {
         initComponents();
@@ -73,7 +93,14 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
         Thread receiveMessageProcess = new Thread(this);
         receiveMessageProcess.start();
         
+        DatabaseManagment database = DatabaseManagment.getInstance();
+        database.setStatusUser(user.getID(), true);
 
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
     }
 
