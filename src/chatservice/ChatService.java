@@ -13,6 +13,7 @@ public class ChatService {
     public static final String MENUCHAT = "menuchat";
     public static final String CONNECT = "login";
     public static final String DISCONNECT = "logout";
+    public static final String GROUP_CHANGES = "groupchange";
     
 
     public static String createPacket(String signal,int to,String content,String time){

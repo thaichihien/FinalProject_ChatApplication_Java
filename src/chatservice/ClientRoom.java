@@ -10,7 +10,6 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Map;
 
 import database.DatabaseManagment;
 import datastructure.Message;
@@ -132,7 +131,7 @@ public class ClientRoom extends Thread {
                 }
                 
             }
-            else if(allMessage[0].equals(ChatService.CHANGES)){
+            else if(allMessage[0].equals(ChatService.CHANGES)){   //change#ID#time#message
                 OutputStream clientOut = this.clientSocket.getOutputStream();
                 PrintWriter pw = new PrintWriter(new OutputStreamWriter(clientOut, "UTF-8"), true);
                 String timeSend = allMessage[2];
@@ -151,7 +150,7 @@ public class ClientRoom extends Thread {
                 }
                 
             }
-            else if(allMessage[0].equals(ChatService.CHATGROUP)){
+            else if(allMessage[0].equals(ChatService.CHATGROUP)){ //groupchat#groupID#time#message
                 int groupID = Integer.parseInt(allMessage[1]);
                 Message messageGroup = new Message();
                 messageGroup.setGroupID(groupID);
@@ -171,20 +170,40 @@ public class ClientRoom extends Thread {
                     }
                 }
 
-            }else if(allMessage[0].equals(ChatService.CONNECT)){
+            }
+            else if(allMessage[0].equals(ChatService.GROUP_CHANGES)){  //#groupchange#groupID#time#message
+                int groupID = Integer.parseInt(allMessage[1]);
+                Message messageGroup = new Message();
+                messageGroup.setGroupID(groupID);
+                messageGroup.setDateSend(allMessage[2]);
+                messageGroup.setContent(allMessage[3]);
+
+                ArrayList<UserAccount> userInGroup = database.getAllGroupMembers(groupID);
+                for(UserAccount user : userInGroup){
+                    if(Server.clientList.containsKey(user.getID())){
+                        ClientRoom friendRoom = Server.clientList.get(user.getID());
+                        OutputStream clientOut = friendRoom.clientSocket.getOutputStream();
+                        PrintWriter pw = new PrintWriter(new OutputStreamWriter(clientOut, "UTF-8"), true);
+                        String packetSend = ChatService.createPacket(ChatService.CHANGES, groupID, messageGroup.getContent(), messageGroup.getDateSend());
+                        System.out.println(packetSend);
+                        pw.println(packetSend);
+                    }
+                }
+
+            }
+            else if(allMessage[0].equals(ChatService.CONNECT)){ // login#id#time#menuchat
                 Message changeMessage = new Message();
                 changeMessage.setDateSend(allMessage[2]);
                 changeMessage.setContent(allMessage[3]);
-                boardcasting(this.ID, changeMessage);
+                ArrayList<UserAccount> friendList = database.getFriendArrayList(this.ID);
+                boardcasting(this.ID, changeMessage,friendList);
             }       
-            else if(allMessage[0].equals(ChatService.DISCONNECT)){
-                // TODO : 
-                // + send signal to all
-                // + stop loop
+            else if(allMessage[0].equals(ChatService.DISCONNECT)){  // logout#id#time#menuchat
                 Message changeMessage = new Message();
                 changeMessage.setDateSend(allMessage[2]);
                 changeMessage.setContent(allMessage[3]);
-                boardcasting(this.ID, changeMessage);
+                ArrayList<UserAccount> friendList = database.getFriendArrayList(this.ID);
+                boardcasting(this.ID, changeMessage,friendList);
                 return false;
             }
             else{
@@ -210,16 +229,16 @@ public class ClientRoom extends Thread {
     }
 
 
-    private void boardcasting(int exceptID,Message message){
+    private void boardcasting(int exceptID,Message message,ArrayList<UserAccount> sendList){
         try {
-            for(Map.Entry<Integer,ClientRoom> client : Server.clientList.entrySet()){
-                if(client.getKey() != exceptID && Server.clientList.containsKey(exceptID)){
-                    ClientRoom friendRoom = Server.clientList.get(client.getKey());
+            for(UserAccount sendAccount : sendList){
+               if(sendAccount.getID() != exceptID && Server.clientList.containsKey(sendAccount.getID())){
+                    ClientRoom friendRoom = Server.clientList.get(sendAccount.getID());
                     OutputStream clientOut = friendRoom.clientSocket.getOutputStream();
                     PrintWriter pw = new PrintWriter(new OutputStreamWriter(clientOut, "UTF-8"), true);
                     String packetSend = ChatService.createPacket(ChatService.CHANGES, this.ID, message.getContent(), message.getDateSend());
                     pw.println(packetSend);
-                }
+               }
             }
         } catch (IOException e) {
             e.printStackTrace();
