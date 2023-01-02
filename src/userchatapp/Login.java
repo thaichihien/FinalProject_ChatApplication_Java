@@ -61,6 +61,11 @@ public class Login extends JFrame {
 			return null;
 		}
 
+		if(db.checkAccountIsBanned(account.getID())){
+			JOptionPane.showMessageDialog(null,"This account is banned!");
+			return null;
+		}
+
 		Pattern pattern = Pattern.compile("^USER", Pattern.CASE_INSENSITIVE);
 		Matcher matcher = pattern.matcher(username);
 		boolean matchFound = matcher.find();
