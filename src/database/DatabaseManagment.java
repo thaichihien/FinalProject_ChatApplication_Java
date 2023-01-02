@@ -1017,6 +1017,7 @@ public class DatabaseManagment {
                     }
                     
                     account.setOnline(data.getBoolean("ONLINE"));
+                    account.setBanned(data.getBoolean("BANNED"));
                     accountList.add(account);
                     
                 } while (data.next());

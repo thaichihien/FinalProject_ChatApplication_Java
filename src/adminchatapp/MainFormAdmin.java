@@ -2,26 +2,96 @@
 package adminchatapp;
 
 import java.awt.Color;
+import java.awt.HeadlessException;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.net.Socket;
 
-/**
- *
- * @author HIEN
- */
-public class MainFormAdmin extends javax.swing.JFrame {
+import javax.swing.JOptionPane;
 
-    /**
-     * Creates new form MainFormAdmin
-     */
-    public MainFormAdmin() {
+import chatservice.ChatService;
+import datastructure.UserAccount;
+
+
+public class MainFormAdmin extends javax.swing.JFrame implements Runnable {
+
+    private UserAccount adminAccount;
+    MenuAccountManager menuAccTest;
+    MenuLoginHistory menuHistoryTest;
+    MenuGroupManager menuGroupTest;
+    
+
+    @Override
+    public void run() {
+       try {
+        while(true){
+                String packet = adminAccount.receivePacket();
+                handleMessage(packet);
+           }
+    } catch (IOException e) {
+        e.printStackTrace();
+    }
+        
+    }
+
+    private void handleMessage(String packet){
+        if(packet == null) return;
+        String[] allMessage = ChatService.packetAnalysis(packet);
+
+        if(allMessage[0].equals(ChatService.ACCOUNT_MANAGER_CHANGES)){
+            menuAccTest.filltableUserAccount();
+        }else if(allMessage[0].equals(ChatService.LOGIN_HISTORY_CHANGES)){
+            menuHistoryTest.filltableLoginHistory();
+        }else if(allMessage[0].equals(ChatService.GROUP_MANAGER_CHANGES)){
+            menuGroupTest.filltableGroup();
+        }
+
+    }
+
+
+
+
+    public MainFormAdmin(Socket clienSocket,PrintWriter pw,BufferedReader br) {
         initComponents();
         
-        MenuAccountManager menuAccTest = new MenuAccountManager(this);
-        MenuLoginHistory menuHistoryTest =new MenuLoginHistory(this);
-        MenuGroupManager menuGroupTest = new MenuGroupManager(this);
-        jTabbedPane.addTab("ss", menuAccTest);
-        jTabbedPane.addTab("sas", menuHistoryTest);
-        jTabbedPane.addTab("sss", menuGroupTest);
+        adminAccount.clienSocket = clienSocket;
+        adminAccount.pw = pw;
+        adminAccount.br = br;
+        adminAccount.setID(UserAccount.ADMIN_ID);
+
+        menuAccTest = new MenuAccountManager(this);
+        menuHistoryTest =new MenuLoginHistory(this);
+        menuGroupTest = new MenuGroupManager(this);
+        jTabbedPane.addTab("Account", menuAccTest);
+        jTabbedPane.addTab("Login", menuHistoryTest);
+        jTabbedPane.addTab("Group", menuGroupTest);
         //jTabbedPane.setSelectedIndex(3);
+
+        adminAccount.sendPacket(String.valueOf(adminAccount.getID()));
+        while (true) {
+            try {
+                String validateRespone = adminAccount.receivePacket();
+                if(validateRespone.equals("IDEXIST")){
+                    JOptionPane.showMessageDialog(null, 
+                    "This admin is online on the system", "Login failed", 
+                    JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+                else{
+                    break;
+                }
+            } catch (HeadlessException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                
+                e.printStackTrace();
+            }
+        }
+
+        Thread receiveMessageProcess = new Thread(this);
+        receiveMessageProcess.start();
+
     }
     
     private final Color activeTabColor = new Color(239,239,239);
@@ -35,7 +105,22 @@ public class MainFormAdmin extends javax.swing.JFrame {
    
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(MainFormAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(MainFormAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(MainFormAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(MainFormAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
         background = new javax.swing.JPanel();
         navbar = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -212,40 +297,7 @@ public class MainFormAdmin extends javax.swing.JFrame {
         jTabButton3.setBackground(activeTabColor);
     }//GEN-LAST:event_jTabButton3MouseClicked
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFormAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFormAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFormAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFormAdmin.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new MainFormAdmin().setVisible(true);
-            }
-        });
-    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
@@ -259,4 +311,14 @@ public class MainFormAdmin extends javax.swing.JFrame {
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JPanel navbar;
     // End of variables declaration//GEN-END:variables
+
+
+
+
+
+
+
+
+
+   
 }

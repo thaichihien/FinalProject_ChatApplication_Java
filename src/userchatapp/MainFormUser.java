@@ -32,10 +32,10 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
 
     public void handleMessage(String packet) {
         System.out.println(packet);
+        if(packet == null) return;
         String[] allMessage = ChatService.packetAnalysis(packet);
 
-        if (allMessage == null)
-            return;
+        
 
         if (allMessage[0].equals(ChatService.CHAT)) { // chat#id#time#content
             menuChatLayout.addMessageToChatboxUser(allMessage);

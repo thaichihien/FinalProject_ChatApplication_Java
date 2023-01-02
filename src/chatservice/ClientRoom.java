@@ -23,6 +23,7 @@ public class ClientRoom extends Thread {
     public String username;
     private DatabaseManagment database;
    
+    
 
 
 
@@ -68,23 +69,24 @@ public class ClientRoom extends Thread {
         this.ID = idConverted;
         Server.clientList.put(this.ID,this);
        
-        this.username = database.getUsername(this.ID);
+        if(this.ID == UserAccount.ADMIN_ID){
+            this.username = "admin";
+        }else{  
+            this.username = database.getUsername(this.ID);
+        }
+        
 
         String msgFromClient= "";
         while(true){
             try {
                 msgFromClient = br.readLine();
 
-                //handle message from user
-                // - send to other 
-                // - disconect
-                //- send to group
+               
                 if(!handleMessage(msgFromClient)){
                     break;
                 }
 
 
-               //boardcasting("empty", name + ": " + msgFromClient);
             } catch (Exception e) {
                 e.printStackTrace();
                 break;
@@ -98,6 +100,7 @@ public class ClientRoom extends Thread {
         e.printStackTrace();
         try {
             clientSocket.close();
+            Server.clientList.remove(this.ID);
         } catch (IOException e1) {
             
             e1.printStackTrace();
@@ -190,6 +193,7 @@ public class ClientRoom extends Thread {
                     }
                 }
 
+                sendToAdmin(ChatService.GROUP_MANAGER_CHANGES);
             }
             else if(allMessage[0].equals(ChatService.CONNECT)){ // login#id#time#menuchat
                 Message changeMessage = new Message();
@@ -197,6 +201,7 @@ public class ClientRoom extends Thread {
                 changeMessage.setContent(allMessage[3]);
                 ArrayList<UserAccount> friendList = database.getFriendArrayList(this.ID);
                 boardcasting(this.ID, changeMessage,friendList);
+                sendToAdmin(ChatService.LOGIN_HISTORY_CHANGES);
             }       
             else if(allMessage[0].equals(ChatService.DISCONNECT)){  // logout#id#time#menuchat
                 Message changeMessage = new Message();
@@ -243,6 +248,22 @@ public class ClientRoom extends Thread {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void sendToAdmin(String signal){
+        try {
+            if(Server.clientList.containsKey(UserAccount.ADMIN_ID)){
+                ClientRoom friendRoom = Server.clientList.get(UserAccount.ADMIN_ID);
+                OutputStream clientOut = friendRoom.clientSocket.getOutputStream();
+                PrintWriter pw = new PrintWriter(new OutputStreamWriter(clientOut, "UTF-8"), true);
+                String packetSend = ChatService.createPacket(signal,UserAccount.ADMIN_ID,"","");
+                pw.println(packetSend);
+            }
+        } catch (IOException e) {
+          
+            e.printStackTrace();
+        }
+        
     }
 
 

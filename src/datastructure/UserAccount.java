@@ -27,6 +27,8 @@ public class UserAccount {
     public BufferedReader br;
 
 
+    public static final int ADMIN_ID = -10;
+
     public UserAccount() {
         this.ID = -1;
         this.username = "";

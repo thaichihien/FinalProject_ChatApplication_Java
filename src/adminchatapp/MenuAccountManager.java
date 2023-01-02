@@ -15,7 +15,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import database.DatabaseManagment;
@@ -34,7 +33,7 @@ public class MenuAccountManager extends MenuAdminLayout{
     JButton lockAccountButton;
     JButton addAcountButton;
     JButton viewDetailButton;
-    JTextField selectedAccountField;
+    JButton refreshButton;
     JButton deleteAccountButton;
     JComboBox<String> sortCriteria;
 
@@ -55,9 +54,17 @@ public class MenuAccountManager extends MenuAdminLayout{
             String birthDay = user.getBirthDay();
             String gender = user.getGender();
             String email = user.getEmail();
+            String ban = "";
+            if(user.getBanned()){
+                ban = "Đang bị khóa";
+            }else ban = "Không bị khóa";
+            String online = "";
+            if(user.isOnline()){
+                online = "Online";
+            }else online = "Offline";
     	    //String online = String.valueOf(user.getOnline());
     	    
-    	    String row[] = {ID, username, fullname, address,birthDay,gender,email};
+    	    String row[] = {ID, username, fullname, address,birthDay,gender,email,online,ban};
     	    tableModel.addRow(row);
     	}
     }
@@ -75,9 +82,17 @@ public class MenuAccountManager extends MenuAdminLayout{
             String birthDay = user.getBirthDay();
             String gender = user.getGender();
             String email = user.getEmail();
+            String ban = "";
+            if(user.getBanned()){
+                ban = "Đang bị khóa";
+            }else ban = "Không bị khóa";
+            String online = "";
+            if(user.isOnline()){
+                online = "Online";
+            }else online = "Offline";
     	    //String online = String.valueOf(user.getOnline());
     	    
-    	    String row[] = {ID, username, fullname, address,birthDay,gender,email};
+    	    String row[] = {ID, username, fullname, address,birthDay,gender,email,online,ban};
     	    tableModel.addRow(row);
     	}
     }
@@ -128,9 +143,9 @@ public class MenuAccountManager extends MenuAdminLayout{
       }
 
       String id = tableUserAccount.getModel().getValueAt(row, 0).toString();
-      String username = tableUserAccount.getModel().getValueAt(row, 1).toString();
+     
 
-      selectedAccountField.setText(username);
+    
       userSelected.setID(Integer.parseInt(id));
       
     DetailAccountForm detailAccountForm = new DetailAccountForm(userSelected);
@@ -152,14 +167,14 @@ public class MenuAccountManager extends MenuAdminLayout{
         
         DatabaseManagment database = DatabaseManagment.getInstance();
         if(database.checkAccountIsBanned(ID)){
-            if(JOptionPane.showConfirmDialog(this, "Are you sure you want to unban this account?", "Confirm unban", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            if(JOptionPane.showConfirmDialog(null, "Are you sure you want to unban this account?", "Confirm unban", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                 database.setLockUserAccount(ID, false);
                 return;
             }else{
                 return;
             }
         }else{
-            if(JOptionPane.showConfirmDialog(this, "Are you sure you want to ban this account?", "Confirm ban", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+            if(JOptionPane.showConfirmDialog(null, "Are you sure you want to ban this account?", "Confirm ban", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                 database.setLockUserAccount(ID, true);
                 return;
             }else{
@@ -185,7 +200,7 @@ public class MenuAccountManager extends MenuAdminLayout{
         String IDString = tableUserAccount.getModel().getValueAt(row, 0).toString();
         int ID = Integer.parseInt(IDString);
        
-        if(JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this account \n(The account will not be recoverable) ?", "Confirm delete", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
+        if(JOptionPane.showConfirmDialog(null, "Are you sure you want to delete this account \n(The account will not be recoverable) ?", "Confirm delete", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
             DatabaseManagment database = DatabaseManagment.getInstance();
             database.deleteAnAccount(ID);
         }else{
@@ -224,7 +239,7 @@ public class MenuAccountManager extends MenuAdminLayout{
             
         });
 
-        selectedAccountField.setEditable(false);
+       
         filltableUserAccount();
     }
 
@@ -236,13 +251,14 @@ public class MenuAccountManager extends MenuAdminLayout{
         lockAccountButton = new JButton();
         addAcountButton = new JButton();
         viewDetailButton = new JButton();
-        selectedAccountField = new JTextField();
+     
         deleteAccountButton = new JButton();
         sortCriteria = new JComboBox<>();
+        refreshButton = new JButton();
         
         JPanel sidePanel = new JPanel();
         JLabel jLabel_sapxeptheo = new JLabel();
-        JLabel jLabel_taikhoanchon = new JLabel();
+       
         JLabel jLabel_quanlytaikhoan = new JLabel();
         
         
@@ -253,7 +269,7 @@ public class MenuAccountManager extends MenuAdminLayout{
               
             },
             new String [] {
-                "id","Tên đăng nhập", "Họ tên", "Địa chỉ", "Ngày sinh", "Giới tính", "Email"
+                "id","Tên đăng nhập", "Họ tên", "Địa chỉ", "Ngày sinh", "Giới tính", "Email","Tình trạng","Bị khóa"
             }
         ));
         JScrollPane jScrollpane_tableUserAccount = new JScrollPane();
@@ -318,15 +334,13 @@ public class MenuAccountManager extends MenuAdminLayout{
         });
         sidePanel.add(viewDetailButton);
         viewDetailButton.setBounds(30, 350, 240, 70);
-        sidePanel.add(selectedAccountField);
-        selectedAccountField.setBounds(30, 170, 240, 40);
+        sidePanel.add(refreshButton);
+      
+        refreshButton.setFont(new java.awt.Font("Segoe UI", 1, 18));
+        refreshButton.setText("Làm mới danh sách");
+        refreshButton.setBounds(30, 170, 240, 40);
 
-        jLabel_taikhoanchon.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jLabel_taikhoanchon.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel_taikhoanchon.setLabelFor(selectedAccountField);
-        jLabel_taikhoanchon.setText("Tài khoản đang được chọn :");
-        sidePanel.add(jLabel_taikhoanchon);
-        jLabel_taikhoanchon.setBounds(30, 130, 210, 30);
+        
 
         jLabel_quanlytaikhoan.setFont(new java.awt.Font("Segoe UI", 3, 24)); // NOI18N
         jLabel_quanlytaikhoan.setForeground(new java.awt.Color(0, 0, 0));

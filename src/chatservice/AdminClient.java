@@ -12,15 +12,16 @@ import java.net.Socket;
 
 import javax.swing.SwingUtilities;
 
-import userchatapp.Login;
+import adminchatapp.MainFormAdmin;
 
-public class Client {
+
+public class AdminClient {
     Socket client;
     final int PORT = 500;
     PrintWriter pw;
     BufferedReader br;
 
-    public Client(){
+    public AdminClient(){
         try {
             client = new Socket(InetAddress.getLocalHost(), PORT);
             OutputStream clientOut = client.getOutputStream();
@@ -43,16 +44,17 @@ public class Client {
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {
-                    System.out.println("Into login");
-                    Login loginForm  = new Login(client,pw,br);   
-                    loginForm.setVisible(true);  
+                    System.out.println("Admin login");
+                    MainFormAdmin adminForm = new MainFormAdmin(client, pw, br);
+                    adminForm.setVisible(true);
+                    
                 }
             });
 
     }
 
     public static void main(String[] args) {
-        new Client();
+        new AdminClient();
     }
 
 
