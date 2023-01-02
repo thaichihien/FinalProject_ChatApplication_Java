@@ -165,8 +165,8 @@ public ArrayList<UserAccount> getData(){
 
 **Cải tiến:**
 - [ ] Socket cho admin, giúp cập nhật danh sách thời gian thực
-- [ ] Cập nhật online,offline
-- [ ] Một tài khoản thay đổi thông tin, thông báo socket đến các tài khoản khác
+- [X] Cập nhật online,offline
+- [X] Một tài khoản thay đổi thông tin, thông báo socket đến các tài khoản khác
 ## Lưu ý:
 - Mở VScode ra làm thì trước tiên &rarr; **FETCH**: để kiếm tra trên github có thay đổi gì không (bước này để chuẩn bị backup trước khi pull nếu confilct), nếu có thì **PULL**: lấy code trên github về máy
 - Làm xong một chức năng, một hàm rồi (***Không bị lỗi compile***) &rarr; **COMMIT** và **PUSH**
