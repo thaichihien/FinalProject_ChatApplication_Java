@@ -1,5 +1,6 @@
 
 package userchatapp;
+
 import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -10,54 +11,57 @@ import database.DatabaseManagment;
 import datastructure.UserAccount;
 import uichatcomponent.ChangeInforForm;
 
-
-
 public class MainFormUser extends javax.swing.JFrame implements Runnable {
 
-    private final Color activeTabColor = new Color(239,239,239);
-    private final Color unactiveTabColor = new Color(217,217,217);
+    private final Color activeTabColor = new Color(239, 239, 239);
+    private final Color unactiveTabColor = new Color(217, 217, 217);
     private UserAccount user;
     MenuChat menuChatLayout;
 
-
     @Override
     public void run() {
-       while(true){
-            String receiveMessage = user.receivePacket();
-            handleMessage(receiveMessage);
-       }
+        try {
+            while (true) {
+                String receiveMessage = user.receivePacket();
+                handleMessage(receiveMessage);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
-    public void handleMessage(String packet){
+    public void handleMessage(String packet) {
         System.out.println(packet);
         String[] allMessage = ChatService.packetAnalysis(packet);
 
-       
-        if(allMessage[0].equals(ChatService.CHAT)){ // chat#id#time#content
+        if (allMessage == null)
+            return;
+
+        if (allMessage[0].equals(ChatService.CHAT)) { // chat#id#time#content
             menuChatLayout.addMessageToChatboxUser(allMessage);
-        }else if(allMessage[0].equals(ChatService.CHANGES)){ // change#id#time#menuchat
-           if(allMessage[3].equals(ChatService.MENUCHAT)){
-            menuChatLayout.resetData();
-           }
-        }else if(allMessage[0].equals(ChatService.GROUP_RECEIVED)){
+        } else if (allMessage[0].equals(ChatService.CHANGES)) { // change#id#time#menuchat
+            if (allMessage[3].equals(ChatService.MENUCHAT)) {
+                menuChatLayout.resetData();
+            }
+        } else if (allMessage[0].equals(ChatService.GROUP_RECEIVED)) {
             menuChatLayout.addMessageToChatboxGroup(allMessage);
         }
 
     }
 
-    private void changeInfor(){
+    private void changeInfor() {
         ChangeInforForm changeInforForm = new ChangeInforForm(user);
         changeInforForm.setVisible(true);
     }
 
-
-    // LOGOUT 
-    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+    // LOGOUT
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {// GEN-FIRST:event_formWindowClosing
         DatabaseManagment database = DatabaseManagment.getInstance();
         database.setStatusUser(user.getID(), false);
-        
-        // send logout signal
 
+        // send logout signal
+        String packet = ChatService.createPacket(ChatService.DISCONNECT, user.getID(), ChatService.MENUCHAT, "0");
+        user.sendPacket(packet);
 
         try {
             user.br.close();
@@ -68,7 +72,6 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
         }
     }
 
-    
     public MainFormUser(UserAccount user) {
         initComponents();
         this.user = user;
@@ -83,18 +86,21 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
 
         menuChatLayout = new MenuChat(this.user);
         jTabbedPaneLayput.addTab("chat", menuChatLayout);
-    
+
         MenuAddFriend menuFriendLayout = new MenuAddFriend(this.user);
         jTabbedPaneLayput.addTab("addfriend", menuFriendLayout);
-        
+
         MenuGroup menuGroupLayout = new MenuGroup(this.user);
         jTabbedPaneLayput.addTab("group", menuGroupLayout);
-        
+
         Thread receiveMessageProcess = new Thread(this);
         receiveMessageProcess.start();
-        
+
         DatabaseManagment database = DatabaseManagment.getInstance();
         database.setStatusUser(user.getID(), true);
+
+        String packet = ChatService.createPacket(ChatService.CONNECT, user.getID(), ChatService.MENUCHAT, "0");
+        user.sendPacket(packet);
 
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -104,7 +110,6 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
 
     }
 
-   
     private void initComponents() {
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -114,13 +119,17 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(MainFormUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFormUser.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(MainFormUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFormUser.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(MainFormUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFormUser.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(MainFormUser.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(MainFormUser.class.getName()).log(java.util.logging.Level.SEVERE, null,
+                    ex);
         }
         jPanel1 = new javax.swing.JPanel();
         navbar = new javax.swing.JPanel();
@@ -160,19 +169,17 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
         javax.swing.GroupLayout jTabButton1Layout = new javax.swing.GroupLayout(jTabButton1);
         jTabButton1.setLayout(jTabButton1Layout);
         jTabButton1Layout.setHorizontalGroup(
-            jTabButton1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jTabButton1Layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addComponent(jTabButton1_icon)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                jTabButton1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jTabButton1Layout.createSequentialGroup()
+                                .addGap(53, 53, 53)
+                                .addComponent(jTabButton1_icon)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         jTabButton1Layout.setVerticalGroup(
-            jTabButton1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jTabButton1Layout.createSequentialGroup()
-                .addGap(30, 30, 30)
-                .addComponent(jTabButton1_icon)
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
+                jTabButton1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jTabButton1Layout.createSequentialGroup()
+                                .addGap(30, 30, 30)
+                                .addComponent(jTabButton1_icon)
+                                .addContainerGap(20, Short.MAX_VALUE)));
 
         jTabButton2.setBackground(new java.awt.Color(217, 217, 217));
         jTabButton2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -186,19 +193,17 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
         javax.swing.GroupLayout jTabButton2Layout = new javax.swing.GroupLayout(jTabButton2);
         jTabButton2.setLayout(jTabButton2Layout);
         jTabButton2Layout.setHorizontalGroup(
-            jTabButton2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jTabButton2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTabButton2_icon)
-                .addGap(48, 48, 48))
-        );
+                jTabButton2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jTabButton2Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTabButton2_icon)
+                                .addGap(48, 48, 48)));
         jTabButton2Layout.setVerticalGroup(
-            jTabButton2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jTabButton2Layout.createSequentialGroup()
-                .addContainerGap(27, Short.MAX_VALUE)
-                .addComponent(jTabButton2_icon)
-                .addGap(16, 16, 16))
-        );
+                jTabButton2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jTabButton2Layout.createSequentialGroup()
+                                .addContainerGap(27, Short.MAX_VALUE)
+                                .addComponent(jTabButton2_icon)
+                                .addGap(16, 16, 16)));
 
         jTabButton3.setBackground(new java.awt.Color(217, 217, 217));
         jTabButton3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -212,45 +217,49 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
         javax.swing.GroupLayout jTabButton3Layout = new javax.swing.GroupLayout(jTabButton3);
         jTabButton3.setLayout(jTabButton3Layout);
         jTabButton3Layout.setHorizontalGroup(
-            jTabButton3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jTabButton3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTabButton_icon)
-                .addGap(52, 52, 52))
-        );
+                jTabButton3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jTabButton3Layout.createSequentialGroup()
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jTabButton_icon)
+                                .addGap(52, 52, 52)));
         jTabButton3Layout.setVerticalGroup(
-            jTabButton3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jTabButton3Layout.createSequentialGroup()
-                .addContainerGap(19, Short.MAX_VALUE)
-                .addComponent(jTabButton_icon)
-                .addGap(18, 18, 18))
-        );
+                jTabButton3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jTabButton3Layout.createSequentialGroup()
+                                .addContainerGap(19, Short.MAX_VALUE)
+                                .addComponent(jTabButton_icon)
+                                .addGap(18, 18, 18)));
 
         javax.swing.GroupLayout navbarLayout = new javax.swing.GroupLayout(navbar);
         navbar.setLayout(navbarLayout);
         navbarLayout.setHorizontalGroup(
-            navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(jTabButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(navbarLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addComponent(userNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
+                navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jTabButton1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTabButton2, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jTabButton3, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(navbarLayout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(userNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 117,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)));
         navbarLayout.setVerticalGroup(
-            navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(navbarLayout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(userNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(66, 66, 66)
-                .addComponent(jTabButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jTabButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jTabButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(269, Short.MAX_VALUE))
-        );
+                navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(navbarLayout.createSequentialGroup()
+                                .addGap(59, 59, 59)
+                                .addComponent(userNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 34,
+                                        javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(66, 66, 66)
+                                .addComponent(jTabButton1, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(jTabButton2, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(jTabButton3, javax.swing.GroupLayout.PREFERRED_SIZE,
+                                        javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addContainerGap(269, Short.MAX_VALUE)));
 
         jPanel1.add(navbar);
         navbar.setBounds(0, 0, 170, 750);
@@ -261,13 +270,12 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE,
+                                javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE));
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE)
-        );
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 750, Short.MAX_VALUE));
 
         pack();
         setLocationRelativeTo(null);
@@ -282,30 +290,27 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
     }
 
     private void jTabButton2MouseClicked(java.awt.event.MouseEvent evt) {
-         jTabbedPaneLayput.setSelectedIndex(1);
+        jTabbedPaneLayput.setSelectedIndex(1);
         jTabButton1.setBackground(unactiveTabColor);
         jTabButton2.setBackground(activeTabColor);
         jTabButton3.setBackground(unactiveTabColor);
     }
 
     private void jTabButton3MouseClicked(java.awt.event.MouseEvent evt) {
-         jTabbedPaneLayput.setSelectedIndex(2);
+        jTabbedPaneLayput.setSelectedIndex(2);
         jTabButton1.setBackground(unactiveTabColor);
         jTabButton2.setBackground(unactiveTabColor);
         jTabButton3.setBackground(activeTabColor);
     }
 
-    //MAIN
+    // MAIN
     public static void main(String args[]) {
-       
-        
-        
 
-    //     /* Create and display the form */
+        // /* Create and display the form */
         // java.awt.EventQueue.invokeLater(new Runnable() {
-        //     public void run() {
-        //         new MainFormUser(new UserAccount()).setVisible(true);
-        //     }
+        // public void run() {
+        // new MainFormUser(new UserAccount()).setVisible(true);
+        // }
         // });
     }
 
@@ -322,5 +327,4 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
     private javax.swing.JLabel userNameLabel;
     // End of variables declaration//GEN-END:variables
 
-   
 }

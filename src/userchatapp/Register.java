@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.Insets;
+import java.io.IOException;
 import java.awt.Color;
 import java.awt.Cursor;
 import javax.swing.JTextField;
@@ -110,6 +111,9 @@ public class Register extends JFrame {
 						break;
 					}
 				} catch (HeadlessException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

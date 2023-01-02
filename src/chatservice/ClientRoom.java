@@ -10,6 +10,7 @@ import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Map;
 
 import database.DatabaseManagment;
 import datastructure.Message;
@@ -170,14 +171,20 @@ public class ClientRoom extends Thread {
                     }
                 }
 
-            }else if(allMessage[0].equals(ChatService.DISCONNECT)){
+            }else if(allMessage[0].equals(ChatService.CONNECT)){
+                Message changeMessage = new Message();
+                changeMessage.setDateSend(allMessage[2]);
+                changeMessage.setContent(allMessage[3]);
+                boardcasting(this.ID, changeMessage);
+            }       
+            else if(allMessage[0].equals(ChatService.DISCONNECT)){
                 // TODO : 
                 // + send signal to all
                 // + stop loop
-
-
-
-
+                Message changeMessage = new Message();
+                changeMessage.setDateSend(allMessage[2]);
+                changeMessage.setContent(allMessage[3]);
+                boardcasting(this.ID, changeMessage);
                 return false;
             }
             else{
@@ -201,5 +208,23 @@ public class ClientRoom extends Thread {
         }
         return true;
     }
+
+
+    private void boardcasting(int exceptID,Message message){
+        try {
+            for(Map.Entry<Integer,ClientRoom> client : Server.clientList.entrySet()){
+                if(client.getKey() != exceptID && Server.clientList.containsKey(exceptID)){
+                    ClientRoom friendRoom = Server.clientList.get(client.getKey());
+                    OutputStream clientOut = friendRoom.clientSocket.getOutputStream();
+                    PrintWriter pw = new PrintWriter(new OutputStreamWriter(clientOut, "UTF-8"), true);
+                    String packetSend = ChatService.createPacket(ChatService.CHANGES, this.ID, message.getContent(), message.getDateSend());
+                    pw.println(packetSend);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
 }

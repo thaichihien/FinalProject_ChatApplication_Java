@@ -188,15 +188,9 @@ public class UserAccount {
         pw.println(packet);
     }
 
-    public String receivePacket(){
-        try {
-            String packet = br.readLine();
-            return packet;
-        } catch (IOException e) {
-            
-            e.printStackTrace();
-        }
-        return "";
+    public String receivePacket() throws IOException{
+        String packet = br.readLine();
+        return packet;
     }
 
 

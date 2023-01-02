@@ -13,6 +13,7 @@ public class ChatService {
     public static final String MENUCHAT = "menuchat";
     public static final String CONNECT = "login";
     public static final String DISCONNECT = "logout";
+    
 
     public static String createPacket(String signal,int to,String content,String time){
         String toWho = String.valueOf(to);
@@ -25,6 +26,9 @@ public class ChatService {
     }
     
     public static String[] packetAnalysis(String packet){
+        if(packet == null){
+            return null;
+        }
         ArrayList<String> result = new ArrayList<>();
         StringTokenizer tokenizer = new StringTokenizer(packet,DELIMITER);
         while(tokenizer.hasMoreTokens()){

@@ -18,6 +18,7 @@ import java.awt.Font;
 import java.awt.HeadlessException;
 import java.awt.Insets;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.regex.Matcher;
@@ -113,6 +114,9 @@ public class Login extends JFrame {
 						break;
 					}
 				} catch (HeadlessException e) {
+					e.printStackTrace();
+				} catch (IOException e) {
+					
 					e.printStackTrace();
 				}
 			}
