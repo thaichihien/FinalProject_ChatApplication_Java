@@ -1,15 +1,47 @@
 # FinalProject_ChatApplication_Java
 
 - [Mục tiêu](#mục-tiêu)
-- [Hướng dẫn chạy chương trình](#hướng-dẫn-chạy-chương-trình)
 - [Giải thích package](#giải-thích-package)
 - [Thư viện](#cài-đặt-thư-viện)
+- [Hướng dẫn chạy chương trình](#hướng-dẫn-chạy-chương-trình)
 - [Lưu ý](#lưu-ý)
 
+## Mục tiêu:
+### Bên người dùng
+- [X] Đăng ký tài khoản + (cải tiến mã hóa mật khẩu, UI che mật khẩu)
+- [X] Đăng nhập tài khoản
+- [X] Quên mật khẩu
+- [X] Sửa thông tin, thay đổi mật khẩu
+- [X] Hiển thị danh sách bạn bè
+- [X] Thêm bạn bè bằng tên đăng nhập
+- [X] Hủy kết bạn
+- [X] Tạo nhóm chat
+- [X] Đổi tên nhóm chat
+- [X] Thêm thành viên
+- [X] Gán quyền admin
+- [X] Xóa thành viên
+- [X] Xem lịch sử chat
+- [X] Lưu lịch sử tin nhắn
+- [X] Tìm kiếm lịch sử chat
+- [X] Xóa lịch sử chat
+### Bên quản trị
+- [X] Xem danh sách cho phép lọc theo tên/tên đăng nhập, sắp xếp theo tên/ngày tạo
+- [X] Thêm/cập nhật/xoá
+- [X] Khoá tài khoản
+- [X] Cập nhật mật khẩu
+- [X] Xem lịch sử đăng nhập
+- [X] Danh sách bạn bè.
+- [x] Xem danh sách đăng nhập theo thứ tự thời gian. Thông tin gồm: thời gian, tên đăng nhập, họ tên.
+- [X] Xem danh sách các nhóm chat
+- [x] Sắp xếp theo tên/thời gian tạo
+- [X] Xem danh sách thành viên 1 nhóm
+- [X] Xem danh sách admin 1 nhóm.
 
-## Hướng dẫn test UI
-- ***Giao diện người dùng*** : chạy file _Login.java_ hoặc _MainFormUser.java_ trong package **userchatapp**
-- ***Giao diện quản trị:*** chạy file _MainFormAdmin.java_ trong package **adminchatapp**
+**Cải tiến:**
+- [X] Socket cho admin, giúp cập nhật danh sách thời gian thực
+- [X] Cập nhật online,offline
+- [X] Một tài khoản thay đổi thông tin, thông báo socket đến các tài khoản khác
+
 ## Giải thích package:
 - **adminchatapp** : chứa giao diện quản trị
 - **chatservice** : chứa file liên quan đến server client socket
@@ -47,41 +79,6 @@ public class DatabaseConfig {
 
 `secret_key = <your secret key>`
 
-## Mục tiêu:
-### Bên người dùng
-- [X] Đăng ký tài khoản + (cải tiến mã hóa mật khẩu, UI che mật khẩu)
-- [X] Đăng nhập tài khoản
-- [X] Quên mật khẩu
-- [X] Sửa thông tin, thay đổi mật khẩu
-- [X] Hiển thị danh sách bạn bè
-- [X] Thêm bạn bè bằng tên đăng nhập
-- [X] Hủy kết bạn
-- [X] Tạo nhóm chat
-- [X] Đổi tên nhóm chat
-- [X] Thêm thành viên
-- [X] Gán quyền admin
-- [X] Xóa thành viên
-- [X] Xem lịch sử chat
-- [X] Lưu lịch sử tin nhắn
-- [X] Tìm kiếm lịch sử chat
-- [X] Xóa lịch sử chat
-### Bên quản trị
-- [X] Xem danh sách cho phép lọc theo tên/tên đăng nhập, sắp xếp theo tên/ngày tạo
-- [X] Thêm/cập nhật/xoá
-- [X] Khoá tài khoản
-- [X] Cập nhật mật khẩu
-- [X] Xem lịch sử đăng nhập
-- [X] Danh sách bạn bè.
-- [x] Xem danh sách đăng nhập theo thứ tự thời gian. Thông tin gồm: thời gian, tên đăng nhập, họ tên.
-- [X] Xem danh sách các nhóm chat
-- [x] Sắp xếp theo tên/thời gian tạo
-- [X] Xem danh sách thành viên 1 nhóm
-- [X] Xem danh sách admin 1 nhóm.
-
-**Cải tiến:**
-- [X] Socket cho admin, giúp cập nhật danh sách thời gian thực
-- [X] Cập nhật online,offline
-- [X] Một tài khoản thay đổi thông tin, thông báo socket đến các tài khoản khác
 
 ## Hướng dẫn chạy chương trình
 ### Chuẩn bị
