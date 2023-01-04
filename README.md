@@ -2,6 +2,7 @@
 
 - [Công việc](#công-việc)
 - [Giải thích package](#giải-thích-package)
+- [Thư viện](#cài-đặt-thư-viện)
 - [Lưu ý](#lưu-ý)
 
 
@@ -36,7 +37,7 @@ public class DatabaseConfig {
     public static String password = System.getenv("POSTGRES_PASSWORD"); //thay bằng chuỗi mật khẩu postgres nếu k dùng biến môi trường
 }
 ```
-## Cài đặt cho Login,Register và Forgot Password
+## Cài đặt mã hóa mật khẩu
 - Cài hai thư viện: **Java Mail**, **JAF**
 - Đối với forgot password: thêm 2 biến môi trường **USER_EMAIL_PROJECT** và **PASSWORD_EMAIL_PROJECT** lần lượt cho email và mật khẩu để gửi mật khẩu random mới cho người dùng
 - Tạo file `.secretkey` tại ***src/utils*** với nội dung:
@@ -172,6 +173,23 @@ public ArrayList<UserAccount> getData(){
 - Làm xong một chức năng, một hàm rồi (***Không bị lỗi compile***) &rarr; **COMMIT** và **PUSH**
 - Chỉ nên làm trên **file mình được giao**, cần chỉnh file khác thì báo trước
 - Deadline luôn là tối ngày hôm đó phải có
+## Hướng dẫn chạy chương trình
+### Chuẩn bị
+- Đảm bảo đã cài cả bốn thư viện tại [Thư viện](#cài-đặt-thư-viện)
+- Đã tạo CSDL **finalproject_chatapplication** vào các bảng (đọc hướng dẫn và script tại thư mục doc). Ở đây sử dụng **PostgresSQL**
+- Đọc hướng dẫn config tại [Config Database](#h-ng-d-n-t-o-c-s-d-li-u-postgres) và [Config Mã hóa mật khẩu](#cai-d-t-ma-hoa-m-t-kh-u)
+### Debug trên VSCode (dễ nhất):
+- Đảm bảo đã cài môi trường Java cho VSCode. [Hướng dẫn cài Java cho VSCode]( https://code.visualstudio.com/docs/java/java-tutorial)
+- Cài cả bốn thư viện [Thư viện](#cài-đặt-thư-viện)  vào VSCode  (đọc thêm :  [Hướng dẫn cài thư viện jar trên VSCode](https://code.visualstudio.com/docs/java/java-project#_manage-dependencies-for-unmanaged-folder))
+- Vào mục **Run and Debug** (nhấn tổ hợp phím `Ctrl + shift + D`)
+- Tại chỗ chọn giống ComboBox hình tam giác xanh( &#9654;) chọn:
+  - Server/Client : chạy 1 Server và 1 Client user
+  - Server/2 Client: chạy 1 Server và 2 Client user
+  - Server/AdminClient/Client: Chạy 1 Server, 1 Client là Admin, 1 Client là user
+- Chọn xong nhấn &#9654; bên cạnh để chạy
+- Có thể thêm tùy ý mình số lượng Client tại **.vscode/lauch.json**
+### Compile và chạy file bằng command line 
+
 ## Phân công:
 
 ### User:
