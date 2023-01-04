@@ -109,6 +109,9 @@ public class ClientRoom extends Thread {
       }
     }
 
+    
+
+
     public boolean handleMessage(String message){
         System.out.println("received from " + String.valueOf(ID) +" : " + message );
         String[] allMessage = ChatService.packetAnalysis(message);

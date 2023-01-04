@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 
 import javax.swing.table.DefaultTableModel;
 
+import adminchatapp.MenuAccountManager;
 import database.DatabaseManagment;
 import datastructure.UserAccount;
 
@@ -44,6 +45,7 @@ public class DetailAccountForm extends javax.swing.JFrame {
     private javax.swing.JButton viewHistoryButton;
 
     private UserAccount user;
+    private MenuAccountManager menu;
     private boolean isEdit;
 
     
@@ -161,15 +163,13 @@ public class DetailAccountForm extends javax.swing.JFrame {
         if(database.checkAccountIsBanned(user.getID())){
             if(JOptionPane.showConfirmDialog(this, "Are you sure you want to unban this account?", "Confirm unban", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                 database.setLockUserAccount(user.getID(), false);
-                return;
-            }else{
+                menu.filltableUserAccount();
                 return;
             }
         }else{
             if(JOptionPane.showConfirmDialog(this, "Are you sure you want to ban this account?", "Confirm ban", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                 database.setLockUserAccount(user.getID(), true);
-                return;
-            }else{
+                menu.filltableUserAccount();
                 return;
             }
         }
@@ -186,6 +186,7 @@ public class DetailAccountForm extends javax.swing.JFrame {
             return;
         }
 
+        menu.filltableUserAccount();
         this.dispose(); // đóng Jframe này
     }
 
@@ -224,7 +225,7 @@ public class DetailAccountForm extends javax.swing.JFrame {
 
             DatabaseManagment database = DatabaseManagment.getInstance();
             database.updateAccount(user);
-
+            menu.filltableUserAccount();
             fillAccountInfor();
         }
 
@@ -238,20 +239,20 @@ public class DetailAccountForm extends javax.swing.JFrame {
     }
 
     // SỬA ID USER TEST TẠI ĐÂY
-    public static void main(String args[]) {
+    // public static void main(String args[]) {
         
 
-        /* Create and display the form */
-       java.awt.EventQueue.invokeLater(new Runnable() {
-           public void run() {
-            DatabaseManagment database = DatabaseManagment.getInstance();
-            UserAccount testAccount = database.getDetailAccount(1);
+    //     /* Create and display the form */
+    //    java.awt.EventQueue.invokeLater(new Runnable() {
+    //        public void run() {
+    //         DatabaseManagment database = DatabaseManagment.getInstance();
+    //         UserAccount testAccount = database.getDetailAccount(1);
 
 
-               new DetailAccountForm(testAccount).setVisible(true);
-           }
-       });
-    }
+    //            new DetailAccountForm(testAccount).setVisible(true);
+    //        }
+    //    });
+    // }
 
 
 
@@ -265,9 +266,10 @@ public class DetailAccountForm extends javax.swing.JFrame {
 
 
 
-    public DetailAccountForm(UserAccount account) {
+    public DetailAccountForm(UserAccount account,MenuAccountManager menu) {
         initComponents();
         this.user = account;
+        this.menu = menu;
 
         changePasswordButton.addActionListener(new ActionListener(){
 

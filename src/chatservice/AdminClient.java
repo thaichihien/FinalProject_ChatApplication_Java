@@ -30,16 +30,21 @@ public class AdminClient {
             // Create an input stream of the client socket
             InputStream clientIn = client.getInputStream();
             br = new BufferedReader(new InputStreamReader(clientIn,"UTF-8"));
+            System.out.println("Client socket is created " + client);
+            connect();
         } catch (IOException e) {
+            try {
+                client.close();
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+            }
             e.printStackTrace();
         }
-        System.out.println("Client socket is created " + client);
-        connect();
+      
     }
 
     public void connect(){
-
-              
 
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
@@ -50,7 +55,6 @@ public class AdminClient {
                     
                 }
             });
-
     }
 
     public static void main(String[] args) {

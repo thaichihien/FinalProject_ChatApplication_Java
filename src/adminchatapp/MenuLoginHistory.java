@@ -71,10 +71,10 @@ public class MenuLoginHistory extends  MenuAdminLayout{
                         filltableLoginHistory();
                         break;
                     case "Ngày đăng nhập mới":
-                        filltableLoginHistory("LOGIN_TIME", "ASC");
+                        filltableLoginHistory("LOGIN_TIME", "DESC");
                         break;
                     case "Ngày đăng nhập cũ":
-                        filltableLoginHistory("LOGIN_TIME",  "DESC");
+                        filltableLoginHistory("LOGIN_TIME",  "ASC");
                         break;
                     default:
                         System.out.println("No match selected!");

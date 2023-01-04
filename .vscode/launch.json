@@ -6,64 +6,15 @@
     "configurations": [
         {
             "type": "java",
-            "name": "Launch DetailGroupChatForm",
-            "request": "launch",
-            "mainClass": "uichatcomponent.DetailGroupChatForm",
-            "projectName": "FinalProject_ChatApplication_Java_b662f5d"
-        },
-        {
-            "type": "java",
-            "name": "Launch DetailGroupForm",
-            "request": "launch",
-            "mainClass": "uichatcomponent.DetailGroupForm",
-            "projectName": "FinalProject_ChatApplication_Java_b662f5d"
-        },
-        {
-            "type": "java",
-            "name": "Launch CreateAccountForm",
-            "request": "launch",
-            "mainClass": "uichatcomponent.CreateAccountForm",
-            "projectName": "FinalProject_ChatApplication_Java_b662f5d"
-        },
-        {
-            "type": "java",
-            "name": "Launch DetailAccountForm",
-            "request": "launch",
-            "mainClass": "uichatcomponent.DetailAccountForm",
-            "projectName": "FinalProject_ChatApplication_Java_b662f5d"
-        },
-        {
-            "type": "java",
-            "name": "Launch Register",
-            "request": "launch",
-            "mainClass": "userchatapp.Register",
-            "projectName": "FinalProject_ChatApplication_Java_b662f5d"
-        },
-        {
-            "type": "java",
-            "name": "Launch MainFrameTest",
-            "request": "launch",
-            "mainClass": "test.MainFrameTest",
-            "projectName": "FinalProject_ChatApplication_Java_b662f5d"
-        },
-        {
-            "type": "java",
-            "name": "Launch MainFormUser",
-            "request": "launch",
-            "mainClass": "userchatapp.MainFormUser",
-            "projectName": "FinalProject_ChatApplication_Java_b662f5d"
-        },
-        {
-            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"
         },
         {
             "type": "java",
-            "name": "Launch MainFormAdmin",
+            "name": "Launch AdminClient",
             "request": "launch",
-            "mainClass": "adminchatapp.MainFormAdmin",
+            "mainClass": "chatservice.AdminClient",
             "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
         },
         {
@@ -89,30 +40,16 @@
         },
         {
             "type": "java",
+            "name": "Launch test",
+            "request": "launch",
+            "mainClass": "test.test",
+            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
+        },
+        {
+            "type": "java",
             "name": "Launch AddFriendToGroup",
             "request": "launch",
             "mainClass": "uichatcomponent.AddFriendToGroup",
-            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
-        },
-        {
-            "type": "java",
-            "name": "Launch CreateAccountForm",
-            "request": "launch",
-            "mainClass": "uichatcomponent.CreateAccountForm",
-            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
-        },
-        {
-            "type": "java",
-            "name": "Launch DetailAccountForm",
-            "request": "launch",
-            "mainClass": "uichatcomponent.DetailAccountForm",
-            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
-        },
-        {
-            "type": "java",
-            "name": "Launch DetailGroupChatForm",
-            "request": "launch",
-            "mainClass": "uichatcomponent.DetailGroupChatForm",
             "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
         },
         {
@@ -124,23 +61,9 @@
         },
         {
             "type": "java",
-            "name": "Launch ForgetPassword",
-            "request": "launch",
-            "mainClass": "userchatapp.ForgetPassword",
-            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
-        },
-        {
-            "type": "java",
             "name": "Launch MainFormUser",
             "request": "launch",
             "mainClass": "userchatapp.MainFormUser",
-            "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
-        },
-        {
-            "type": "java",
-            "name": "Launch Register",
-            "request": "launch",
-            "mainClass": "userchatapp.Register",
             "projectName": "FinalProject_ChatApplication_Java_ee78f38d"
         }
     ],
@@ -156,6 +79,10 @@
         {
             "name": "Server/3 Client",
             "configurations": ["Launch Server", "Launch Client","Launch Client","Launch Client"]
+        },
+        {
+            "name": "Server/AdminClient/Client",
+            "configurations": ["Launch Server", "Launch AdminClient","Launch Client"]
         }
     ]
 }

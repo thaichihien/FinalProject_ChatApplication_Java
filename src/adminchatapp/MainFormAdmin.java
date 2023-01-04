@@ -29,9 +29,9 @@ public class MainFormAdmin extends javax.swing.JFrame implements Runnable {
                 String packet = adminAccount.receivePacket();
                 handleMessage(packet);
            }
-    } catch (IOException e) {
-        e.printStackTrace();
-    }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         
     }
 
@@ -54,7 +54,7 @@ public class MainFormAdmin extends javax.swing.JFrame implements Runnable {
 
     public MainFormAdmin(Socket clienSocket,PrintWriter pw,BufferedReader br) {
         initComponents();
-        
+        adminAccount = new UserAccount();
         adminAccount.clienSocket = clienSocket;
         adminAccount.pw = pw;
         adminAccount.br = br;

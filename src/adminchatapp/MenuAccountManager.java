@@ -148,7 +148,7 @@ public class MenuAccountManager extends MenuAdminLayout{
     
       userSelected.setID(Integer.parseInt(id));
       
-    DetailAccountForm detailAccountForm = new DetailAccountForm(userSelected);
+    DetailAccountForm detailAccountForm = new DetailAccountForm(userSelected,this);
       detailAccountForm.setVisible(true);
       //this.setEnabled(false);
     }                     
@@ -169,6 +169,7 @@ public class MenuAccountManager extends MenuAdminLayout{
         if(database.checkAccountIsBanned(ID)){
             if(JOptionPane.showConfirmDialog(null, "Are you sure you want to unban this account?", "Confirm unban", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                 database.setLockUserAccount(ID, false);
+                filltableUserAccount();
                 return;
             }else{
                 return;
@@ -176,6 +177,7 @@ public class MenuAccountManager extends MenuAdminLayout{
         }else{
             if(JOptionPane.showConfirmDialog(null, "Are you sure you want to ban this account?", "Confirm ban", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION){
                 database.setLockUserAccount(ID, true);
+                filltableUserAccount();
                 return;
             }else{
                 return;
@@ -184,7 +186,7 @@ public class MenuAccountManager extends MenuAdminLayout{
     }                                                 
 
     private void addAcountButtonActionPerformed(java.awt.event.ActionEvent evt) {                                                
-       CreateAccountForm createAccountForm = new CreateAccountForm();
+       CreateAccountForm createAccountForm = new CreateAccountForm(this);
        
        createAccountForm.setVisible(true);
     }                                              
@@ -214,6 +216,7 @@ public class MenuAccountManager extends MenuAdminLayout{
     public MenuAccountManager(JFrame parentFrame) {
         super(parentFrame);
         initComponents();
+        
 
         sortFilter.addItemListener(new ItemListener(){
             @Override

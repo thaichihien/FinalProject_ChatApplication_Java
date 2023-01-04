@@ -7,6 +7,7 @@ import java.text.SimpleDateFormat;
 
 import javax.swing.JOptionPane;
 
+import adminchatapp.MenuAccountManager;
 import datastructure.UserAccount;
 import database.DatabaseManagment;
 
@@ -25,6 +26,7 @@ public class CreateAccountForm extends javax.swing.JFrame {
     private javax.swing.JTextField passwordField;
     private javax.swing.JTextField usernameField;
     
+    private MenuAccountManager menu;
     // TODO 1: Nạp dữ liệu
     
     public void createNewAccount(){
@@ -61,6 +63,7 @@ public class CreateAccountForm extends javax.swing.JFrame {
 
         if(database.addNewAccount(newUser) != -1){
             JOptionPane.showMessageDialog(null, "Add completed!", "Add account", JOptionPane.INFORMATION_MESSAGE);
+            menu.filltableUserAccount();
             return;
         }
         else{
@@ -83,8 +86,9 @@ public class CreateAccountForm extends javax.swing.JFrame {
     }
     
     
-    public CreateAccountForm() {
+    public CreateAccountForm(MenuAccountManager menu) {
         initComponents();
+        this.menu = menu;
 
         createAccButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

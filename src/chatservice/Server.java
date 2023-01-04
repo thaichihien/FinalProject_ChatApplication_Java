@@ -24,24 +24,19 @@ public class Server {
 
     public void listening(){
         while(true) {
-           
             try {
-               
-                
                 System.out.println("Waiting for connect request...");
                 Socket client = server.accept();
                 
                 ClientRoom newClient = new ClientRoom(client);
                 //clientList.add(newClient);
                 newClient.start();
-
-               
+   
             } catch (IOException ie) {
 
                 try {
                     server.close();
-                } catch (IOException e) {
-                    
+                } catch (IOException e) {        
                     e.printStackTrace();
                 }
                 break;

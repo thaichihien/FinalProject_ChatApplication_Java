@@ -1093,6 +1093,7 @@ public class DatabaseManagment {
                         account.setCreatedAt(formattedDate);
                     }
                     account.setOnline(data.getBoolean("ONLINE"));
+                    account.setBanned(data.getBoolean("BANNED"));
                     accountList.add(account);
                     
                 } while (data.next());

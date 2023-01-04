@@ -164,7 +164,7 @@ public ArrayList<UserAccount> getData(){
 - [X] Xem danh sách admin 1 nhóm.
 
 **Cải tiến:**
-- [ ] Socket cho admin, giúp cập nhật danh sách thời gian thực
+- [X] Socket cho admin, giúp cập nhật danh sách thời gian thực
 - [X] Cập nhật online,offline
 - [X] Một tài khoản thay đổi thông tin, thông báo socket đến các tài khoản khác
 ## Lưu ý:
