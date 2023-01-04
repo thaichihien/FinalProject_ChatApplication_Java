@@ -1,6 +1,7 @@
 # FinalProject_ChatApplication_Java
 
-- [Công việc](#công-việc)
+- [Mục tiêu](#mục-tiêu)
+- [Hướng dẫn chạy chương trình](#hướng-dẫn-chạy-chương-trình)
 - [Giải thích package](#giải-thích-package)
 - [Thư viện](#cài-đặt-thư-viện)
 - [Lưu ý](#lưu-ý)
@@ -18,14 +19,16 @@
 - **test:** chứa môi trường test Jframe
 - **uichatcomponent:** chứa các component phục vụ cho UI
 - **userchatapp:** : chứa giao diện người dùng
-## Cài đăt thư viện
+- **utils**: chứa các lớp tiện ích : gửi mail,mã hóa,...
+
+## Cài đặt thư viện
 - **PostgreSQL Driver** : để kết nối csdl Postgres từ Java : https://jdbc.postgresql.org/download/
 - **JCalendar:** giao diện Swing để chọn ngày, dùng bên Admin, sử dụng **jcalendar-1.4.jar**: https://toedter.com/jcalendar/
 - **Java Mail**: cho phần gửi email với mật khẩu random mới: https://javaee.github.io/javamail/
 - **JAF (JavaBeans Activation Framework)** : phục vụ cho chức năng gửi mail: https://www.oracle.com/java/technologies/downloads.html
 ## Hướng dẫn tạo cơ sở dự liệu Postgres:
 - Đọc hướng dẫn chi tiết tại thư mục ***doc***
-## Hướng dẫn kết nối Postgres từ java:
+## Cài đặt kết nối Postgres từ java:
 - Nhớ add driver nói trên
 - Copy đoạn code bên dưới, tạo file tên là **DatabaseConfig.java** đặt trong thư mục **database**, dán code vào
 - Sửa tài khoản và mật khẩu cho phù hợp:
@@ -43,6 +46,66 @@ public class DatabaseConfig {
 - Tạo file `.secretkey` tại ***src/utils*** với nội dung:
 
 `secret_key = <your secret key>`
+
+## Mục tiêu:
+### Bên người dùng
+- [X] Đăng ký tài khoản + (cải tiến mã hóa mật khẩu, UI che mật khẩu)
+- [X] Đăng nhập tài khoản
+- [X] Quên mật khẩu
+- [X] Sửa thông tin, thay đổi mật khẩu
+- [X] Hiển thị danh sách bạn bè
+- [X] Thêm bạn bè bằng tên đăng nhập
+- [X] Hủy kết bạn
+- [X] Tạo nhóm chat
+- [X] Đổi tên nhóm chat
+- [X] Thêm thành viên
+- [X] Gán quyền admin
+- [X] Xóa thành viên
+- [X] Xem lịch sử chat
+- [X] Lưu lịch sử tin nhắn
+- [X] Tìm kiếm lịch sử chat
+- [X] Xóa lịch sử chat
+### Bên quản trị
+- [X] Xem danh sách cho phép lọc theo tên/tên đăng nhập, sắp xếp theo tên/ngày tạo
+- [X] Thêm/cập nhật/xoá
+- [X] Khoá tài khoản
+- [X] Cập nhật mật khẩu
+- [X] Xem lịch sử đăng nhập
+- [X] Danh sách bạn bè.
+- [x] Xem danh sách đăng nhập theo thứ tự thời gian. Thông tin gồm: thời gian, tên đăng nhập, họ tên.
+- [X] Xem danh sách các nhóm chat
+- [x] Sắp xếp theo tên/thời gian tạo
+- [X] Xem danh sách thành viên 1 nhóm
+- [X] Xem danh sách admin 1 nhóm.
+
+**Cải tiến:**
+- [X] Socket cho admin, giúp cập nhật danh sách thời gian thực
+- [X] Cập nhật online,offline
+- [X] Một tài khoản thay đổi thông tin, thông báo socket đến các tài khoản khác
+
+## Hướng dẫn chạy chương trình
+### Chuẩn bị
+- Đảm bảo đã cài cả bốn thư viện tại [Thư viện](#cài-đặt-thư-viện)
+- Đã tạo CSDL **finalproject_chatapplication** vào các bảng (đọc hướng dẫn và script tại thư mục doc). Ở đây sử dụng **PostgresSQL**
+- Đọc hướng dẫn config tại [Config Database](#cài-đặt-kết-nối-postgres-từ-java) và [Config Mã hóa mật khẩu](#cài-đặt-mã-hóa-mật-khẩu)
+### Debug trên VSCode (dễ nhất):
+- Đảm bảo đã cài môi trường Java cho VSCode. [Hướng dẫn cài Java cho VSCode]( https://code.visualstudio.com/docs/java/java-tutorial)
+- Cài cả bốn thư viện [Thư viện](#cài-đặt-thư-viện)  vào VSCode  (đọc thêm :  [Hướng dẫn cài thư viện jar trên VSCode](https://code.visualstudio.com/docs/java/java-project#_manage-dependencies-for-unmanaged-folder))
+- Vào mục **Run and Debug** (nhấn tổ hợp phím `Ctrl + shift + D`)
+- Tại chỗ chọn giống ComboBox hình tam giác xanh( &#9654;) chọn:
+  - Server/Client : chạy 1 Server và 1 Client user
+  - Server/2 Client: chạy 1 Server và 2 Client user
+  - Server/AdminClient/Client: Chạy 1 Server, 1 Client là Admin, 1 Client là user
+- Chọn xong nhấn &#9654; bên cạnh để chạy
+- Có thể thêm tùy ý mình số lượng Client tại **.vscode/lauch.json**
+### Compile và chạy file bằng command line 
+
+## Lưu ý:
+- Mở VScode ra làm thì trước tiên &rarr; **FETCH**: để kiếm tra trên github có thay đổi gì không (bước này để chuẩn bị backup trước khi pull nếu confilct), nếu có thì **PULL**: lấy code trên github về máy
+- Làm xong một chức năng, một hàm rồi (***Không bị lỗi compile***) &rarr; **COMMIT** và **PUSH**
+- Chỉ nên làm trên **file mình được giao**, cần chỉnh file khác thì báo trước
+- Deadline luôn là tối ngày hôm đó phải có
+
 ## Hướng dẫn test code:
 ### Đối với chức năng Login và Register:
 - Viết code tại các file Login.java Register.java. Chạy code ở các file này
@@ -133,62 +196,7 @@ public ArrayList<UserAccount> getData(){
         return myList;
     }
 ```
-## Công việc:
-### Bên người dùng
-- [X] Đăng ký tài khoản + (cải tiến mã hóa mật khẩu, UI che mật khẩu)
-- [X] Đăng nhập tài khoản
-- [X] Quên mật khẩu
-- [X] Sửa thông tin, thay đổi mật khẩu
-- [X] Hiển thị danh sách bạn bè
-- [X] Thêm bạn bè bằng tên đăng nhập
-- [X] Hủy kết bạn
-- [X] Tạo nhóm chat
-- [X] Đổi tên nhóm chat
-- [X] Thêm thành viên
-- [X] Gán quyền admin
-- [X] Xóa thành viên
-- [X] Xem lịch sử chat
-- [X] Lưu lịch sử tin nhắn
-- [X] Tìm kiếm lịch sử chat
-- [X] Xóa lịch sử chat
-### Bên quản trị
-- [X] Xem danh sách cho phép lọc theo tên/tên đăng nhập, sắp xếp theo tên/ngày tạo
-- [X] Thêm/cập nhật/xoá
-- [X] Khoá tài khoản
-- [X] Cập nhật mật khẩu
-- [X] Xem lịch sử đăng nhập
-- [X] Danh sách bạn bè.
-- [x] Xem danh sách đăng nhập theo thứ tự thời gian. Thông tin gồm: thời gian, tên đăng nhập, họ tên.
-- [X] Xem danh sách các nhóm chat
-- [x] Sắp xếp theo tên/thời gian tạo
-- [X] Xem danh sách thành viên 1 nhóm
-- [X] Xem danh sách admin 1 nhóm.
 
-**Cải tiến:**
-- [X] Socket cho admin, giúp cập nhật danh sách thời gian thực
-- [X] Cập nhật online,offline
-- [X] Một tài khoản thay đổi thông tin, thông báo socket đến các tài khoản khác
-## Lưu ý:
-- Mở VScode ra làm thì trước tiên &rarr; **FETCH**: để kiếm tra trên github có thay đổi gì không (bước này để chuẩn bị backup trước khi pull nếu confilct), nếu có thì **PULL**: lấy code trên github về máy
-- Làm xong một chức năng, một hàm rồi (***Không bị lỗi compile***) &rarr; **COMMIT** và **PUSH**
-- Chỉ nên làm trên **file mình được giao**, cần chỉnh file khác thì báo trước
-- Deadline luôn là tối ngày hôm đó phải có
-## Hướng dẫn chạy chương trình
-### Chuẩn bị
-- Đảm bảo đã cài cả bốn thư viện tại [Thư viện](#cài-đặt-thư-viện)
-- Đã tạo CSDL **finalproject_chatapplication** vào các bảng (đọc hướng dẫn và script tại thư mục doc). Ở đây sử dụng **PostgresSQL**
-- Đọc hướng dẫn config tại [Config Database](#h-ng-d-n-t-o-c-s-d-li-u-postgres) và [Config Mã hóa mật khẩu](#cai-d-t-ma-hoa-m-t-kh-u)
-### Debug trên VSCode (dễ nhất):
-- Đảm bảo đã cài môi trường Java cho VSCode. [Hướng dẫn cài Java cho VSCode]( https://code.visualstudio.com/docs/java/java-tutorial)
-- Cài cả bốn thư viện [Thư viện](#cài-đặt-thư-viện)  vào VSCode  (đọc thêm :  [Hướng dẫn cài thư viện jar trên VSCode](https://code.visualstudio.com/docs/java/java-project#_manage-dependencies-for-unmanaged-folder))
-- Vào mục **Run and Debug** (nhấn tổ hợp phím `Ctrl + shift + D`)
-- Tại chỗ chọn giống ComboBox hình tam giác xanh( &#9654;) chọn:
-  - Server/Client : chạy 1 Server và 1 Client user
-  - Server/2 Client: chạy 1 Server và 2 Client user
-  - Server/AdminClient/Client: Chạy 1 Server, 1 Client là Admin, 1 Client là user
-- Chọn xong nhấn &#9654; bên cạnh để chạy
-- Có thể thêm tùy ý mình số lượng Client tại **.vscode/lauch.json**
-### Compile và chạy file bằng command line 
 
 ## Phân công:
 
