@@ -78,8 +78,19 @@ public class DatabaseConfig {
 - Tạo file `.secretkey` tại ***src/utils*** với nội dung:
 
 `secret_key = <your secret key>`
-
-
+## Cài đặt biến môi trường
+- Vào phần search ở windows gõ **advanced system**
+- Chọn **View advanced system settings**
+- Nhấn vào nút **Environment Variables**
+- Tại đây nhấn nút **New** (tạo cả trên lẫn dưới)
+- Các giá trị biến cần có cho chương trình này :
+```
+POSTGRES_USERNAME = tên tài khoản hoặc mặc định là "postgres"
+POSTGRES_PASSWORD = mật khẩu posgres
+USER_EMAIL_PROJECT = email mà chương trình dùng để gửi mật khẩu random vào email người dùng (lưu ý đây email để gửi không phải email nhận mật khẩu)
+PASSWORD_EMAIL_PROJECT = mật khẩu email trên
+``` 
+- Xong rồi thì **Ok** rồi **Apply**
 ## Hướng dẫn chạy chương trình
 ### Chuẩn bị
 - Đảm bảo đã cài cả bốn thư viện tại [Thư viện](#cài-đặt-thư-viện)
@@ -97,6 +108,7 @@ public class DatabaseConfig {
 - Có thể thêm tùy ý mình số lượng Client tại **.vscode/lauch.json**
 ### Compile và chạy file bằng command line  (muốn hiểu thêm hỏi Hiện)
 ### Chạy file jar
+- Khi chạy chương trình này thì **bắt buộc** cài đặt biến môi trường tại [Cài đặt biến môi trường](#cài-đặt-biến-môi-trường)
 - Tải ứng dụng chat tại [đây](https://drive.google.com/file/d/1pPCv_a48pXgA_a8d0MQn32gIr0jdr6fu/view?usp=sharing)
 - Giải nén vào một thư mục (ở đây lấy ví dụ là **root**)
 - Đặt cả 4 [thư viện](#cài-đặt-thư-viện) vào thư mục **lib** (tự tạo) đặt cùng các file chat .jar
