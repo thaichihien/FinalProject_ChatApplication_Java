@@ -95,8 +95,28 @@ public class DatabaseConfig {
   - Server/AdminClient/Client: Chạy 1 Server, 1 Client là Admin, 1 Client là user
 - Chọn xong nhấn &#9654; bên cạnh để chạy
 - Có thể thêm tùy ý mình số lượng Client tại **.vscode/lauch.json**
-### Compile và chạy file bằng command line 
+### Compile và chạy file bằng command line  (muốn hiểu thêm hỏi Hiện)
+### Chạy file jar
+- Tải ứng dụng chat tại [đây](https://drive.google.com/file/d/1pPCv_a48pXgA_a8d0MQn32gIr0jdr6fu/view?usp=sharing)
+- Giải nén vào một thư mục (ở đây lấy ví dụ là **root**)
+- Đặt cả 4 [thư viện](#cài-đặt-thư-viện) vào thư mục **lib** (tự tạo) đặt cùng các file chat .jar
+- Cây thư mục:
+```
+--root
+   | - [VanSuNhuY]chatapplication-admin.jar
+   | - [VanSuNhuY]chatapplication-client.jar
+   | - [VanSuNhuY]chatapplication-server.jar
+   | - lib
+        | - activation.jar
+        | - javax.mail.jar
+        | - jcalendar-1.4.jar
+        | - postgresql-42.5.1.jar
 
+```
+- chạy CMD tại thư mục root
+- chạy lệnh: `java -jar <tên file chat .jar>` <br>
+**VD**: `java -jar [VanSuNhuY]chatapplication-client.jar`
+- Lưu ý chạy ứng dụng theo thứ tự: **Server** trước tiên rồi **Admin** hay **Client** sau 
 ## Lưu ý:
 - Mở VScode ra làm thì trước tiên &rarr; **FETCH**: để kiếm tra trên github có thay đổi gì không (bước này để chuẩn bị backup trước khi pull nếu confilct), nếu có thì **PULL**: lấy code trên github về máy
 - Làm xong một chức năng, một hàm rồi (***Không bị lỗi compile***) &rarr; **COMMIT** và **PUSH**
