@@ -197,7 +197,7 @@ public class Register extends JFrame {
 		lblLogo.setForeground(Color.LIGHT_GRAY);
 		lblLogo.setBackground(Color.LIGHT_GRAY);
 		lblLogo.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLogo.setIcon(new ImageIcon(Login.class.getResource("/uichatcomponent/chat.png")));
+		lblLogo.setIcon(new ImageIcon(Login.class.getResource("/resource/chat.png")));
 		lblLogo.setBounds(313, 10, 226, 117);
 		contentPane.add(lblLogo);
 		

@@ -38,8 +38,6 @@ public class Client {
 
     public void connect(){
 
-              
-
             SwingUtilities.invokeLater(new Runnable() {
                 @Override
                 public void run() {

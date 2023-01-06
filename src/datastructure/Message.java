@@ -89,6 +89,13 @@ public class Message {
     }
 
     
+    public boolean checkMessageVisible(int ID){
+        if(this.visible_only == NOT_HIDE || this.visible_only == ID){
+            return true;
+        }else {
+            return false;
+        }
+    }
 
 
 }

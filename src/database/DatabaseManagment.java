@@ -1288,7 +1288,7 @@ public class DatabaseManagment {
 
 
     public ArrayList<Message> getAllMessageFromUser(int ID){
-        String SELECT_QUERY = "SELECT MU.ID,MU.CHATBOX_ID,UA.USERNAME,MU.TIME_SEND,MU.CONTENT,MU.VISIBLE_ONLY FROM MESSAGE_USER MU INNER JOIN USER_ACCOUNT UA ON UA.ID = MU.FROM_USER WHERE (MU.FROM_USER = ? OR MU.TO_USER = ?) AND (VISIBLE_ONLY = ? OR VISIBLE_ONLY IS NULL) ORDER BY MU.TIME_SEND DESC";
+        String SELECT_QUERY = "SELECT MU.ID,MU.CHATBOX_ID,UA.USERNAME,MU.TIME_SEND,MU.CONTENT,MU.VISIBLE_ONLY FROM MESSAGE_USER MU INNER JOIN USER_ACCOUNT UA ON UA.ID = MU.FROM_USER WHERE (MU.FROM_USER = ? OR MU.TO_USER = ?) AND (VISIBLE_ONLY = ? OR VISIBLE_ONLY = ?) ORDER BY MU.TIME_SEND DESC";
         ResultSet data = null;
         ArrayList<Message> messageList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
@@ -1296,6 +1296,7 @@ public class DatabaseManagment {
            statment.setInt(1, ID);
            statment.setInt(2, ID);
            statment.setInt(3, ID);
+           statment.setInt(4, Message.NOT_HIDE);
             data = statment.executeQuery();
             
             if(!data.next()){
@@ -1312,13 +1313,7 @@ public class DatabaseManagment {
                     message.setDateSend(formattedDate);
                     message.setUserName(data.getString("username"));
                     message.setContent(data.getString("content"));
-                    int id_visibleOnly = data.getInt("visible_only");
-                    if(data.wasNull()){
-                        message.setVisible_only(Message.NOT_HIDE);
-                    }
-                    else{
-                        message.setVisible_only(id_visibleOnly);
-                    }
+                    message.setVisible_only(data.getInt("visible_only"));
                    
                     messageList.add(message);
                     
@@ -1993,7 +1988,7 @@ public class DatabaseManagment {
     }
     
     public void saveMessageUser(Message message,int fromID,int toID){
-        String INSERT_QUERY = "INSERT INTO MESSAGE_USER(CHATBOX_ID,FROM_USER,TO_USER,TIME_SEND,CONTENT) VALUES(?,?,?,?,?)";
+        String INSERT_QUERY = "INSERT INTO MESSAGE_USER(CHATBOX_ID,FROM_USER,TO_USER,TIME_SEND,CONTENT,VISIBLE_ONLY) VALUES(?,?,?,?,?,?)";
         try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY)) {
             statement.setString(1, message.getChatboxID());
             statement.setInt(2, fromID);
@@ -2004,6 +1999,7 @@ public class DatabaseManagment {
             Timestamp timestamp = new java.sql.Timestamp(parsedDate.getTime());
             statement.setTimestamp(4, timestamp);
             statement.setString(5, message.getContent());
+            statement.setInt(6, Message.NOT_HIDE);
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -2057,20 +2053,21 @@ public class DatabaseManagment {
     }
 
     public void deleteMessageUser(String chatBoxID,int ID,int otherID){
-        boolean deletedFromBoth = checkIfOtherDeletedMessage(chatBoxID, ID);
-        String UPDATE_QUERY = "UPDATE MESSAGE_USER SET VISIBLE_ONLY = ? WHERE CHATBOX_ID = ? AND VISIBLE_ONLY IS NULL";
-        if(deletedFromBoth){
-            UPDATE_QUERY = "UPDATE MESSAGE_USER SET VISIBLE_ONLY = ? WHERE CHATBOX_ID = ? AND NOT VISIBLE_ONLY IS NULL";
-        }
+        //boolean deletedFromBoth = checkIfOtherDeletedMessage(chatBoxID, ID);
+        String UPDATE_QUERY = "UPDATE MESSAGE_USER SET VISIBLE_ONLY = (CASE WHEN VISIBLE_ONLY = ? THEN ? WHEN VISIBLE_ONLY = ? THEN ? END)  WHERE CHATBOX_ID = ? AND (VISIBLE_ONLY = ? OR VISIBLE_ONLY = ?)";
+        // if(deletedFromBoth){
+        //     UPDATE_QUERY = "UPDATE MESSAGE_USER SET VISIBLE_ONLY = ? WHERE CHATBOX_ID = ? AND NOT VISIBLE_ONLY IS NULL";
+        // }
        
         try (PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)) {
         
-            if(deletedFromBoth){
-                statement.setInt(1, Message.DELETED);
-            }else{
-                statement.setInt(1, otherID);
-            }
-            statement.setString(2, chatBoxID);
+            statement.setInt(1, Message.NOT_HIDE);
+            statement.setInt(2, otherID);
+            statement.setInt(3, ID);
+            statement.setInt(4, Message.DELETED);
+            statement.setString(5, chatBoxID);
+            statement.setInt(6, Message.DELETED);
+            statement.setInt(7, ID);
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

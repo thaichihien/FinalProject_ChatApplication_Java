@@ -1,13 +1,10 @@
 package utils;
 
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
 import java.util.Arrays;
 import java.util.Base64;
-import java.util.Properties;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -69,14 +66,8 @@ public class PasswordService {
 
 
     public static String encryptPassword(String password){
-        Properties properties = new Properties();
-        try (FileInputStream fileInputStream = new FileInputStream("src/utils/.secretkey")) {
-            properties.load(fileInputStream);
-        } catch (IOException e) {
-            
-            e.printStackTrace();
-        }
-        String key = properties.getProperty("secret_key");
+        
+        String key = System.getenv("SECRETKEY_JAVA");
         if(key == null){
             System.out.println("key not found");
         }
@@ -88,14 +79,7 @@ public class PasswordService {
 
 
     public static boolean verifyPassword(String password,String encryptPassword){
-        Properties properties = new Properties();
-        try (FileInputStream fileInputStream = new FileInputStream("src/utils/.secretkey")) {
-            properties.load(fileInputStream);
-        } catch (IOException e) {
-            
-            e.printStackTrace();
-        }
-        String key = properties.getProperty("secret_key");
+        String key = System.getenv("SECRETKEY_JAVA");
         String passwordEncypt = generateSecurePassword(password, key);
         return passwordEncypt.equals(encryptPassword);
     }

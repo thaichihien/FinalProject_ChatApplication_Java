@@ -17,6 +17,8 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
     private final Color unactiveTabColor = new Color(217, 217, 217);
     private UserAccount user;
     MenuChat menuChatLayout;
+    MenuAddFriend menuFriendLayout;
+    MenuGroup menuGroupLayout;
 
     @Override
     public void run() {
@@ -87,10 +89,10 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
         menuChatLayout = new MenuChat(this.user);
         jTabbedPaneLayput.addTab("chat", menuChatLayout);
 
-        MenuAddFriend menuFriendLayout = new MenuAddFriend(this.user);
+        menuFriendLayout = new MenuAddFriend(this.user);
         jTabbedPaneLayput.addTab("addfriend", menuFriendLayout);
 
-        MenuGroup menuGroupLayout = new MenuGroup(this.user);
+        menuGroupLayout = new MenuGroup(this.user);
         jTabbedPaneLayput.addTab("group", menuGroupLayout);
 
         Thread receiveMessageProcess = new Thread(this);
@@ -164,7 +166,7 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
             }
         });
 
-        jTabButton1_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uichatcomponent/chat. (1).png"))); // NOI18N
+        jTabButton1_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/chat. (1).png"))); // NOI18N
 
         javax.swing.GroupLayout jTabButton1Layout = new javax.swing.GroupLayout(jTabButton1);
         jTabButton1.setLayout(jTabButton1Layout);
@@ -188,7 +190,7 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
             }
         });
 
-        jTabButton2_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uichatcomponent/chat. (2).png"))); // NOI18N
+        jTabButton2_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/chat. (2).png"))); // NOI18N
 
         javax.swing.GroupLayout jTabButton2Layout = new javax.swing.GroupLayout(jTabButton2);
         jTabButton2.setLayout(jTabButton2Layout);
@@ -212,7 +214,7 @@ public class MainFormUser extends javax.swing.JFrame implements Runnable {
             }
         });
 
-        jTabButton_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uichatcomponent/chat. (3).png"))); // NOI18N
+        jTabButton_icon.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resource/chat. (3).png"))); // NOI18N
 
         javax.swing.GroupLayout jTabButton3Layout = new javax.swing.GroupLayout(jTabButton3);
         jTabButton3.setLayout(jTabButton3Layout);

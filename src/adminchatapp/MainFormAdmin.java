@@ -17,9 +17,9 @@ import datastructure.UserAccount;
 public class MainFormAdmin extends javax.swing.JFrame implements Runnable {
 
     private UserAccount adminAccount;
-    MenuAccountManager menuAccTest;
-    MenuLoginHistory menuHistoryTest;
-    MenuGroupManager menuGroupTest;
+    MenuAccountManager menuAccLayout;
+    MenuLoginHistory menuHistoryLayout;
+    MenuGroupManager menuGroupLayout;
     
 
     @Override
@@ -40,11 +40,11 @@ public class MainFormAdmin extends javax.swing.JFrame implements Runnable {
         String[] allMessage = ChatService.packetAnalysis(packet);
 
         if(allMessage[0].equals(ChatService.ACCOUNT_MANAGER_CHANGES)){
-            menuAccTest.filltableUserAccount();
+            menuAccLayout.filltableUserAccount();
         }else if(allMessage[0].equals(ChatService.LOGIN_HISTORY_CHANGES)){
-            menuHistoryTest.filltableLoginHistory();
+            menuHistoryLayout.filltableLoginHistory();
         }else if(allMessage[0].equals(ChatService.GROUP_MANAGER_CHANGES)){
-            menuGroupTest.filltableGroup();
+            menuGroupLayout.filltableGroup();
         }
 
     }
@@ -60,12 +60,12 @@ public class MainFormAdmin extends javax.swing.JFrame implements Runnable {
         adminAccount.br = br;
         adminAccount.setID(UserAccount.ADMIN_ID);
 
-        menuAccTest = new MenuAccountManager(this);
-        menuHistoryTest =new MenuLoginHistory(this);
-        menuGroupTest = new MenuGroupManager(this);
-        jTabbedPane.addTab("Account", menuAccTest);
-        jTabbedPane.addTab("Login", menuHistoryTest);
-        jTabbedPane.addTab("Group", menuGroupTest);
+        menuAccLayout = new MenuAccountManager(this);
+        menuHistoryLayout =new MenuLoginHistory(this);
+        menuGroupLayout = new MenuGroupManager(this);
+        jTabbedPane.addTab("Account", menuAccLayout);
+        jTabbedPane.addTab("Login", menuHistoryLayout);
+        jTabbedPane.addTab("Group", menuGroupLayout);
         //jTabbedPane.setSelectedIndex(3);
 
         adminAccount.sendPacket(String.valueOf(adminAccount.getID()));

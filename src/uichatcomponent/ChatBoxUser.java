@@ -31,7 +31,7 @@ public class ChatBoxUser extends ChatBoxLayout{
 
 
 
-    private void sendButtonActionPerformed(ActionEvent e){
+    private void sendMessage(){
         String message = inputChatTextArea.getText();
         //ZonedDateTime  myDateObj = ZonedDateTime.now( ZoneId.of("Asia/Ho_Chi_Minh")); 
         Timestamp sendTime =new Timestamp(new Date().getTime());
@@ -131,7 +131,7 @@ public class ChatBoxUser extends ChatBoxLayout{
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                sendButtonActionPerformed(e);
+                sendMessage();
                 
             }
        });

@@ -65,7 +65,7 @@ public class SearchBar extends JTextField{
         setBackground(new Color(255,255,255,0));
         setOpaque(false);
         setBorder(new EmptyBorder(10,10,10,50));
-        iconSearch = new ImageIcon(getClass().getResource("/uichatcomponent/icons8-search-more-30.png"));
+        iconSearch = new ImageIcon(getClass().getResource("/resource/icons8-search-more-30.png"));
         
         addMouseMotionListener(new MouseMotionAdapter() {
             @Override

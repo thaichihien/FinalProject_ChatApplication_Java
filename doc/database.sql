@@ -97,12 +97,12 @@ values
 				
 INSERT INTO LOGIN_HISTORY(USER_ID,LOGIN_TIME)
 VALUES
-	(1, '2023-12-18 22:52:40'),
-	(3, '2023-12-18 22:52:40'),
-	( 3, '2023-12-18 22:52:40'),
-	(1, '2023-12-18 22:52:40'),
-	( 2, '2023-12-18 22:52:40'),
-	( 6, '2023-12-18 22:52:40');
+	(1, '2022-12-15 20:30:00'),
+	(3, '2022-12-17 23:55:40'),
+	( 3, '2022-12-17 08:42:05'),
+	(1, '2022-12-18 10:17:21'),
+	( 2, '2022-12-19 15:25:00'),
+	( 6, '2022-12-20 22:52:40');
 
 -- USER FRIEND
 insert into USER_FRIEND (ID, FRIEND_ID)
@@ -130,24 +130,24 @@ values
 				
 
 -- CHAT_HISTORY
-INSERT INTO MESSAGE_USER (CHATBOX_ID,FROM_USER, TO_USER, TIME_SEND, CONTENT)
+INSERT INTO MESSAGE_USER (CHATBOX_ID,FROM_USER, TO_USER, TIME_SEND, CONTENT,VISIBLE_ONLY)
 values
-				('1-3',1, 3, '2023-12-18 22:52:40', 'Message1'),
-				('2-3',2, 3, '2023-12-18 22:52:40', 'Message2'),
-				('3-4',4, 3, '2023-12-18 22:52:40', 'Message4'),
-				('1-3',3, 1, '2023-12-18 22:52:40', 'Message5'),
-				('2-3',3, 2, '2023-12-18 22:52:40', 'Message6'),
-				('4-6',4, 6, '2023-12-18 22:52:40', 'Message7'),
-				('4-6',6, 4, '2023-12-18 22:52:40', 'Message8'),
-				('1-9',9, 1, '2023-12-18 22:52:40', 'Message9');
+				('1-3',1, 3, '2022-12-18 22:52:40', 'Hôm nay ông thế nào rồi',-90),
+				('2-3',2, 3, '2022-12-18 22:55:40', 'Mai nhớ đem tập',-90),
+				('3-4',4, 3, '2022-12-18 23:52:40', 'Tập bữa mượn đâu rồi',-90),
+				('1-3',3, 1, '2022-12-18 22:52:40', 'Bữa nay thấy không đi học',-90),
+				('2-3',3, 2, '2022-12-18 22:52:40', 'Nó đòi t rồi',-90),
+				('4-6',4, 6, '2022-12-18 24:52:40', 'Ok',-90),
+				('4-6',6, 4, '2022-12-18 22:52:40', 'Bye',-90),
+				('1-9',9, 1, '2022-12-18 22:52:40', 'Cuối tuần rảnh không!',-90);
 
 
 -- GROUPCHAT
 insert into GROUPCHAT (GROUP_NAME,CREATED_AT,ONLINE)
 values
-				('Group1', '2023-12-18 22:52:40','1'),
-				('Group2', '2023-12-18 22:52:40','0'),
-				('Group3', '2023-12-18 22:52:40','1');
+				('Group1', '2022-12-18 22:52:40','1'),
+				('Group2', '2022-12-18 22:52:40','0'),
+				('Group3', '2022-12-18 22:52:40','1');
 -- GROUPCHAT MEMBER
 insert into GROUPCHAT_MEMBER (GROUPCHAT_ID, MEMBER_ID,POSITION)
 values
@@ -160,11 +160,11 @@ values
 
 INSERT INTO MESSAGE_GROUP (FROM_USER, TO_GROUP, TIME_SEND, CONTENT)
 values
-				(1, 1, '2023-12-18 22:52:40', 'Message1'),
-				(1, 1, '2023-12-18 22:52:40', 'Message2'),
-				(2, 1, '2023-12-18 22:52:40', 'Message4'),
-				(3, 1, '2023-12-18 22:52:40', 'Message5'),
-				(3, 3, '2023-12-18 22:52:40', 'Message6'),
-				(1, 1, '2023-12-18 22:52:40', 'Message7'),
-				(2, 2, '2023-12-18 22:52:40', 'Message8');
+				(1, 1, '2022-12-18 22:52:40', 'Còn công việc cuối là cái này nhưng t để nhầm file làm việc, phải là ở uichatcomponent/DetailAccounForm.java'),
+				(1, 1, '2022-12-18 22:52:40', 'Deadline là 9h tối nay, k có thì t làm lun'),
+				(2, 1, '2022-12-18 22:52:40', 'Oki t có lm cái sườn r'),
+				(3, 1, '2022-12-18 22:52:40', 'cần full tất cả các cột ko ông hay mấy cột chính thôi'),
+				(3, 3, '2022-12-18 22:52:40', 'Message6'),
+				(1, 1, '2022-12-18 22:52:40', 'tranh thủ tối nay xong cái này nhé'),
+				(2, 2, '2022-12-18 22:52:40', 'Message8');
 
