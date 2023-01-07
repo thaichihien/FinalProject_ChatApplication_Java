@@ -109,7 +109,7 @@ PASSWORD_EMAIL_PROJECT = mật khẩu email trên
 ### Compile và chạy file bằng command line  (muốn hiểu thêm hỏi Hiện)
 ### Chạy file jar   (CHƯA SỬ DỤNG ĐƯỢC)
 - Khi chạy chương trình này thì **bắt buộc** cài đặt biến môi trường tại [Cài đặt biến môi trường](#cài-đặt-biến-môi-trường)
-- Tải ứng dụng chat tại [đây](https://drive.google.com/file/d/1pPCv_a48pXgA_a8d0MQn32gIr0jdr6fu/view?usp=sharing)
+- Tải ứng dụng chat tại [đây](https://drive.google.com/file/d/1Kb2cDPXbiwUs-t7fJ-bEbzYOcsFDrXye/view?usp=sharing)
 - Giải nén vào một thư mục (ở đây lấy ví dụ là **root**)
 - Đặt cả 4 [thư viện](#cài-đặt-thư-viện) vào thư mục **lib** (tự tạo) đặt cùng các file chat .jar
 - Cây thư mục:
@@ -125,9 +125,11 @@ PASSWORD_EMAIL_PROJECT = mật khẩu email trên
         | - postgresql-42.5.1.jar
 
 ```
-- chạy CMD tại thư mục root
-- chạy lệnh: `java -jar <tên file chat .jar>` <br>
-**VD**: `java -jar [VanSuNhuY]chatapplication-client.jar`
+- Chạy ứng dụng:
+  - chạy CMD tại thư mục root : chạy lệnh: </br>
+  `java -jar <tên file chat .jar>` <br>
+    **VD**: `java -jar [VanSuNhuY]chatapplication-client.jar`
+  - Nhấn đúp vào file **.jar**
 - Lưu ý chạy ứng dụng theo thứ tự: **Server** trước tiên rồi **Admin** hay **Client** sau 
 ## Lưu ý:
 - Mở VScode ra làm thì trước tiên &rarr; **FETCH**: để kiếm tra trên github có thay đổi gì không (bước này để chuẩn bị backup trước khi pull nếu confilct), nếu có thì **PULL**: lấy code trên github về máy
