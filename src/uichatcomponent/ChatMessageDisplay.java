@@ -18,7 +18,7 @@ public class ChatMessageDisplay extends JScrollPane{
 
     private Color backgroundColor;
     private int marginTopBottom = 10;
-    private int marginLeftRight = 20;
+    private int marginLeftRight = 18;
     private int row;
     private JPanel messagePanel;
 

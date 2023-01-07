@@ -9,6 +9,7 @@ import javax.swing.JOptionPane;
 
 import adminchatapp.MenuAccountManager;
 import datastructure.UserAccount;
+import utils.PasswordService;
 import database.DatabaseManagment;
 
 
@@ -55,7 +56,8 @@ public class CreateAccountForm extends javax.swing.JFrame {
         UserAccount newUser = new UserAccount();
         newUser.setUsername(username);
         newUser.setFullname(fullname);
-        newUser.setPassword(password);
+        String encryptPassword = PasswordService.encryptPassword(password);
+        newUser.setPassword(encryptPassword);
         newUser.setEmail(email);
         newUser.setAddress(address);
         newUser.setGender(gender);
