@@ -71,6 +71,11 @@ public class ListItemChatAccount<E extends Object> extends JList<E>{
         }
         return itemList;
     }
+
+    public int getIDSelected(int index){
+        ItemChatAccount item =(ItemChatAccount) model.getElementAt(index);
+        return item.getID();
+    }
     
     
 }

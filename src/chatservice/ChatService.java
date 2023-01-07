@@ -6,7 +6,7 @@ import java.util.StringTokenizer;
 
 public class ChatService {
     public static final String CHAT = "c";
-    public static final String CHATGROUP ="cg";
+    public static final String CHATGROUP ="chg";
     public static final String GROUP_RECEIVED ="gr";
     public static final String CHANGES = "cg";
     public static final String DELIMITER = "#";

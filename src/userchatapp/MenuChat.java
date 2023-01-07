@@ -230,6 +230,7 @@ public class MenuChat extends JPanel{
     
     public void listFriendJlistValueChanged(ListSelectionEvent e){
         int index = listFriendJlist.getSelectedIndex();
+        
         chatLayout.setSelectedIndex(index);
         
     }

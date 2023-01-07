@@ -62,7 +62,10 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
   
     public void enableAdmin(){
         DatabaseManagment database = DatabaseManagment.getInstance();
-        if (!isAdmin){return;}
+        if (!isAdmin){
+            JOptionPane.showMessageDialog(null, "You do not have permission to assign admin role", "Permission denied", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         int row = tableMemberGroup.getSelectedRow();
         if(row < 0){    // Cảnh báo chưa chọn dòng nào trong bảng
              JOptionPane.showMessageDialog(null, "Please select an member", "Not selected", JOptionPane.WARNING_MESSAGE);
@@ -100,6 +103,12 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
    
     
     public void changeGroupName(){
+
+        if(!isAdmin){
+            JOptionPane.showMessageDialog(null, "You do not have permission to change group name", "Permission denied", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         JPanel changeGroupPanel = new JPanel();
         JLabel changeLabel = new JLabel("Tên nhóm mới :");
         JTextField newGroupNameField = new JTextField(20);
@@ -119,7 +128,7 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
         if(JOptionPane.showConfirmDialog(null,changeGroupPanel,"Change group name",JOptionPane.OK_CANCEL_OPTION,JOptionPane.PLAIN_MESSAGE) == JOptionPane.OK_OPTION){
 
             // Code here
-            if(!isAdmin){return;}
+           
 
             if(newGroupNameField.getText().toString().trim().equals("")){
                 JOptionPane.showMessageDialog(null, "Please enter name", "Not name", JOptionPane.WARNING_MESSAGE);
@@ -140,7 +149,10 @@ public class DetailGroupChatForm extends javax.swing.JFrame {
     public void removeMember(){
         DatabaseManagment database = DatabaseManagment.getInstance();
 
-        if(!isAdmin){return;}
+        if(!isAdmin){
+            JOptionPane.showMessageDialog(null, "You do not have permission to remove members from the group", "Permission denied", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
         int row = tableMemberGroup.getSelectedRow();
         if(row < 0){    // Cảnh báo chưa chọn dòng nào trong bảng
              JOptionPane.showMessageDialog(null, "Please select an member", "Not selected", JOptionPane.WARNING_MESSAGE);

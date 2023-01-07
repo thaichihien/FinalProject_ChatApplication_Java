@@ -103,6 +103,12 @@ public class MenuGroup extends JPanel {
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
+
+    private void cancelCreateGroup(){
+        listFriendChoosen.clearList();
+        filltableListFriend();
+    }
+
     public MenuGroup(UserAccount account) {
         initComponent();
         this.user = account;
@@ -132,9 +138,11 @@ public class MenuGroup extends JPanel {
 
         cancelButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                listFriendChoosen.clearList();
+                cancelCreateGroup();
             }
         });
+
+
 
         filltableListFriend();
 
