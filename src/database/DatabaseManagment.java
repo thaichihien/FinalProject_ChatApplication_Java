@@ -419,12 +419,13 @@ public class DatabaseManagment {
                 UserAccount account = new UserAccount();
                 account.setID(data.getInt("ID"));
                 account.setUsername(data.getString("USERNAME"));
+                account.setPassword(data.getString("PASSWORD"));
                 account.setFullname(data.getString("FULLNAME"));
                 account.setAddress(data.getString("address"));
                 Date birthDay = data.getDate("date_of_birth");
                 if(!data.wasNull()){
                     account.setBirthDay(birthDay.toString());
-                }
+                }else account.setBirthDay("");
                 
                 account.setGender(data.getString("Gender"));
                 account.setEmail(data.getString("email"));
@@ -432,7 +433,7 @@ public class DatabaseManagment {
                 if(!data.wasNull()){
                     String formattedDate = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(createdAt);
                     account.setCreatedAt(formattedDate);
-                }
+                }else account.setCreatedAt("");
                 
                 account.setOnline(data.getBoolean("ONLINE"));
                 return account;
@@ -1288,7 +1289,7 @@ public class DatabaseManagment {
 
 
     public ArrayList<Message> getAllMessageFromUser(int ID){
-        String SELECT_QUERY = "SELECT MU.ID,MU.CHATBOX_ID,UA.USERNAME,MU.TIME_SEND,MU.CONTENT,MU.VISIBLE_ONLY FROM MESSAGE_USER MU INNER JOIN USER_ACCOUNT UA ON UA.ID = MU.FROM_USER WHERE (MU.FROM_USER = ? OR MU.TO_USER = ?) AND (VISIBLE_ONLY = ? OR VISIBLE_ONLY = ?) ORDER BY MU.TIME_SEND DESC";
+        String SELECT_QUERY = "SELECT MU.ID,MU.CHATBOX_ID,UA.USERNAME,MU.TIME_SEND,MU.CONTENT,MU.VISIBLE_ONLY FROM MESSAGE_USER MU INNER JOIN USER_ACCOUNT UA ON UA.ID = MU.FROM_USER WHERE (MU.FROM_USER = ? OR MU.TO_USER = ?) AND (VISIBLE_ONLY = ? OR VISIBLE_ONLY = ?) ORDER BY MU.TIME_SEND ASC";
         ResultSet data = null;
         ArrayList<Message> messageList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
@@ -2027,37 +2028,11 @@ public class DatabaseManagment {
 
     }
 
-    private boolean checkIfOtherDeletedMessage(String chatBoxID,int ID){
-        String SELECT_QUERY = "SELECT ID FROM MESSAGE_USER WHERE CHATBOX_ID = ? AND  VISIBLE_ONLY = ?";
-        ResultSet data = null;
-        try (PreparedStatement statement = conn.prepareStatement(SELECT_QUERY)) {
-            statement.setString(1, chatBoxID);
-            statement.setInt(2, ID);
-            data = statement.executeQuery();
-            if(!data.next()){
-                return false;
-            }
-            else return true;
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }finally{
-            try {
-                data.close();
-            } catch (SQLException e) {
-                
-                e.printStackTrace();
-            }
-        }
-        return false;
-    }
 
     public void deleteMessageUser(String chatBoxID,int ID,int otherID){
-        //boolean deletedFromBoth = checkIfOtherDeletedMessage(chatBoxID, ID);
+       
         String UPDATE_QUERY = "UPDATE MESSAGE_USER SET VISIBLE_ONLY = (CASE WHEN VISIBLE_ONLY = ? THEN ? WHEN VISIBLE_ONLY = ? THEN ? END)  WHERE CHATBOX_ID = ? AND (VISIBLE_ONLY = ? OR VISIBLE_ONLY = ?)";
-        // if(deletedFromBoth){
-        //     UPDATE_QUERY = "UPDATE MESSAGE_USER SET VISIBLE_ONLY = ? WHERE CHATBOX_ID = ? AND NOT VISIBLE_ONLY IS NULL";
-        // }
+       
        
         try (PreparedStatement statement = conn.prepareStatement(UPDATE_QUERY)) {
         
@@ -2066,8 +2041,9 @@ public class DatabaseManagment {
             statement.setInt(3, ID);
             statement.setInt(4, Message.DELETED);
             statement.setString(5, chatBoxID);
-            statement.setInt(6, Message.DELETED);
+            statement.setInt(6, Message.NOT_HIDE);
             statement.setInt(7, ID);
+            System.out.println("deleted");
             statement.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();

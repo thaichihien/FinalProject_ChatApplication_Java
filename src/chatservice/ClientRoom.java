@@ -37,10 +37,11 @@ public class ClientRoom extends Thread {
       try {
        
         System.out.println("Connect request is accepted...");
+        Server.loggingArea.append("Connect request is accepted...\n");
         String clientHost = clientSocket.getInetAddress().getHostAddress();
         int clientPort = clientSocket.getPort();
         System.out.println("Client host = " + clientHost + " Client port = " + clientPort);
-
+        Server.loggingArea.append("Client host = " + clientHost + " Client port = " + clientPort + "\n");
         InputStream clientIn = clientSocket.getInputStream();
         BufferedReader br = new BufferedReader(new InputStreamReader(clientIn,"UTF-8"));
         
@@ -56,6 +57,7 @@ public class ClientRoom extends Thread {
             idConverted = Integer.parseInt(idFromClient);
             if(Server.clientList.containsKey(idConverted)){
                 System.out.println("This ID is already online");
+                Server.loggingArea.append("This ID is already online\n");
                 String ans = "IDEXIST";
                 pwValidate.println(ans);
             }
@@ -88,6 +90,7 @@ public class ClientRoom extends Thread {
 
 
             } catch (Exception e) {
+                Server.loggingArea.append(e.getMessage() + "\n");
                 e.printStackTrace();
                 break;
             }
@@ -97,12 +100,13 @@ public class ClientRoom extends Thread {
         Server.clientList.remove(this.ID);
         //boardcasting("empty", name + " is disconnected");
       } catch (IOException e) {
+        Server.loggingArea.append(e.getMessage() + "\n");
         e.printStackTrace();
         try {
             clientSocket.close();
             Server.clientList.remove(this.ID);
         } catch (IOException e1) {
-            
+            Server.loggingArea.append(e1.getMessage() + "\n");
             e1.printStackTrace();
         }
         
@@ -216,21 +220,23 @@ public class ClientRoom extends Thread {
             }
             else{
                 System.out.println("error message");
+                Server.loggingArea.append("signal message is unvalid\n");
             }
         } catch (NumberFormatException e) {
-            
+            Server.loggingArea.append(e.getMessage() + "\n");
             e.printStackTrace();
         } catch (UnsupportedEncodingException e) {
-           
+            Server.loggingArea.append(e.getMessage() + "\n");
             e.printStackTrace();
         } catch (IOException e) {
             try {
                 this.clientSocket.close();
             } catch (IOException e1) {
-               
+                Server.loggingArea.append(e1.getMessage() + "\n");
                 e1.printStackTrace();
             }
             Server.clientList.remove(this.ID);
+            Server.loggingArea.append(e.getMessage() + "\n");
             e.printStackTrace();
         }
         return true;
@@ -249,6 +255,7 @@ public class ClientRoom extends Thread {
                }
             }
         } catch (IOException e) {
+            Server.loggingArea.append(e.getMessage() + "\n");
             e.printStackTrace();
         }
     }
@@ -263,7 +270,7 @@ public class ClientRoom extends Thread {
                 pw.println(packetSend);
             }
         } catch (IOException e) {
-          
+            Server.loggingArea.append(e.getMessage() + "\n");
             e.printStackTrace();
         }
         

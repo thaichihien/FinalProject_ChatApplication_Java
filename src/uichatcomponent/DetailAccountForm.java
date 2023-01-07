@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 import adminchatapp.MenuAccountManager;
 import database.DatabaseManagment;
 import datastructure.UserAccount;
+import utils.PasswordService;
 
 
 public class DetailAccountForm extends javax.swing.JFrame {
@@ -141,8 +142,15 @@ public class DetailAccountForm extends javax.swing.JFrame {
             String oldPass = oldPasswordField.getText().toString().trim();
             String newPass = newPasswordField.getText().toString().trim();
 
-            if(database.checkPassword(user.getID(), oldPass)){
-                database.changePasswordUser(user.getID(), newPass);
+            if(newPass.equals(oldPass)){
+                JOptionPane.showMessageDialog(null, "New password should be different from old password!", "Change password", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if(PasswordService.verifyPassword(oldPass, user.getPassword())){
+
+                String encryptPassword = PasswordService.encryptPassword(newPass);
+                database.changePasswordUser(user.getID(), encryptPassword);
                 JOptionPane.showMessageDialog(null, "Completed!", "Change password", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }

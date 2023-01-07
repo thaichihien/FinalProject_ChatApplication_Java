@@ -3,7 +3,6 @@ package userchatapp;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.Console;
 import java.util.ArrayList;
 import java.util.HashMap;
 

@@ -100,15 +100,20 @@ public class UserAccount {
     }
 
     public void setFullname(String fullname) {
-        this.fullname = fullname;
+        if(fullname == null){
+            this.fullname = "";
+        }else this.fullname = fullname;
     }
 
     public String getAddress() {
+       
         return this.address;
     }
 
     public void setAddress(String address) {
-        this.address = address;
+        if(address == null){
+            this.address = "";
+        }else  this.address = address;
     }
 
     public String getBirthDay() {
@@ -131,7 +136,9 @@ public class UserAccount {
     }
 
     public void setGender(String gender) {
-        this.gender = gender;
+        if(gender == null){
+            this.gender = "";
+        }else this.gender = gender;
     }
     
 
@@ -140,7 +147,9 @@ public class UserAccount {
     }
 
     public void setEmail(String email) {
-        this.email = email;
+        if(email == null){
+            this.email = "";
+        }else this.email = email;
     }
 
     public boolean isOnline() {

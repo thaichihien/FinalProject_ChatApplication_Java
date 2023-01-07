@@ -5,5 +5,12 @@
         "src/lib/javax.mail.jar",
         "src/lib/jcalendar-1.4.jar",
         "src/lib/postgresql-42.5.1.jar"
+    ],
+    "java.completion.filteredTypes": [
+        "com.sun.*",
+        "sun.*",
+        "jdk.*",
+        "org.graalvm.*",
+        "io.micrometer.shaded.*"
     ]
 }

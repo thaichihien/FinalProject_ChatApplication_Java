@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import datastructure.UserAccount;
+import utils.PasswordService;
 import database.DatabaseManagment;
 
 
@@ -54,7 +55,9 @@ public class ChangeInforForm extends javax.swing.JFrame {
             maleRadio.setSelected(true);
         }
         else{
-            femaleRadio.setSelected(true);
+            if(!user.getGender().isEmpty()){
+                femaleRadio.setSelected(true);
+            }
         }
 
          // truyền ngày sinh vào datechooser
@@ -93,6 +96,7 @@ public class ChangeInforForm extends javax.swing.JFrame {
 
         DatabaseManagment db=DatabaseManagment.getInstance();
         db.updateAccount(user);
+        this.dispose();
     }
 
 
@@ -143,8 +147,14 @@ public class ChangeInforForm extends javax.swing.JFrame {
             String oldPass = oldPasswordField.getText().toString().trim();
             String newPass = newPasswordField.getText().toString().trim();
 
-            if(database.checkPassword(user.getID(), oldPass)){
-                database.changePasswordUser(user.getID(), newPass);
+            if(newPass.equals(oldPass)){
+                JOptionPane.showMessageDialog(null, "New password should be different from old password!", "Change password", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+
+            if(PasswordService.verifyPassword(oldPass, user.getPassword())){
+                String encryptPassword = PasswordService.encryptPassword(newPass);
+                database.changePasswordUser(user.getID(), encryptPassword);
                 JOptionPane.showMessageDialog(null, "Completed!", "Change password", JOptionPane.INFORMATION_MESSAGE);
                 return;
             }
