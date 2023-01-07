@@ -107,7 +107,7 @@ PASSWORD_EMAIL_PROJECT = mật khẩu email trên
 - Chọn xong nhấn &#9654; bên cạnh để chạy
 - Có thể thêm tùy ý mình số lượng Client tại **.vscode/lauch.json**
 ### Compile và chạy file bằng command line  (muốn hiểu thêm hỏi Hiện)
-### Chạy file jar   (CHƯA SỬ DỤNG ĐƯỢC)
+### Chạy file jar  
 - Khi chạy chương trình này thì **bắt buộc** cài đặt biến môi trường tại [Cài đặt biến môi trường](#cài-đặt-biến-môi-trường)
 - Tải ứng dụng chat tại [đây](https://drive.google.com/file/d/1Kb2cDPXbiwUs-t7fJ-bEbzYOcsFDrXye/view?usp=sharing)
 - Giải nén vào một thư mục (ở đây lấy ví dụ là **root**)
