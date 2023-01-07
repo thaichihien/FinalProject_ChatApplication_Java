@@ -140,7 +140,7 @@ public class MenuAddFriend extends JPanel{
         int IDRequest = Integer.parseInt(IDChoosed);
         database.createFriendRequest(user.getID(), IDRequest);
         JOptionPane.showMessageDialog(null, "Send friend request successfully", "Successful", JOptionPane.INFORMATION_MESSAGE);
-        String packket = ChatService.createPacket(ChatService.CHANGES, IDRequest, ChatService.MENUCHAT, "");
+        String packket = ChatService.createPacket(ChatService.CHANGES, IDRequest, ChatService.MENUCHAT, "0");
         user.sendPacket(packket);
         filltableFindFriend();
     }

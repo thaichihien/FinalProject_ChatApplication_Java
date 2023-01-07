@@ -750,14 +750,15 @@ public class DatabaseManagment {
     /** Thêm một nhóm chat vào database
      * @param group
      */
-    public void addNewGroup(GroupChat group){
+    public int addNewGroup(GroupChat group){
         if(group.isEmpty()){
             System.out.println("group is empty");
-            return;
+            return -1;
         }
         int groupID = addToGroupTable(group);
         group.setID(groupID);
         addMemberToGroup(group);
+        return groupID;
     }
 
     private int addToGroupTable(GroupChat group){

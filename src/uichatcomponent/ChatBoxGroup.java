@@ -26,6 +26,7 @@ public class ChatBoxGroup extends ChatBoxLayout{
 
     private void sendMessage(){
         String message = inputChatTextArea.getText();
+        if(message.isBlank()) return;
         //ZonedDateTime  myDateObj = ZonedDateTime.now( ZoneId.of("Asia/Ho_Chi_Minh")); 
         Timestamp sendTime =new Timestamp(new Date().getTime());
         String formattedsendTime = new SimpleDateFormat("HH:mm dd-MM-yyyy").format(sendTime);
@@ -132,6 +133,15 @@ public class ChatBoxGroup extends ChatBoxLayout{
         public void actionPerformed(ActionEvent e) {
             findMessageGroup();
         }
+        
+       });
+
+       inputChatTextArea.addActionListener(new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			sendMessage();
+		}
         
        });
     }

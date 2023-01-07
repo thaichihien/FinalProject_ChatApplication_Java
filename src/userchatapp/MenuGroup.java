@@ -96,8 +96,8 @@ public class MenuGroup extends JPanel {
         groupChat.setMembers(member);
         groupChat.setGroupname(groupName);
         groupChat.setAdmins(admin);
-        database.addNewGroup(groupChat);
-        String packet = ChatService.createPacket(ChatService.GROUP_CHANGES, 0, ChatService.MENUCHAT, "0");
+        int groupID =  database.addNewGroup(groupChat);
+        String packet = ChatService.createPacket(ChatService.GROUP_CHANGES, groupID, ChatService.MENUCHAT, "0");
         user.sendPacket(packet);
         JOptionPane.showMessageDialog(null, "Created chat group successfully", "Created chat group",
                 JOptionPane.INFORMATION_MESSAGE);
