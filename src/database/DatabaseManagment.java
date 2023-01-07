@@ -1349,7 +1349,7 @@ public class DatabaseManagment {
     }
 
     public ArrayList<Message> searchMessageUser(String ChatBoxID,String keyword,int ID){
-        String SELECT_QUERY = "SELECT MU.ID,MU.CHATBOX_ID,UA.USERNAME,MU.TIME_SEND,MU.CONTENT,MU.VISIBLE_ONLY FROM MESSAGE_USER MU INNER JOIN USER_ACCOUNT UA ON UA.ID = MU.FROM_USER WHERE MU.CHATBOX_ID = ? AND MU.CONTENT LIKE ? AND (VISIBLE_ONLY = ? OR VISIBLE_ONLY IS NULL) ORDER BY MU.TIME_SEND DESC";
+        String SELECT_QUERY = "SELECT MU.ID,MU.CHATBOX_ID,UA.USERNAME,MU.TIME_SEND,MU.CONTENT,MU.VISIBLE_ONLY FROM MESSAGE_USER MU INNER JOIN USER_ACCOUNT UA ON UA.ID = MU.FROM_USER WHERE MU.CHATBOX_ID = ? AND MU.CONTENT LIKE ? AND (VISIBLE_ONLY = ? OR VISIBLE_ONLY = ?) ORDER BY MU.TIME_SEND ASC";
         ResultSet data = null;
         ArrayList<Message> messageList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
@@ -1357,6 +1357,7 @@ public class DatabaseManagment {
             statment.setString(1, ChatBoxID);
             statment.setString(2, "%" + keyword + "%");
             statment.setInt(3, ID);
+            statment.setInt(4, Message.NOT_HIDE);
             data = statment.executeQuery();
             
             if(!data.next()){
@@ -1401,7 +1402,7 @@ public class DatabaseManagment {
     }
 
     public ArrayList<Message> getAllMessageGroupFromUser(int ID){
-        String SELECT_QUERY = "SELECT MG.*,UA.USERNAME FROM MESSAGE_GROUP MG LEFT OUTER JOIN USER_ACCOUNT UA ON MG.FROM_USER = UA.ID WHERE TO_GROUP IN (SELECT GC.ID FROM GROUPCHAT_MEMBER GM LEFT OUTER JOIN GROUPCHAT GC ON GM.GROUPCHAT_ID = GC.ID WHERE GM.MEMBER_ID = ?) ORDER BY MG.TIME_SEND DESC";
+        String SELECT_QUERY = "SELECT MG.*,UA.USERNAME FROM MESSAGE_GROUP MG LEFT OUTER JOIN USER_ACCOUNT UA ON MG.FROM_USER = UA.ID WHERE TO_GROUP IN (SELECT GC.ID FROM GROUPCHAT_MEMBER GM LEFT OUTER JOIN GROUPCHAT GC ON GM.GROUPCHAT_ID = GC.ID WHERE GM.MEMBER_ID = ?) ORDER BY MG.TIME_SEND ASC";
         ResultSet data = null;
         ArrayList<Message> messageList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){
@@ -1446,7 +1447,7 @@ public class DatabaseManagment {
     }
 
     public ArrayList<Message> searchMessageGroup(int groupID,String keyword){
-        String SELECT_QUERY = "SELECT MG.*,UA.USERNAME FROM MESSAGE_GROUP MG LEFT OUTER JOIN USER_ACCOUNT UA ON MG.FROM_USER = UA.ID WHERE TO_GROUP = ? AND CONTENT LIKE ? ORDER BY MG.TIME_SEND DESC";
+        String SELECT_QUERY = "SELECT MG.*,UA.USERNAME FROM MESSAGE_GROUP MG LEFT OUTER JOIN USER_ACCOUNT UA ON MG.FROM_USER = UA.ID WHERE TO_GROUP = ? AND CONTENT LIKE ? ORDER BY MG.TIME_SEND ASC";
         ResultSet data = null;
         ArrayList<Message> messageList = new ArrayList<>();
         try (PreparedStatement statment = conn.prepareStatement(SELECT_QUERY,ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_READ_ONLY);){

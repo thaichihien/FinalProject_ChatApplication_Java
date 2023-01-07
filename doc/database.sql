@@ -82,17 +82,17 @@ ALTER SEQUENCE USER_ACCOUNT_id_seq RESTART WITH 1;
 
 
 --USER ACCOUNT
-insert into USER_ACCOUNT (USERNAME, PASSWORD, FULLNAME, ADDRESS, DATE_OF_BIRTH, GENDER, ONLINE,BANNED)
+insert into USER_ACCOUNT (USERNAME, PASSWORD, FULLNAME, ADDRESS, DATE_OF_BIRTH, GENDER, CREATED_AT,ONLINE,BANNED)
 values
-				('USER1','123456',N'Nguyễn Mạnh Hùng', N'Địa chỉ 1', '1990-01-14', N'Nam', '1','0'),
-				('USER2','123456',N'Nguyễn Mạnh Thủy', N'Địa chỉ 2', '1994-12-08', N'Nữ', '1','0'),
-				('USER3','123456',N'Nguyễn Mạnh Hà', N'Địa chỉ 3', '1998-09-03', N'Nữ', '1','0'),
-				('USER4','123456',N'Nguyễn Mạnh Thu', N'Địa chỉ 4', '1998-09-03', N'Nữ', '0','0'),
-				('USER5','123456',N'Nguyễn Mạnh Mai', N'Địa chỉ 5', '2003-03-26', N'Nữ', '1','0'),
-				('USER6','123456',N'Nguyễn Mạnh Vy', N'Địa chỉ 6', '2000-02-14', N'Nữ', '1','0'),
-				('USER7','123456',N'Nguyễn Mạnh Nam', N'Địa chỉ 7', '1991-05-06', 'Nam', '0','0'),
-				('USER8','123456',N'Nguyễn Mạnh An', N'Địa chỉ 8', '1996-08-19', 'Nam', '1','0'),
-				('USER9','123456',N'Nguyễn Mạnh Nguyệt', N'Địa chỉ 9', '2006-01-14', N'Nữ', '0','0');
+				('USER1','123456',N'Nguyễn Mạnh Hùng', N'Địa chỉ 1', '1990-01-14',N'Nam', '2022-12-15 20:30:00','0','0'),
+				('USER2','123456',N'Nguyễn Mạnh Thủy', N'Địa chỉ 2', '1994-12-08', N'Nữ', '2022-12-17 23:55:40','1','0'),
+				('USER3','123456',N'Nguyễn Mạnh Hà', N'Địa chỉ 3', '1998-09-03', N'Nữ', '2022-12-19 15:25:00','0','0'),
+				('USER4','123456',N'Nguyễn Mạnh Thu', N'Địa chỉ 4', '1998-09-03', N'Nữ', '2022-12-19 01:15:10','0','0'),
+				('USER5','123456',N'Nguyễn Mạnh Mai', N'Địa chỉ 5', '2003-03-26', N'Nữ', '2022-12-20 18:12:00','1','0'),
+				('USER6','123456',N'Nguyễn Mạnh Vy', N'Địa chỉ 6', '2000-02-14', N'Nữ', '2022-12-17 22:52:40','1','0'),
+				('USER7','123456',N'Nguyễn Mạnh Nam', N'Địa chỉ 7', '1991-05-06', 'Nam', '2022-12-22 20:39:28','0','0'),
+				('USER8','123456',N'Nguyễn Mạnh An', N'Địa chỉ 8', '1996-08-19', 'Nam', '2022-12-15 20:08:40','1','0'),
+				('USER9','123456',N'Nguyễn Mạnh Nguyệt', N'Địa chỉ 9', '2006-01-14', N'Nữ', '2022-12-21 17:27:45','0','0');
 				
 				
 INSERT INTO LOGIN_HISTORY(USER_ID,LOGIN_TIME)
