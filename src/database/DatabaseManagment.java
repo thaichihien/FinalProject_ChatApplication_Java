@@ -76,10 +76,10 @@ public class DatabaseManagment {
             System.out.println("account information is empty");
             return -1;
         }
-        String INSERT_QUERY = "INSERT INTO USER_ACCOUNT(USERNAME,PASSWORD,FULLNAME,ADDRESS,DATE_OF_BIRTH,GENDER,EMAIL,ONLINE)"
-         + "VALUES(?,?,?,?,?,?,?,?)";
+        String INSERT_QUERY = "INSERT INTO USER_ACCOUNT(USERNAME,PASSWORD,FULLNAME,ADDRESS,DATE_OF_BIRTH,GENDER,EMAIL,ONLINE,BANNED,CREATED_AT)"
+         + "VALUES(?,?,?,?,?,?,?,?,?,?) ";
 
-        try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY);) {
+        try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY,Statement.RETURN_GENERATED_KEYS);) {
             statement.setString(1, account.getUsername());
 
             
@@ -91,7 +91,12 @@ public class DatabaseManagment {
             statement.setString(6, account.getGender());
             statement.setString(7, account.getEmail());
             statement.setBoolean(8, false);
-   
+            statement.setBoolean(9, false);
+            Date date = new Date();
+            //ZonedDateTime  myDateObj = ZonedDateTime.now( ZoneId.of("Asia/Ho_Chi_Minh")); 
+            Timestamp loginTime =new Timestamp(date.getTime());
+            statement.setTimestamp(10, loginTime);
+
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             rs.next();
@@ -113,8 +118,8 @@ public class DatabaseManagment {
             System.out.println("account information is empty");
             return -1;
         }
-        String INSERT_QUERY = "INSERT INTO USER_ACCOUNT(USERNAME,PASSWORD,EMAIL,ONLINE,BANNED)"
-         + "VALUES(?,?,?,?,?)";
+        String INSERT_QUERY = "INSERT INTO USER_ACCOUNT(USERNAME,PASSWORD,EMAIL,ONLINE,BANNED,CREATED_AT)"
+         + "VALUES(?,?,?,?,?,?)";
 
         try (PreparedStatement statement = conn.prepareStatement(INSERT_QUERY, Statement.RETURN_GENERATED_KEYS);) {
             statement.setString(1, account.getUsername());
@@ -124,6 +129,11 @@ public class DatabaseManagment {
             statement.setString(3, account.getEmail());
             statement.setBoolean(4, true);
             statement.setBoolean(5, false);
+            Date date = new Date();
+            //ZonedDateTime  myDateObj = ZonedDateTime.now( ZoneId.of("Asia/Ho_Chi_Minh")); 
+            Timestamp loginTime =new Timestamp(date.getTime());
+            statement.setTimestamp(6, loginTime);
+
             statement.executeUpdate();
             ResultSet rs = statement.getGeneratedKeys();
             rs.next();

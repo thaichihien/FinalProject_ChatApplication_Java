@@ -109,8 +109,11 @@ public class MenuAccountManager extends MenuAdminLayout{
         String by=new String("ASC");
         String name = null;
 
-        if(Filter.equals("Mặc định")&&Criteria.equals("Tăng dần")&&input.isBlank())
+        if(Filter.equals("Mặc định")&&input.isBlank()){
             filltableUserAccount();
+            return;
+        }
+            
 
         if(Filter.equals("Họ và tên"))
             sort=new String("FULLNAME");
@@ -239,6 +242,15 @@ public class MenuAccountManager extends MenuAdminLayout{
                 fillTableBySort();
                 
             }
+            
+        });
+
+        refreshButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				filltableUserAccount();
+			}
             
         });
 
