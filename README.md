@@ -89,6 +89,7 @@ POSTGRES_USERNAME = tên tài khoản hoặc mặc định là "postgres"
 POSTGRES_PASSWORD = mật khẩu posgres
 USER_EMAIL_PROJECT = email mà chương trình dùng để gửi mật khẩu random vào email người dùng (lưu ý đây email để gửi không phải email nhận mật khẩu)
 PASSWORD_EMAIL_PROJECT = mật khẩu email trên
+SECRETKEY_JAVA = key dùng để mã hóa mật khẩu
 ``` 
 - Xong rồi thì **Ok** rồi **Apply**
 ## Hướng dẫn chạy chương trình
