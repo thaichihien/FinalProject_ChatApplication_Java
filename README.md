@@ -58,7 +58,7 @@
 - **JCalendar:** giao diện Swing để chọn ngày, dùng bên Admin, sử dụng **jcalendar-1.4.jar**: https://toedter.com/jcalendar/
 - **Java Mail**: cho phần gửi email với mật khẩu random mới: https://javaee.github.io/javamail/
 - **JAF (JavaBeans Activation Framework)** : phục vụ cho chức năng gửi mail: https://www.oracle.com/java/technologies/downloads.html
-## Hướng dẫn tạo cơ sở dự liệu Postgres:
+## Hướng dẫn tạo cơ sở dữ liệu Postgres:
 - Đọc hướng dẫn chi tiết tại thư mục ***doc***
 ## Cài đặt kết nối Postgres từ java:
 - Nhớ add driver nói trên
