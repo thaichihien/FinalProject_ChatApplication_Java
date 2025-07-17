@@ -42,6 +42,8 @@
 - [X] Cập nhật online,offline
 - [X] Một tài khoản thay đổi thông tin, thông báo socket đến các tài khoản khác
 
+[Demo Video](https://youtu.be/HI0kHD_RayA?si=Te1UfNMRUph0127m)
+
 ## Giải thích package:
 - **adminchatapp** : chứa giao diện quản trị
 - **chatservice** : chứa file liên quan đến server client socket
